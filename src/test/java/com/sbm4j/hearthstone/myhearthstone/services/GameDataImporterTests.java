@@ -2,8 +2,7 @@ package com.sbm4j.hearthstone.myhearthstone.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
-import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
+import com.sbm4j.hearthstone.myhearthstone.model.*;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
@@ -30,12 +29,30 @@ public class GameDataImporterTests {
 
     @Test
     public void saveToDatabaseTest() throws Exception {
-        DBManager manager = new DBManager();
+        DBManagerTesting manager = new DBManagerTesting();
         Session session = manager.createSession();
 
         CardSet cardSet = new CardSet();
         cardSet.setCode("EXT1");
         cardSet.setName("Première extension");
+
+        CardClass classe  = new CardClass();
+        classe.setCode("HUNTER");
+        classe.setName("Chasseur");
+
+        Rarity rarity = new Rarity();
+        rarity.setCost(40);
+        rarity.setCostGold(160);
+        rarity.setGain(10);
+        rarity.setGainGold(40);
+        rarity.setCode("COMMON");
+        rarity.setName("Commune");
+
+        CardTag tag = new CardTag();
+        tag.setUser(true);
+        tag.setCode("TAG");
+        tag.setExclusiveGroup(0);
+        tag.setName("tag1");
 
         CardDetail card = new CardDetail();
         card.setArtist("sandrine");
@@ -48,9 +65,15 @@ public class GameDataImporterTests {
         card.setName("essai");
         card.setText("ceci est un essai");
         card.setCardSet(cardSet);
+        card.setCardClass(classe);
+        card.setRarity(rarity);
+        card.getTags().add(tag);
 
         session.beginTransaction();
         session.save(cardSet);
+        session.save(classe);
+        session.save(rarity);
+        session.save(tag);
         session.save(card);
         session.getTransaction().commit();
         session.close();

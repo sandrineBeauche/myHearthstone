@@ -10,12 +10,12 @@ import org.hibernate.service.ServiceRegistry;
 
 public class DBManager {
 
-    private StandardServiceRegistry registry;
+    protected StandardServiceRegistry registry;
 
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
 
     public DBManager() throws Exception{
-        this.registry = new StandardServiceRegistryBuilder().configure().build();
+        this.createRegistry();
         try {
             sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
         }
@@ -25,6 +25,10 @@ public class DBManager {
             StandardServiceRegistryBuilder.destroy( registry );
             throw e;
         }
+    }
+
+    protected void createRegistry(){
+        this.registry = new StandardServiceRegistryBuilder().configure().build();
     }
 
     public Session createSession(){

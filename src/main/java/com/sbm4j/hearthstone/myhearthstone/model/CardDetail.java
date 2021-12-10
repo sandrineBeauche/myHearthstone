@@ -1,6 +1,8 @@
 package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cardDetail")
@@ -33,9 +35,26 @@ public class CardDetail {
     @Column
     private int durability;
 
+    @Column
+    private Boolean collectible = true;
+
+    @Column
+    private Boolean elite = false;
+
     @ManyToOne
     @JoinColumn(name = "cardSet_id", foreignKey = @ForeignKey(name = "CARDSET_ID_FK"))
     private CardSet cardSet;
+
+    @ManyToOne
+    @JoinColumn(name = "cardClass_id", foreignKey = @ForeignKey(name = "CARDCLASS_ID_FK"))
+    private CardClass cardClass;
+
+    @ManyToOne
+    @JoinColumn(name = "rarity_id", foreignKey = @ForeignKey(name = "RARITY_ID_FK"))
+    private Rarity rarity;
+
+    @ManyToMany
+    private List<CardTag> tags = new ArrayList<CardTag>();
 
     public int getDbfId() {
         return dbfId;
@@ -115,5 +134,45 @@ public class CardDetail {
 
     public void setCardSet(CardSet cardSet) {
         this.cardSet = cardSet;
+    }
+
+    public CardClass getCardClass() {
+        return cardClass;
+    }
+
+    public void setCardClass(CardClass cardClass) {
+        this.cardClass = cardClass;
+    }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Rarity rarity) {
+        this.rarity = rarity;
+    }
+
+    public List<CardTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<CardTag> tags) {
+        this.tags = tags;
+    }
+
+    public Boolean getCollectible() {
+        return collectible;
+    }
+
+    public void setCollectible(Boolean collectible) {
+        this.collectible = collectible;
+    }
+
+    public Boolean getElite() {
+        return elite;
+    }
+
+    public void setElite(Boolean elite) {
+        this.elite = elite;
     }
 }

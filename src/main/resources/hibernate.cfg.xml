@@ -37,6 +37,9 @@
         <!-- Names the annotated entity class -->
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardDetail"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardSet"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardClass"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Rarity"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardTag"/>
     </session-factory>
 
 </hibernate-configuration>
