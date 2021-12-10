@@ -108,4 +108,12 @@ public class CardDetail {
     public void setDurability(int durability) {
         this.durability = durability;
     }
+
+    public CardSet getCardSet() {
+        return cardSet;
+    }
+
+    public void setCardSet(CardSet cardSet) {
+        this.cardSet = cardSet;
+    }
 }

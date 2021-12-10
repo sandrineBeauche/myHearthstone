@@ -3,6 +3,7 @@ package com.sbm4j.hearthstone.myhearthstone.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
+import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Test;
 
@@ -32,6 +33,10 @@ public class GameDataImporterTests {
         DBManager manager = new DBManager();
         Session session = manager.createSession();
 
+        CardSet cardSet = new CardSet();
+        cardSet.setCode("EXT1");
+        cardSet.setName("Première extension");
+
         CardDetail card = new CardDetail();
         card.setArtist("sandrine");
         card.setAttack(3);
@@ -42,8 +47,10 @@ public class GameDataImporterTests {
         card.setId("ESSAI_01");
         card.setName("essai");
         card.setText("ceci est un essai");
+        card.setCardSet(cardSet);
 
         session.beginTransaction();
+        session.save(cardSet);
         session.save(card);
         session.getTransaction().commit();
         session.close();
