@@ -2,6 +2,10 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
+@org.hibernate.annotations.NamedQuery(
+        name="tag_from_code",
+        query="select t from CardTag t where t.code = :code"
+)
 @Entity
 @Table(name = "cardTag")
 public class CardTag {
@@ -10,14 +14,14 @@ public class CardTag {
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String code;
 
     @Column(nullable = false)
     private String name;
 
     @Column
-    private Boolean isUser = true;
+    private Boolean isUser = false;
 
     @Column
     private int exclusiveGroup;

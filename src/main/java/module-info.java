@@ -8,9 +8,11 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires java.naming;
     requires org.hibernate.orm.core;
     requires org.hsqldb;
+    requires org.apache.logging.log4j;
 
     exports com.sbm4j.hearthstone.myhearthstone;
 
+    opens com.sbm4j.hearthstone.myhearthstone.model.json to com.google.gson;
     opens com.sbm4j.hearthstone.myhearthstone.model to com.google.gson, org.hibernate.orm.core;
     opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core;
 }

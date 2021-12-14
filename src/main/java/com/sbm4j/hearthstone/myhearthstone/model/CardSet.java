@@ -2,6 +2,10 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
+@org.hibernate.annotations.NamedQuery(
+        name="cardSet_from_code",
+        query="select s from CardSet s where s.code = :code"
+)
 @Entity
 @Table(name = "cardSet")
 public class CardSet {
@@ -11,8 +15,11 @@ public class CardSet {
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String code;
+
+    @Column(nullable = false)
+    private String name;
 
     public int getId() {
         return id;
@@ -38,8 +45,7 @@ public class CardSet {
         this.name = name;
     }
 
-    @Column(nullable = false)
-    private String name;
+
 
 
 }

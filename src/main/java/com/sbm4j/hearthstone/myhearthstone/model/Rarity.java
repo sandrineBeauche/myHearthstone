@@ -2,6 +2,10 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
+@org.hibernate.annotations.NamedQuery(
+        name="rarity_from_code",
+        query="select r from Rarity r where r.code = :code"
+)
 @Entity
 @Table(name = "Rarity")
 public class Rarity {
@@ -11,7 +15,7 @@ public class Rarity {
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String code;
 
     @Column(nullable = false)

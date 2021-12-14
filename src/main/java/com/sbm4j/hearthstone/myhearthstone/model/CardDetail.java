@@ -36,10 +36,20 @@ public class CardDetail {
     private int durability;
 
     @Column
+    private int health;
+
+
+    @Column
     private Boolean collectible = true;
 
     @Column
     private Boolean elite = false;
+
+    @Column
+    private String questReward;
+
+    @Column
+    private String jsonDesc;
 
     @ManyToOne
     @JoinColumn(name = "cardSet_id", foreignKey = @ForeignKey(name = "CARDSET_ID_FK"))
@@ -55,6 +65,8 @@ public class CardDetail {
 
     @ManyToMany
     private List<CardTag> tags = new ArrayList<CardTag>();
+
+
 
     public int getDbfId() {
         return dbfId;
@@ -148,6 +160,14 @@ public class CardDetail {
         return rarity;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public void setRarity(Rarity rarity) {
         this.rarity = rarity;
     }
@@ -174,5 +194,21 @@ public class CardDetail {
 
     public void setElite(Boolean elite) {
         this.elite = elite;
+    }
+
+    public String getJsonDesc() {
+        return jsonDesc;
+    }
+
+    public void setJsonDesc(String jsonDesc) {
+        this.jsonDesc = jsonDesc;
+    }
+
+    public String getQuestReward() {
+        return questReward;
+    }
+
+    public void setQuestReward(String questReward) {
+        this.questReward = questReward;
     }
 }
