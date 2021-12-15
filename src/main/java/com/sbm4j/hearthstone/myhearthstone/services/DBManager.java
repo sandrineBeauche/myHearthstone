@@ -143,8 +143,10 @@ public class DBManager {
     }
 
     public void closeSession(){
-        this.currentSession.close();
-        this.currentSession = null;
+        if(this.currentSession != null) {
+            this.currentSession.close();
+            this.currentSession = null;
+        }
     }
 
 
@@ -173,46 +175,6 @@ public class DBManager {
     }
 
 
-    public HashSet<String> verifyTags(File data) throws IOException {
-        HashSet<String> unknownTags = new HashSet<String>();
 
-        JSONCardImporter parser = new JSONCardImporter();
-        ArrayList<JsonCard> cards = parser.importCards(data);
-
-        for(JsonCard current: cards){
-            this.verifyTag(current.getSpellSchool(), unknownTags);
-            this.verifyTag(current.getType(), unknownTags);
-            this.verifyTag(current.getRace(), unknownTags);
-            this.verifyListOfTags(current.getMechanics(), unknownTags);
-            this.verifyListOfTags(current.getReferencedTags(), unknownTags);
-        }
-
-        if(unknownTags.size() > 0) {
-            logger.warn("list of the unknown tags: " + unknownTags.toString());
-        }
-        else{
-            logger.info("All the tags are valids");
-        }
-        return unknownTags;
-    }
-
-    protected void verifyListOfTags(ArrayList<String> tags, HashSet<String> unknownTags){
-        if(tags != null){
-            for(String current: tags){
-                this.verifyTag(current, unknownTags);
-            }
-        }
-    }
-
-
-    protected void verifyTag(String tag, HashSet<String> unknownTags){
-        if(tag != null){
-            try{this.getTag(tag);}
-            catch(NoResultException ex){
-                unknownTags.add(tag);
-                logger.warn("Unknown tag " + tag);
-            }
-        }
-    }
 
 }

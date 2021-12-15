@@ -1,6 +1,5 @@
 package com.sbm4j.hearthstone.myhearthstone.model.json;
 
-import javax.persistence.Column;
 import java.util.ArrayList;
 
 public class JsonCard {
@@ -50,6 +49,10 @@ public class JsonCard {
     private ArrayList<String> referencedTags;
 
     private String jsonDesc;
+
+    private Boolean elite = false;
+
+    private String questReward;
 
     public int getDbfId() {
         return dbfId;
@@ -233,5 +236,21 @@ public class JsonCard {
 
     public void setJsonDesc(String jsonDesc) {
         this.jsonDesc = jsonDesc;
+    }
+
+    public Boolean getElite() {
+        return elite;
+    }
+
+    public void setElite(Boolean elite) {
+        this.elite = elite;
+    }
+
+    public String getQuestReward() {
+        return questReward;
+    }
+
+    public void setQuestReward(String questReward) {
+        this.questReward = questReward;
     }
 }

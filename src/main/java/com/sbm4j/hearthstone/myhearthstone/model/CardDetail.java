@@ -3,7 +3,19 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.NamedQueries;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "json_from_card_details",
+                query = "select c.jsonDesc from CardDetail c where c.dbfId = :dbfId"
+        ),
+        @NamedQuery(
+                name="card_from_dbfid",
+                query="select t from CardTag t where t.code = :code"
+        )
+})
 @Entity
 @Table(name = "cardDetail")
 public class CardDetail {
@@ -48,16 +60,21 @@ public class CardDetail {
     @Column
     private String questReward;
 
-    @Column
+    @Column()
     private String jsonDesc;
+
+    @Column
+    private String howToEarn;
+
+    @Column
+    private String howToEarnGolden;
 
     @ManyToOne
     @JoinColumn(name = "cardSet_id", foreignKey = @ForeignKey(name = "CARDSET_ID_FK"))
     private CardSet cardSet;
 
-    @ManyToOne
-    @JoinColumn(name = "cardClass_id", foreignKey = @ForeignKey(name = "CARDCLASS_ID_FK"))
-    private CardClass cardClass;
+    @ManyToMany
+    private List<CardClass> cardClass = new ArrayList<CardClass>();
 
     @ManyToOne
     @JoinColumn(name = "rarity_id", foreignKey = @ForeignKey(name = "RARITY_ID_FK"))
@@ -148,11 +165,11 @@ public class CardDetail {
         this.cardSet = cardSet;
     }
 
-    public CardClass getCardClass() {
+    public List<CardClass> getCardClass() {
         return cardClass;
     }
 
-    public void setCardClass(CardClass cardClass) {
+    public void setCardClass(List<CardClass> cardClass) {
         this.cardClass = cardClass;
     }
 
@@ -210,5 +227,21 @@ public class CardDetail {
 
     public void setQuestReward(String questReward) {
         this.questReward = questReward;
+    }
+
+    public String getHowToEarn() {
+        return howToEarn;
+    }
+
+    public void setHowToEarn(String howToEarn) {
+        this.howToEarn = howToEarn;
+    }
+
+    public String getHowToEarnGolden() {
+        return howToEarnGolden;
+    }
+
+    public void setHowToEarnGolden(String howToEarnGolden) {
+        this.howToEarnGolden = howToEarnGolden;
     }
 }
