@@ -63,10 +63,6 @@ public class DBManagerTests {
         session.close();
     }
 
-    //@Test
-    //public void importCards(@TempDir File tmpDir){
-    //
-    //}
 
     @Test
     public void getExisitingRarity() throws Exception {

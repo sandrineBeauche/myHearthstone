@@ -1,5 +1,6 @@
 package com.sbm4j.hearthstone.myhearthstone.services;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -10,23 +11,58 @@ public class CardImageManagerTests {
     @TempDir
     protected File tempDir;
 
+    protected CardImageManager imageManager;
+
+    @BeforeEach
+    public void beforeEach(){
+        this.imageManager = new CardImageManager(this.tempDir);
+    }
+
     @Test
     public void downloadImageCardTest(){
-        CardImageManager manager = new CardImageManager(this.tempDir);
-        manager.downloadCardImages("AT_001");
+        String cardId = "AT_001";
+        this.imageManager.downloadCardImages(cardId);
 
-        File fBig = manager.getBigCardImage("AT_001");
+        File fBig = this.imageManager.getBigCardImage(cardId, false);
         assert(fBig.exists());
 
-        File fSmall = manager.getSmallCardImage("AT_001");
+        File fSmall = this.imageManager.getSmallCardImage(cardId, false);
         assert(fSmall.exists());
 
-        File fTile = manager.getTileCardImage("AT_001");
+        File fTile = this.imageManager.getTileCardImage(cardId, false);
         assert(fTile.exists());
 
-        manager.deleteImagesFromCard("AT_001");
+        File fThumb = this.imageManager.getThumbnailCardImage(cardId, false);
+        assert(fThumb.exists());
+
+        this.imageManager.deleteImagesFromCard(cardId);
         assert(!fBig.exists());
         assert(!fSmall.exists());
         assert(!fTile.exists());
+        assert(!fThumb.exists());
+    }
+
+
+    @Test
+    public void downloadUnknownImageTest(){
+        String cardId = "blabla";
+        this.imageManager.downloadCardImages(cardId);
+
+        File fBig = this.imageManager.getBigCardImage(cardId, false);
+        assert(!fBig.exists());
+
+        File fSmall = this.imageManager.getSmallCardImage(cardId, false);
+        assert(!fSmall.exists());
+
+        File fTile = this.imageManager.getTileCardImage(cardId, false);
+        assert(!fTile.exists());
+
+        File fThumb = this.imageManager.getThumbnailCardImage(cardId, false);
+        assert(!fThumb.exists());
+
+        File alt = this.imageManager.getBigCardImage(cardId, true);
+        assert(alt.getName().equals("backCardClassic.jpg"));
+
+
     }
 }

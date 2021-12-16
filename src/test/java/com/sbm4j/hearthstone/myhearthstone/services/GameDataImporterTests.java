@@ -1,12 +1,15 @@
 package com.sbm4j.hearthstone.myhearthstone.services;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +25,9 @@ public class GameDataImporterTests {
 
     protected JSONCardImporter importer;
 
+    @TempDir
+    protected File tempDir;
+
     @BeforeEach
     public void beforeEach() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -30,7 +36,7 @@ public class GameDataImporterTests {
         this.dbManager = new DBManagerTesting();
         this.dbManager.initDB();
 
-        this.importer = new JSONCardImporter(this.dbManager, null);
+        this.importer = new JSONCardImporter(this.dbManager, new CardImageManager(this.tempDir));
     }
 
     @AfterEach
@@ -52,15 +58,83 @@ public class GameDataImporterTests {
     }
 
     @Test
-    public void getCardStatusTest() throws Exception {
+    public void getCardStatus_New() throws Exception {
         ArrayList<JsonCard> jsonCards = this.importer.parseCards(this.jsonCardsFile);
         JSONCardImporter.CardStatus status = this.importer.cardDetailStatus(jsonCards.get(0));
 
         Assertions.assertEquals(JSONCardImporter.CardStatus.NEW_CARD, status);
     }
 
+
+    @Test
+    public void getCardStatus_UptoDate() throws Exception {
+        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(0);
+
+        this.importer.addCardDetail(jsonCard);
+
+        JSONCardImporter.CardStatus status = this.importer.cardDetailStatus(jsonCard);
+
+        Assertions.assertEquals(JSONCardImporter.CardStatus.UPTODATE_CARD, status);
+    }
+
+    @Test
+    public void getCardStatus_Modified() throws Exception {
+        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(0);
+
+        this.importer.addCardDetail(jsonCard);
+
+        jsonCard.setJsonDesc("another md5");
+
+        JSONCardImporter.CardStatus status = this.importer.cardDetailStatus(jsonCard);
+
+        Assertions.assertEquals(JSONCardImporter.CardStatus.MODIFIED_CARD, status);
+    }
+
+
+    @Test
+    public void addNewCard() throws IOException {
+        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(1);
+
+        this.importer.addCardDetail(jsonCard);
+        this.dbManager.closeSession();
+
+        CardDetail card = this.dbManager.getSession().get(CardDetail.class, jsonCard.getDbfId());
+        assertNotNull(card);
+        assertEquals(3, card.getTags().size());
+    }
+
+
+    @Test
+    public void updateCard() throws IOException {
+        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(1);
+
+        this.importer.addCardDetail(jsonCard);
+        this.dbManager.closeSession();
+
+        jsonCard.setJsonDesc("another md5");
+        jsonCard.setType("MINION");
+        jsonCard.setCardClass("PALADIN");
+        jsonCard.setSpellSchool(null);
+        jsonCard.setRace("HUMAN");
+        jsonCard.getMechanics().clear();
+        jsonCard.getMechanics().add("TAUNT");
+        jsonCard.getMechanics().add("BATTLECRY");
+        jsonCard.setAttack(3);
+        jsonCard.setHealth(5);
+
+        this.importer.updateCardDetail(jsonCard);
+        this.dbManager.closeSession();
+
+        CardDetail card = this.dbManager.getSession().get(CardDetail.class, jsonCard.getDbfId());
+        assertNotNull(card);
+        assertEquals(4, card.getTags().size());
+        assertEquals("PALADIN", card.getCardClass().get(0).getCode());
+    }
+
+
     @Test
     public void importNewCards() throws IOException {
+        this.importer.importCards(this.jsonCardsFile);
         this.importer.importCards(this.jsonCardsFile);
     }
 }

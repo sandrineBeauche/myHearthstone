@@ -7,6 +7,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
+import org.apache.commons.codec.digest.DigestUtils;
 
 import javax.persistence.NoResultException;
 import java.io.File;
@@ -128,8 +129,6 @@ public class JSONCardImporter {
 
     public void importCards(File jsonFile) throws IOException {
         ArrayList<JsonCard> jsonCards = this.parseCards(jsonFile);
-        Session session = this.dbManager.getSession();
-        session.beginTransaction();
         for(JsonCard current: jsonCards){
             switch (this.cardDetailStatus(current)){
                 case NEW_CARD -> { this.addCardDetail(current); }
@@ -156,8 +155,10 @@ public class JSONCardImporter {
         card.setHealth(json.getHealth());
         card.setHowToEarn(json.getHowToEarn());
         card.setHowToEarnGolden(json.getHowToEarnGolden());
-        card.setJsonDesc(json.getJsonDesc());
         card.setQuestReward(json.getQuestReward());
+
+        String md5 = DigestUtils.md5Hex(json.getJsonDesc());
+        card.setJsonDesc(md5);
 
         Rarity rarity = this.dbManager.getRarity(json.getRarity());
         card.setRarity(rarity);
@@ -212,6 +213,7 @@ public class JSONCardImporter {
         CardDetail result = new CardDetail();
         this.setCardDetailsValues(jsonCard, result);
         Session session = this.dbManager.getSession();
+        session.beginTransaction();
         session.save(result);
         session.getTransaction().commit();
 
@@ -222,6 +224,7 @@ public class JSONCardImporter {
         Session session = this.dbManager.getSession();
         CardDetail card = session.get(CardDetail.class, jsonCard.getDbfId());
         this.setCardDetailsValues(jsonCard, card);
+        session.beginTransaction();
         session.update(card);
         session.getTransaction().commit();
 
@@ -242,7 +245,8 @@ public class JSONCardImporter {
             return CardStatus.NEW_CARD;
         }
         else{
-            if(result.get(0).equals(jsonCard.getJsonDesc())){
+            String md5 = DigestUtils.md5Hex(jsonCard.getJsonDesc());
+            if(result.get(0).equals(md5)){
                 return CardStatus.UPTODATE_CARD;
             }
             else{

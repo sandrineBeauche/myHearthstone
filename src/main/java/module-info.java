@@ -9,6 +9,8 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires org.hibernate.orm.core;
     requires org.hsqldb;
     requires org.apache.logging.log4j;
+    requires org.apache.commons.codec;
+    requires thumbnailator;
 
     exports com.sbm4j.hearthstone.myhearthstone;
 
