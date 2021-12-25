@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -58,9 +59,8 @@ public class DBManager {
         }
     }
 
-    public void initDB() throws FileNotFoundException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("gameData.json").getFile());
+    public void initDB() throws FileNotFoundException, URISyntaxException {
+        File file = new File("/home/sandrine/progs/myHearthstone/gameData.json");
         if(file.exists()){
             FileReader reader = new FileReader(file);
 

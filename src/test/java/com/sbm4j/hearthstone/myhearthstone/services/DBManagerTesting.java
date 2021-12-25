@@ -1,8 +1,9 @@
 package com.sbm4j.hearthstone.myhearthstone.services;
 
+import com.sbm4j.hearthstone.myhearthstone.services.DBManager;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-public class DBManagerTesting extends DBManager{
+public class DBManagerTesting extends DBManager {
 
     public DBManagerTesting() throws Exception {
         super();

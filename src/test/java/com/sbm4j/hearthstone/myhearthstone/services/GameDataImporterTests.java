@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.TimeoutException;
 
 public class GameDataImporterTests {
 
@@ -36,7 +37,7 @@ public class GameDataImporterTests {
         this.dbManager = new DBManagerTesting();
         this.dbManager.initDB();
 
-        this.importer = new JSONCardImporter(this.dbManager, new CardImageManager(this.tempDir));
+        this.importer = new JSonCardImporterTesting(this.dbManager, new CardImageManager(this.tempDir));
     }
 
     @AfterEach
@@ -135,6 +136,14 @@ public class GameDataImporterTests {
     @Test
     public void importNewCards() throws IOException {
         this.importer.importCards(this.jsonCardsFile);
-        this.importer.importCards(this.jsonCardsFile);
+        //this.importer.importCards(this.jsonCardsFile);
+    }
+
+
+    @Test
+    public void importCardsWithUI() throws TimeoutException {
+
+
+
     }
 }

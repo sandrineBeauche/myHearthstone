@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
+import javafx.concurrent.Task;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -19,13 +20,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class JSONCardImporter {
+public class JSONCardImporter extends Task<ImportCardReport> {
 
     protected static Logger logger = LogManager.getLogger();
 
     protected DBManager dbManager;
 
     protected CardImageManager imageManager;
+
+    private final File jsonFile;
+
+    protected ImportCardReport report = new ImportCardReport();
+
 
     public enum CardStatus {
         NEW_CARD,
@@ -36,7 +42,26 @@ public class JSONCardImporter {
     public JSONCardImporter(DBManager dbManager, CardImageManager imageManager){
         this.dbManager = dbManager;
         this.imageManager = imageManager;
+        this.jsonFile = null;
     }
+
+    public JSONCardImporter(DBManager dbManager, CardImageManager imageManager, File jsonFile){
+        this.dbManager = dbManager;
+        this.imageManager = imageManager;
+        this.jsonFile = jsonFile;
+    }
+
+
+    @Override
+    protected ImportCardReport call() throws Exception {
+        if(this.jsonFile != null){
+            HashSet<String> unknownTags = this.verifyTags(jsonFile);
+
+            this.importCards(jsonFile);
+        }
+        return null;
+    }
+
 
     public ArrayList<JsonCard> parseCards(File jsonFile) throws IOException {
         FileReader reader = new FileReader(jsonFile);
@@ -88,6 +113,7 @@ public class JSONCardImporter {
     public HashSet<String> verifyTags(File data) throws IOException {
         HashSet<String> unknownTags = new HashSet<String>();
 
+        this.updateMessage("Vérification des tags");
         ArrayList<JsonCard> cards = this.parseCards(data);
 
         for(JsonCard current: cards){
@@ -127,14 +153,30 @@ public class JSONCardImporter {
     }
 
 
+
+
+
     public void importCards(File jsonFile) throws IOException {
         ArrayList<JsonCard> jsonCards = this.parseCards(jsonFile);
+
+        long nbCards = jsonCards.size();
+        long numStep = 0;
+
         for(JsonCard current: jsonCards){
             switch (this.cardDetailStatus(current)){
-                case NEW_CARD -> { this.addCardDetail(current); }
-                case MODIFIED_CARD -> { this.updateCardDetail(current); }
-                case UPTODATE_CARD -> { continue; }
+                case NEW_CARD -> {
+                    this.addCardDetail(current);
+                }
+                case MODIFIED_CARD -> {
+                    this.updateCardDetail(current);
+                }
+                case UPTODATE_CARD -> {
+                    this.report.incrUpToDate();
+                    continue;
+                }
             }
+            numStep++;
+            this.updateProgress(numStep, nbCards);
         }
 
         this.dbManager.closeSession();
@@ -210,27 +252,44 @@ public class JSONCardImporter {
 
 
     public void addCardDetail(JsonCard jsonCard){
-        CardDetail result = new CardDetail();
-        this.setCardDetailsValues(jsonCard, result);
-        Session session = this.dbManager.getSession();
-        session.beginTransaction();
-        session.save(result);
-        session.getTransaction().commit();
+        this.updateMessage("Ajoute une nouvelle carte: " + jsonCard.getName()
+                + " (" + jsonCard.getDbfId() + ":" + jsonCard.getId() + ")");
+        try {
+            CardDetail result = new CardDetail();
+            this.setCardDetailsValues(jsonCard, result);
+            Session session = this.dbManager.getSession();
+            session.beginTransaction();
+            session.save(result);
+            session.getTransaction().commit();
+            this.report.incrCreated();
 
-        this.imageManager.downloadCardImages(jsonCard.getId());
+            this.imageManager.downloadCardImages(jsonCard.getId());
+        }
+        catch(Exception ex){
+            this.report.addError(jsonCard.getDbfId(), ex.getMessage());
+        }
     }
 
     public void updateCardDetail(JsonCard jsonCard){
-        Session session = this.dbManager.getSession();
-        CardDetail card = session.get(CardDetail.class, jsonCard.getDbfId());
-        this.setCardDetailsValues(jsonCard, card);
-        session.beginTransaction();
-        session.update(card);
-        session.getTransaction().commit();
+        this.updateMessage("Mets à jour une carte: " + jsonCard.getName()
+                + " (" + jsonCard.getDbfId() + ":" + jsonCard.getId() + ")");
+        try {
+            Session session = this.dbManager.getSession();
+            CardDetail card = session.get(CardDetail.class, jsonCard.getDbfId());
+            this.setCardDetailsValues(jsonCard, card);
+            session.beginTransaction();
+            session.update(card);
+            session.getTransaction().commit();
 
-        String id = jsonCard.getId();
-        this.imageManager.deleteImagesFromCard(id);
-        this.imageManager.downloadCardImages(id);
+            this.report.incrUpdated();
+
+            String id = jsonCard.getId();
+            this.imageManager.deleteImagesFromCard(id);
+            this.imageManager.downloadCardImages(id);
+        }
+        catch(Exception ex){
+            this.report.addError(jsonCard.getDbfId(), ex.getMessage());
+        }
     }
 
 
@@ -253,5 +312,29 @@ public class JSONCardImporter {
                 return CardStatus.MODIFIED_CARD;
             }
         }
+    }
+
+    public DBManager getDbManager() {
+        return dbManager;
+    }
+
+    public void setDbManager(DBManager dbManager) {
+        this.dbManager = dbManager;
+    }
+
+    public CardImageManager getImageManager() {
+        return imageManager;
+    }
+
+    public void setImageManager(CardImageManager imageManager) {
+        this.imageManager = imageManager;
+    }
+
+    public ImportCardReport getReport() {
+        return report;
+    }
+
+    public void setReport(ImportCardReport report) {
+        this.report = report;
     }
 }

@@ -11,10 +11,19 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires org.apache.logging.log4j;
     requires org.apache.commons.codec;
     requires thumbnailator;
+    requires de.saxsys.mvvmfx;
+    requires de.saxsys.mvvmfx.guice;
+    requires net.bytebuddy;
+    requires java.xml.bind;
+    requires com.sun.xml.bind;
+    requires com.fasterxml.classmate;
 
     exports com.sbm4j.hearthstone.myhearthstone;
 
+
     opens com.sbm4j.hearthstone.myhearthstone.model.json to com.google.gson;
     opens com.sbm4j.hearthstone.myhearthstone.model to com.google.gson, org.hibernate.orm.core;
-    opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core;
+    opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core, de.saxsys.mvvmfx;
+    opens com.sbm4j.hearthstone.myhearthstone.views to javafx.fxml, de.saxsys.mvvmfx, com.google.guice;
+    opens com.sbm4j.hearthstone.myhearthstone.viewmodel to com.google.guice, de.saxsys.mvvmfx;
 }
