@@ -1,21 +1,19 @@
-package com.sbm4j.hearthstone.myhearthstone.services;
+package com.sbm4j.hearthstone.myhearthstone.services.images;
 
+import com.google.inject.Inject;
+import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
+import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManager;
+import javafx.scene.image.Image;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class CardImageManager extends AbstractImageManager{
-
-    private static String bigImagesDirectoryName = "bigCards";
-
-    private static String smallImagesDirectoryName = "smallCards";
-
-    private static String tileImagesDirectoryName = "tilesCards";
-
-    private static String thumbnailsDirectoryName = "thumbsCards";
+public class CardImageManagerImpl extends AbstractImageManager implements CardImageManager {
 
     private File bigImagesDir;
 
@@ -25,34 +23,41 @@ public class CardImageManager extends AbstractImageManager{
 
     private File thumbsImagesDir;
 
-    private File alternateCardImage;
+    private Image alternateCardImage;
 
-    protected DownloadImageManager downloadManager;
+    @Inject
+    protected DownloadManager downloadManager;
+
+    @Inject
+    protected ConfigManager config;
 
     protected static final Logger logger = LogManager.getLogger();
 
-    public CardImageManager(File root){
-        super(root);
-        this.bigImagesDir = new File(root, bigImagesDirectoryName);
+    public CardImageManagerImpl(){super();}
+
+
+    protected File root;
+
+    @Inject
+    public void init(){
+        this.bigImagesDir = this.config.getBigImagesDir();
         if(!this.bigImagesDir.exists()){
             this.bigImagesDir.mkdir();
         }
-        this.smallImagesDir = new File(root, smallImagesDirectoryName);
+        this.smallImagesDir = this.config.getSmallImagesDir();
         if(!this.smallImagesDir.exists()){
             this.smallImagesDir.mkdir();
         }
-        this.tileImagesDir = new File(root, tileImagesDirectoryName);
+        this.tileImagesDir = this.config.getTileImagesDir();
         if(!this.tileImagesDir.exists()){
             this.tileImagesDir.mkdir();
         }
-        this.thumbsImagesDir = new File(root, thumbnailsDirectoryName);
+        this.thumbsImagesDir = this.config.getThumbsImagesDir();
         if(!this.thumbsImagesDir.exists()){
             this.thumbsImagesDir.mkdir();
         }
 
-        this.alternateCardImage = new File(this.getClass().getResource("backCardClassic.jpg").getFile());
-
-        this.downloadManager = new DownloadImageManager();
+        this.alternateCardImage = this.config.getAlternateCardImage();
     }
 
 
@@ -74,7 +79,7 @@ public class CardImageManager extends AbstractImageManager{
         String url = serverUri + cardId + ".png";
         String filename = localDirectory.toString() + File.separator + cardId + ".png";
         try {
-            File result = this.downloadManager.downloadImageFile(url, filename);
+            File result = this.downloadManager.downloadFile(url, filename);
 
             if(serverUri.contains("512x")){
                 this.generateCardThumbnail(result);
@@ -90,58 +95,89 @@ public class CardImageManager extends AbstractImageManager{
         }
     }
 
+    @Override
     public void downloadCardImages(String cardId){
         if(cardId != null) {
-            this.downloadCardImage(cardId, DownloadImageManager.bigCardImagesUrl, this.bigImagesDir);
-            this.downloadCardImage(cardId, DownloadImageManager.smallCardImagesUrl, this.smallImagesDir);
-            this.downloadCardImage(cardId, DownloadImageManager.tileCardImagesUrl, this.tileImagesDir);
+            this.downloadCardImage(cardId, DownloadManager.bigCardImagesUrl, this.bigImagesDir);
+            this.downloadCardImage(cardId, DownloadManager.smallCardImagesUrl, this.smallImagesDir);
+            this.downloadCardImage(cardId, DownloadManager.tileCardImagesUrl, this.tileImagesDir);
         }
     }
 
-    protected File imageFilename(File parent, String cardId, boolean alternate){
+    protected Image imageFilename(File parent, String cardId, boolean alternate) throws FileNotFoundException {
         File result =  new File(parent, cardId + ".png");
         if(alternate && !result.exists()){
             return this.alternateCardImage;
         }
         else{
-            return result;
+            return new Image(new FileInputStream(result));
         }
     }
 
-    public File getBigCardImage(String cardId, boolean alternate){
+    protected File imageAsFile(File parent, String cardId) {
+        File result =  new File(parent, cardId + ".png");
+        return result;
+    }
+
+    @Override
+    public Image getBigCardImage(String cardId, boolean alternate) throws FileNotFoundException {
         return imageFilename(this.bigImagesDir, cardId, alternate);
     }
 
-    public File getSmallCardImage(String cardId, boolean alternate){
+    @Override
+    public Image getSmallCardImage(String cardId, boolean alternate) throws FileNotFoundException {
         return imageFilename(this.smallImagesDir, cardId, alternate);
     }
 
-    public File getTileCardImage(String cardId, boolean alternate){
+    @Override
+    public Image getTileCardImage(String cardId, boolean alternate) throws FileNotFoundException {
         return imageFilename(this.tileImagesDir, cardId, alternate);
     }
 
-    public File getThumbnailCardImage(String cardId, boolean alternate){
+    @Override
+    public Image getThumbnailCardImage(String cardId, boolean alternate) throws FileNotFoundException {
         return imageFilename(this.thumbsImagesDir, cardId, alternate);
     }
 
+    @Override
+    public File getBigCardImageAsFile(String cardId) {
+        return imageAsFile(this.bigImagesDir, cardId);
+    }
+
+    @Override
+    public File getSmallCardImageAsFile(String cardId) {
+        return imageAsFile(this.smallImagesDir, cardId);
+    }
+
+    @Override
+    public File getTileCardImageAsFile(String cardId) {
+        return imageAsFile(this.tileImagesDir, cardId);
+    }
+
+    @Override
+    public File getThumbnailCardImageAsFile(String cardId) {
+        return imageAsFile(this.thumbsImagesDir, cardId);
+    }
+
+    @Override
     public void deleteImagesFromCard(String cardId){
         if(cardId != null) {
-            File fBig = getBigCardImage(cardId, false);
+            File fBig = this.getBigCardImageAsFile(cardId);
             if (fBig.exists()) {
                 fBig.delete();
             }
 
-            File fSmall = getSmallCardImage(cardId, false);
+            File fSmall = this.getSmallCardImageAsFile(cardId);
             if (fSmall.exists()) {
                 fSmall.delete();
             }
 
-            File fTile = getTileCardImage(cardId, false);
+            File fTile = this.getTileCardImageAsFile(cardId);
             if (fTile.exists()) {
                 fTile.delete();
             }
 
-            File fThumb = getThumbnailCardImage(cardId, false);
+            File fThumb = this.getThumbnailCardImageAsFile(cardId);
             if(fThumb.exists()){
                 fThumb.delete();
             }
@@ -149,6 +185,7 @@ public class CardImageManager extends AbstractImageManager{
 
     }
 
+    @Override
     public void deleteAllCards(){
         this.emptySubDirectory(this.bigImagesDir);
         this.emptySubDirectory(this.smallImagesDir);

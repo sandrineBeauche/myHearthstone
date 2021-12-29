@@ -1,16 +1,11 @@
-package com.sbm4j.hearthstone.myhearthstone.services;
+package com.sbm4j.hearthstone.myhearthstone.services.images;
 
 import java.io.File;
 
 public abstract class AbstractImageManager {
 
-    protected File root;
 
-    public AbstractImageManager(File root){
-        this.root = root;
-    }
-
-    public void emptySubDirectory(File folder){
+    protected void emptySubDirectory(File folder){
         File[] files = folder.listFiles();
         if(files!=null) { //some JVMs return null for empty dirs
             for(File f: files) {
@@ -23,4 +18,5 @@ public abstract class AbstractImageManager {
         }
         folder.delete();
     }
+
 }

@@ -17,13 +17,19 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires java.xml.bind;
     requires com.sun.xml.bind;
     requires com.fasterxml.classmate;
+    requires com.google.guice;
 
     exports com.sbm4j.hearthstone.myhearthstone;
 
-
+    opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core, de.saxsys.mvvmfx, com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.model.json to com.google.gson;
     opens com.sbm4j.hearthstone.myhearthstone.model to com.google.gson, org.hibernate.orm.core;
-    opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core, de.saxsys.mvvmfx;
     opens com.sbm4j.hearthstone.myhearthstone.views to javafx.fxml, de.saxsys.mvvmfx, com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.viewmodel to com.google.guice, de.saxsys.mvvmfx;
+    //opens com.sbm4j.hearthstone.myhearthstone.services to com.google.guice;
+    opens com.sbm4j.hearthstone.myhearthstone.services.images to com.google.guice;
+    opens com.sbm4j.hearthstone.myhearthstone.services.config to com.google.guice;
+    opens com.sbm4j.hearthstone.myhearthstone.services.db to com.google.guice;
+    opens com.sbm4j.hearthstone.myhearthstone.services.download to com.google.guice;
+    opens com.sbm4j.hearthstone.myhearthstone.services.imports to com.google.guice;
 }

@@ -1,10 +1,14 @@
-package com.sbm4j.hearthstone.myhearthstone.services;
+package com.sbm4j.hearthstone.myhearthstone.services.imports;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleTesting;
 import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +17,6 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.concurrent.TimeoutException;
@@ -22,9 +25,9 @@ public class GameDataImporterTests {
 
     protected File jsonCardsFile;
 
-    protected DBManagerTesting dbManager;
+    protected DBManager dbManager;
 
-    protected JSONCardImporter importer;
+    protected ImportCatalogAction importer;
 
     @TempDir
     protected File tempDir;
@@ -34,10 +37,11 @@ public class GameDataImporterTests {
         ClassLoader classLoader = getClass().getClassLoader();
         this.jsonCardsFile= new File(classLoader.getResource("cards.json").getFile());
 
-        this.dbManager = new DBManagerTesting();
-        this.dbManager.initDB();
+        Injector injector = Guice.createInjector(
+                new HearthstoneModuleTesting(this.tempDir, true));
 
-        this.importer = new JSonCardImporterTesting(this.dbManager, new CardImageManager(this.tempDir));
+        this.dbManager = injector.getInstance(DBManager.class);
+        this.importer = injector.getInstance(ImportCatalogAction.class);
     }
 
     @AfterEach
@@ -46,7 +50,7 @@ public class GameDataImporterTests {
     }
 
     @Test
-    public void parseJsonTest() throws URISyntaxException, IOException {
+    public void parseJsonTest() throws IOException {
         ArrayList<JsonCard> result = this.importer.parseCards(this.jsonCardsFile);
 
         assertEquals(10, result.size());
@@ -56,6 +60,7 @@ public class GameDataImporterTests {
     @Test
     public void verifyTagsTest() throws Exception {
         HashSet<String> result = this.importer.verifyTags(this.jsonCardsFile);
+        assertEquals(0, result.size());
     }
 
     @Test
@@ -136,14 +141,7 @@ public class GameDataImporterTests {
     @Test
     public void importNewCards() throws IOException {
         this.importer.importCards(this.jsonCardsFile);
-        //this.importer.importCards(this.jsonCardsFile);
+        this.importer.importCards(this.jsonCardsFile);
     }
 
-
-    @Test
-    public void importCardsWithUI() throws TimeoutException {
-
-
-
-    }
 }

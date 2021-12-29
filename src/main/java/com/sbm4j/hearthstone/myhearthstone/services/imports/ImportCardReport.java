@@ -1,4 +1,4 @@
-package com.sbm4j.hearthstone.myhearthstone.services;
+package com.sbm4j.hearthstone.myhearthstone.services.imports;
 
 import java.util.ArrayList;
 import java.util.HashMap;

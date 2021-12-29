@@ -54,6 +54,7 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.0")
     implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.0")
+    //implementation('com.mycila.guice.extensions:mycila-guice-jsr250:5.0')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")

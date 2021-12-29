@@ -1,12 +1,21 @@
-package com.sbm4j.hearthstone.myhearthstone.services;
+package com.sbm4j.hearthstone.myhearthstone.services.imports;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
+import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBManagerImpl;
+import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
+
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.dialog.ProgressDialog;
 import org.hibernate.Session;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -20,46 +29,54 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class JSONCardImporter extends Task<ImportCardReport> {
+public class JSONCardImporter extends Task<ImportCardReport> implements ImportCatalogAction {
 
     protected static Logger logger = LogManager.getLogger();
 
+    @Inject
     protected DBManager dbManager;
 
+    @Inject
     protected CardImageManager imageManager;
 
-    private final File jsonFile;
+    @Inject
+    protected ConfigManager configManager;
+
+    @Inject
+    protected DBFacade dbFacade;
 
     protected ImportCardReport report = new ImportCardReport();
 
 
-    public enum CardStatus {
-        NEW_CARD,
-        MODIFIED_CARD,
-        UPTODATE_CARD
-    }
+    public JSONCardImporter(){
 
-    public JSONCardImporter(DBManager dbManager, CardImageManager imageManager){
-        this.dbManager = dbManager;
-        this.imageManager = imageManager;
-        this.jsonFile = null;
-    }
-
-    public JSONCardImporter(DBManager dbManager, CardImageManager imageManager, File jsonFile){
-        this.dbManager = dbManager;
-        this.imageManager = imageManager;
-        this.jsonFile = jsonFile;
     }
 
 
     @Override
     protected ImportCardReport call() throws Exception {
-        if(this.jsonFile != null){
+        File jsonFile = this.configManager.getCatalogJsonFile();
+        if(jsonFile != null){
             HashSet<String> unknownTags = this.verifyTags(jsonFile);
 
             this.importCards(jsonFile);
         }
         return null;
+    }
+
+    @Override
+    public void handle(ActionEvent event) {
+        try {
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setTitle("Importer les données Hearthstone");
+            dialog.setHeaderText("Importation des cartes hearthstone");
+            dialog.setWidth(600);
+
+            new Thread(this).start();
+            dialog.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -144,7 +161,7 @@ public class JSONCardImporter extends Task<ImportCardReport> {
 
     protected void verifyTag(String tag, HashSet<String> unknownTags){
         if(tag != null){
-            try{this.dbManager.getTag(tag);}
+            try{this.dbFacade.getTag(tag);}
             catch(NoResultException ex){
                 unknownTags.add(tag);
                 logger.warn("Unknown tag " + tag);
@@ -202,22 +219,22 @@ public class JSONCardImporter extends Task<ImportCardReport> {
         String md5 = DigestUtils.md5Hex(json.getJsonDesc());
         card.setJsonDesc(md5);
 
-        Rarity rarity = this.dbManager.getRarity(json.getRarity());
+        Rarity rarity = this.dbFacade.getRarity(json.getRarity());
         card.setRarity(rarity);
 
-        CardSet cardSet = this.dbManager.getSet(json.getSet());
+        CardSet cardSet = this.dbFacade.getSet(json.getSet());
         card.setCardSet(cardSet);
 
         card.getCardClass().clear();
         String classe = json.getCardClass();
         if(classe == null) {
             for (String current : json.getClasses()) {
-                CardClass cl = this.dbManager.getClasse(current);
+                CardClass cl = this.dbFacade.getClasse(current);
                 card.getCardClass().add(cl);
             }
         }
         else{
-            CardClass cl = this.dbManager.getClasse(classe);
+            CardClass cl = this.dbFacade.getClasse(classe);
             card.getCardClass().add(cl);
         }
 
@@ -227,24 +244,24 @@ public class JSONCardImporter extends Task<ImportCardReport> {
 
         String spellSchool = json.getSpellSchool();
         if(spellSchool != null){
-            card.getTags().add(this.dbManager.getTag(spellSchool));
+            card.getTags().add(this.dbFacade.getTag(spellSchool));
         }
 
         String race = json.getRace();
         if(race != null){
-            card.getTags().add(this.dbManager.getTag(race));
+            card.getTags().add(this.dbFacade.getTag(race));
         }
 
         String cardType = json.getType();
         if(cardType != null){
-            card.getTags().add(this.dbManager.getTag(cardType));
+            card.getTags().add(this.dbFacade.getTag(cardType));
         }
     }
 
     protected void addTagsToCard(ArrayList<String> tags, CardDetail card){
         if(tags !=null) {
             for (String current : tags) {
-                CardTag tag = this.dbManager.getTag(current);
+                CardTag tag = this.dbFacade.getTag(current);
                 card.getTags().add(tag);
             }
         }
@@ -314,21 +331,6 @@ public class JSONCardImporter extends Task<ImportCardReport> {
         }
     }
 
-    public DBManager getDbManager() {
-        return dbManager;
-    }
-
-    public void setDbManager(DBManager dbManager) {
-        this.dbManager = dbManager;
-    }
-
-    public CardImageManager getImageManager() {
-        return imageManager;
-    }
-
-    public void setImageManager(CardImageManager imageManager) {
-        this.imageManager = imageManager;
-    }
 
     public ImportCardReport getReport() {
         return report;
