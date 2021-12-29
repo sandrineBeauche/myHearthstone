@@ -40,6 +40,7 @@
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardClass"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Rarity"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardTag"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardUserData"/>
     </session-factory>
 
 </hibernate-configuration>

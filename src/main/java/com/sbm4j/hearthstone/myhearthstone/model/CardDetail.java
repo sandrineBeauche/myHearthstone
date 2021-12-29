@@ -60,7 +60,7 @@ public class CardDetail {
     @Column
     private String questReward;
 
-    @Column()
+    @Column
     private String jsonDesc;
 
     @Column
@@ -83,6 +83,10 @@ public class CardDetail {
     @ManyToMany
     private List<CardTag> tags = new ArrayList<CardTag>();
 
+
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    private CardUserData userData;
 
 
     public int getDbfId() {
@@ -243,5 +247,13 @@ public class CardDetail {
 
     public void setHowToEarnGolden(String howToEarnGolden) {
         this.howToEarnGolden = howToEarnGolden;
+    }
+
+    public CardUserData getUserData() {
+        return userData;
+    }
+
+    public void setUserData(CardUserData userData) {
+        this.userData = userData;
     }
 }
