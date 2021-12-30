@@ -67,12 +67,12 @@ public class DBManagerTests {
         card.setCardSet(cardSet);
         card.getCardClass().add(classe);
         card.setRarity(rarity);
-        card.getTags().add(tag);
 
         CardUserData userData = new CardUserData();
         userData.setNbCards(1);
         userData.setNbGolden(0);
         userData.setNbTotalCards(1);
+        userData.getTags().add(tag);
 
         card.setUserData(userData);
 

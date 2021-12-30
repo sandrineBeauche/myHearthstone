@@ -106,7 +106,7 @@ public class GameDataImporterTests {
 
         CardDetail card = this.dbManager.getSession().get(CardDetail.class, jsonCard.getDbfId());
         assertNotNull(card);
-        assertEquals(3, card.getTags().size());
+        assertEquals(3, card.getUserData().getTags().size());
     }
 
 
@@ -133,7 +133,7 @@ public class GameDataImporterTests {
 
         CardDetail card = this.dbManager.getSession().get(CardDetail.class, jsonCard.getDbfId());
         assertNotNull(card);
-        assertEquals(4, card.getTags().size());
+        assertEquals(4, card.getUserData().getTags().size());
         assertEquals("PALADIN", card.getCardClass().get(0).getCode());
     }
 

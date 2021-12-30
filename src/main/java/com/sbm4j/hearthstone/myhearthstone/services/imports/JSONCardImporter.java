@@ -237,28 +237,34 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
             CardClass cl = this.dbFacade.getClasse(classe);
             card.getCardClass().add(cl);
         }
+    }
 
-        card.getTags().clear();
-        this.addTagsToCard(json.getMechanics(), card);
-        this.addTagsToCard(json.getReferencedTags(), card);
+
+    protected void setUserDataValues(JsonCard json, CardUserData userData){
+        userData.setDbfId(json.getDbfId());
+
+        userData.getTags().removeIf(t -> !t.getUser());
+        this.addTagsToCard(json.getMechanics(), userData);
+        this.addTagsToCard(json.getReferencedTags(), userData);
 
         String spellSchool = json.getSpellSchool();
         if(spellSchool != null){
-            card.getTags().add(this.dbFacade.getTag(spellSchool));
+            userData.getTags().add(this.dbFacade.getTag(spellSchool));
         }
 
         String race = json.getRace();
         if(race != null){
-            card.getTags().add(this.dbFacade.getTag(race));
+            userData.getTags().add(this.dbFacade.getTag(race));
         }
 
         String cardType = json.getType();
         if(cardType != null){
-            card.getTags().add(this.dbFacade.getTag(cardType));
+            userData.getTags().add(this.dbFacade.getTag(cardType));
         }
     }
 
-    protected void addTagsToCard(ArrayList<String> tags, CardDetail card){
+
+    protected void addTagsToCard(ArrayList<String> tags, CardUserData card){
         if(tags !=null) {
             for (String current : tags) {
                 CardTag tag = this.dbFacade.getTag(current);
@@ -272,10 +278,21 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
         this.updateMessage("Ajoute une nouvelle carte: " + jsonCard.getName()
                 + " (" + jsonCard.getDbfId() + ":" + jsonCard.getId() + ")");
         try {
-            CardDetail result = new CardDetail();
-            this.setCardDetailsValues(jsonCard, result);
             Session session = this.dbManager.getSession();
+
+            CardUserData userData = session.get(CardUserData.class, jsonCard.getDbfId());
+            if(userData == null){
+                userData = new CardUserData();
+            }
+            this.setUserDataValues(jsonCard, userData);
+
+            CardDetail result = new CardDetail();
+            result.setUserData(userData);
+            this.setCardDetailsValues(jsonCard, result);
+
+
             session.beginTransaction();
+            session.saveOrUpdate(userData);
             session.save(result);
             session.getTransaction().commit();
             this.report.incrCreated();
@@ -293,8 +310,12 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
         try {
             Session session = this.dbManager.getSession();
             CardDetail card = session.get(CardDetail.class, jsonCard.getDbfId());
+            CardUserData userData = card.getUserData();
             this.setCardDetailsValues(jsonCard, card);
+            this.setUserDataValues(jsonCard, userData);
+
             session.beginTransaction();
+            session.update(userData);
             session.update(card);
             session.getTransaction().commit();
 

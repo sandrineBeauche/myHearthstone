@@ -13,7 +13,9 @@ import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManagerImpl
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCardImporter;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCollectionImporter;
 
 
 public class HearthstoneModule extends AbstractModule{
@@ -45,5 +47,6 @@ public class HearthstoneModule extends AbstractModule{
 
     protected void bindImports(){
         bind(ImportCatalogAction.class).to(JSONCardImporter.class).in(Scopes.SINGLETON);
+        bind(ImportCollectionAction.class).to(JSONCollectionImporter.class).in(Scopes.SINGLETON);
     }
 }

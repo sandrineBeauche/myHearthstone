@@ -15,4 +15,6 @@ public interface DownloadManager {
             "https://art.hearthstonejson.com/v1/tiles/";
 
     File downloadFile(String url, String filename) throws IOException;
+
+
 }

@@ -1,10 +1,9 @@
 package com.sbm4j.hearthstone.myhearthstone.model;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cardUserData")
@@ -22,6 +21,9 @@ public class CardUserData {
 
     @Column
     private int nbTotalCards;
+
+    @ManyToMany
+    private List<CardTag> tags = new ArrayList<CardTag>();
 
     public int getDbfId() {
         return dbfId;
@@ -53,5 +55,13 @@ public class CardUserData {
 
     public void setNbTotalCards(int nbTotalCards) {
         this.nbTotalCards = nbTotalCards;
+    }
+
+    public List<CardTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<CardTag> tags) {
+        this.tags = tags;
     }
 }

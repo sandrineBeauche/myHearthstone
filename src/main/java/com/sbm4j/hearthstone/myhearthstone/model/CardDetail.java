@@ -80,8 +80,7 @@ public class CardDetail {
     @JoinColumn(name = "rarity_id", foreignKey = @ForeignKey(name = "RARITY_ID_FK"))
     private Rarity rarity;
 
-    @ManyToMany
-    private List<CardTag> tags = new ArrayList<CardTag>();
+
 
 
     @OneToOne
@@ -191,14 +190,6 @@ public class CardDetail {
 
     public void setRarity(Rarity rarity) {
         this.rarity = rarity;
-    }
-
-    public List<CardTag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<CardTag> tags) {
-        this.tags = tags;
     }
 
     public Boolean getCollectible() {

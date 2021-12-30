@@ -12,8 +12,6 @@ import java.nio.file.Paths;
 
 public class DownloadManagerImpl implements DownloadManager {
 
-
-
     protected static final Logger logger = LogManager.getLogger();
 
     @Override
