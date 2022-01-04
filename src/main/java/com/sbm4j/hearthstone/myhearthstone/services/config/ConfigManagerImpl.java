@@ -54,6 +54,11 @@ public class ConfigManagerImpl implements ConfigManager {
     }
 
     @Override
+    public File getCollectionJsonFile() {
+        return new File(this.dataRoot,"hsreplayCollection.json");
+    }
+
+    @Override
     public File getBigImagesDir() {
         return new File(this.dataRoot, bigImagesDirectoryName);
     }

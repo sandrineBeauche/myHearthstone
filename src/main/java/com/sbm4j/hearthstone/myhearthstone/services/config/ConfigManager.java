@@ -15,6 +15,8 @@ public interface ConfigManager {
 
     File getCatalogJsonFile();
 
+    File getCollectionJsonFile();
+
     File getBigImagesDir();
 
     File getSmallImagesDir();

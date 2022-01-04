@@ -8,7 +8,7 @@ import javax.persistence.*;
 )
 @Entity
 @Table(name = "cardSet")
-public class CardSet {
+public class CardSet implements CodedEntity{
 
     @Id
     @Column(nullable = false)
@@ -20,6 +20,14 @@ public class CardSet {
 
     @Column(nullable = false)
     private String name;
+
+    public CardSet(){}
+
+    public CardSet(int id, String code, String name){
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

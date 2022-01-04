@@ -7,13 +7,14 @@ import de.saxsys.mvvmfx.guice.MvvmfxGuiceApplication;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
+import org.testfx.api.FxRobot;
 import org.testfx.api.FxToolkit;
 
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-public abstract class AbstractUITest {
+public abstract class AbstractUITest extends FxRobot {
 
     @TempDir
     protected File tempDir;
@@ -34,7 +35,7 @@ public abstract class AbstractUITest {
 
         @Override
         public void startMvvmfx(Stage stage) throws Exception {
-            startAppTest(this.injector);
+            startAppTest(this.injector, stage);
         }
     }
 
@@ -46,7 +47,7 @@ public abstract class AbstractUITest {
         FxToolkit.setupApplication(() -> app);
     }
 
-    public abstract void startAppTest(Injector injector);
+    public abstract void startAppTest(Injector injector, Stage stage);
 
 
 }

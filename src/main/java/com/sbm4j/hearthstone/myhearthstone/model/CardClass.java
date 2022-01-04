@@ -8,7 +8,7 @@ import javax.persistence.*;
 )
 @Entity
 @Table(name = "cardClass")
-public class CardClass {
+public class CardClass implements CodedEntity{
     @Id
     @Column(nullable = false)
     @GeneratedValue
@@ -19,6 +19,14 @@ public class CardClass {
 
     @Column(nullable = false)
     private String name;
+
+    public CardClass(){}
+
+    public CardClass(int id, String code, String name){
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

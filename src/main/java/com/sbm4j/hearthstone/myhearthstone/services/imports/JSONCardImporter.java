@@ -8,7 +8,6 @@ import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
-import com.sbm4j.hearthstone.myhearthstone.services.db.DBManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 
 import javafx.concurrent.Task;
@@ -66,17 +65,8 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
     @Override
     public void handle(ActionEvent event) {
-        try {
-            ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setTitle("Importer les données Hearthstone");
-            dialog.setHeaderText("Importation des cartes hearthstone");
-            dialog.setWidth(600);
 
-            new Thread(this).start();
-            dialog.showAndWait();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
 

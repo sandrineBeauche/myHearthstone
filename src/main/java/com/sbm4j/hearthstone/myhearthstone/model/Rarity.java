@@ -8,7 +8,7 @@ import javax.persistence.*;
 )
 @Entity
 @Table(name = "Rarity")
-public class Rarity {
+public class Rarity implements CodedEntity{
 
     @Id
     @Column(nullable = false)
@@ -32,6 +32,14 @@ public class Rarity {
 
     @Column
     private int gainGold;
+
+    public Rarity(){}
+
+    public Rarity(int id, String code, String name){
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

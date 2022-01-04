@@ -38,4 +38,17 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
         URL res = this.getClass().getClassLoader().getResource("cardsTest.json");
         return new File(res.getFile());
     }
+
+    @Override
+    public File getCollectionJsonFile() {
+        URL res = this.getClass().getClassLoader().getResource("hsreplayCollection.json");
+        return new File(res.getFile());
+    }
+
+
+    @Override
+    public File getImageDirectory() {
+        URL res = this.getClass().getClassLoader().getResource("images");
+        return new File(res.getFile());
+    }
 }
