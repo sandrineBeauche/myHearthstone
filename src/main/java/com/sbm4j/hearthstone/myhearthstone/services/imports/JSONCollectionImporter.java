@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.util.HashMap;
 
 public class JSONCollectionImporter extends Task<ImportCollectionReport> implements ImportCollectionAction{
 
@@ -28,6 +29,10 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
 
     @Inject
     protected ConfigManager config;
+
+    protected long totalWork;
+
+    protected long workDone;
 
 
     @Override
@@ -42,10 +47,10 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
     public void importCollection(File jsonFile) throws FileNotFoundException {
         JsonUserData data = this.parseUserData(jsonFile);
 
-        this.updateProgress(0, data.getCollection().size());
+        this.totalWork = data.getCollection().size();
+        this.workDone = 0;
         data.getCollection().forEach((key, values) ->{
             this.importCollectionItem(key, values);
-            this.updateProgress(this.getWorkDone() + 1, this.getTotalWork());
         });
     }
 
@@ -74,6 +79,8 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
             session.getTransaction().commit();
         }
         this.dbManager.closeSession();
+        this.workDone++;
+        this.updateProgress(this.workDone, this.totalWork);
     }
 
 
