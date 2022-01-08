@@ -18,6 +18,7 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires com.sun.xml.bind;
     requires com.fasterxml.classmate;
     requires com.google.guice;
+    requires java.sql;
 
     exports com.sbm4j.hearthstone.myhearthstone;
 

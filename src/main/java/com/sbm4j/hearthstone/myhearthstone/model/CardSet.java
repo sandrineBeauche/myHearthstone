@@ -21,6 +21,9 @@ public class CardSet implements CodedEntity{
     @Column(nullable = false)
     private String name;
 
+    @Column()
+    protected Boolean isStandard = false;
+
     public CardSet(){}
 
     public CardSet(int id, String code, String name){
@@ -53,7 +56,11 @@ public class CardSet implements CodedEntity{
         this.name = name;
     }
 
+    public Boolean isStandard() {
+        return isStandard;
+    }
 
-
-
+    public void setStandard(Boolean standard) {
+        isStandard = standard;
+    }
 }

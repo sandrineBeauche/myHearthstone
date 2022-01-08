@@ -55,19 +55,23 @@ dependencies {
     implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.0")
     //implementation('com.mycila.guice.extensions:mycila-guice-jsr250:5.0')
+    implementation('org.slf4j:slf4j-api:1.7.25')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     testImplementation("org.testfx:testfx-core:4.0.16-alpha")
     //testImplementation("org.hamcrest:hamcrest:2.2")
-    testImplementation("org.testfx:testfx-core:4.0.16-alpha")
+    testImplementation('org.dbunit:dbunit:2.7.2')
+    testImplementation('commons-collections:commons-collections:3.2.2')
+    testImplementation('com.github.database-rider:rider-core:1.32.0')
+    testImplementation('com.github.database-rider:rider-junit5:1.32.0')
 }
 
 extraJavaModuleInfo {
     automaticModule("thumbnailator-0.4.15.jar", "thumbnailator")
     automaticModule("antlr-2.7.7.jar", "antlr")
-    automaticModule("slf4j-api-1.7.12.jar", "slf4j")
+    automaticModule("slf4j-api-1.7.25.jar", "slf4j")
     automaticModule("typetools-0.6.1.jar", "typetools")
     automaticModule("doc-annotations-0.2.jar", "doc.annotations")
     automaticModule("javax.inject-1.jar", "javax.inject")
@@ -84,6 +88,11 @@ extraJavaModuleInfo {
         requires("slf4j")
         exports("de.saxsys.mvvmfx")
         exports("de.saxsys.mvvmfx.internal")
+        exports("de.saxsys.mvvmfx.utils.commands")
+        exports("de.saxsys.mvvmfx.utils.itemlist")
+        exports("de.saxsys.mvvmfx.utils.mapping")
+        exports("de.saxsys.mvvmfx.utils.notifications")
+        exports("de.saxsys.mvvmfx.utils.viewlist")
     }
     module('mvvmfx-guice-1.8.0.jar', 'de.saxsys.mvvmfx.guice', "1.8.0"){
         requires("javafx.base")
@@ -95,10 +104,19 @@ extraJavaModuleInfo {
     automaticModule('hamcrest-core-1.3.jar', 'hamcrest.core')
     automaticModule('guice-5.0.1.jar', "com.google.guice")
     automaticModule('guava-30.2-jre.jar', 'com.google.common')
-    //automaticModule("byte-buddy-1.11.20.jar", "net.bytebuddy")
-    //automaticModule("hibernate-core-5.6.1.Final.jar", "org.hibernate")
     automaticModule("jaxb-impl-2.3.0.jar", "com.sun.xml.bind")
     automaticModule("testfx-core-4.0.16-alpha.jar", "org.testfx")
+
+    automaticModule("rider-core-1.32.0.jar", "com.github.database.rider.core")
+    automaticModule("rider-junit5-1.32.0.jar", "com.github.database.rider.junit5")
+
+    automaticModule("dbunit-2.7.2.jar", "org.dbunit")
+    automaticModule("snakeyaml-1.16.jar", "org.yaml.snakeyaml")
+    automaticModule("jackson-mapper-lgpl-1.9.13.jar", "org.codehaus.jackson.mapper")
+    automaticModule("commons-collections-3.2.2.jar", "commons.collections")
+    automaticModule("postgresql-42.2.5.jar", "org.postgresql")
+    automaticModule("jackson-core-lgpl-1.9.13.jar", "org.codehaus.jackson.core")
+    automaticModule("mysql-connector-java-8.0.25.jar", "mysql.connector.java")
 }
 
 compileTestJava {
@@ -119,10 +137,13 @@ test {
                 'com.sbm4j.hearthstone.myhearthstone': 'org.testfx'
         ]
         addExports = [
-                'javafx.graphics/com.sun.javafx.application': 'org.testfx'
+                'javafx.graphics/com.sun.javafx.application': 'org.testfx',
+                'org.junit.platform.commons/org.junit.platform.commons.util': 'com.github.database.rider.junit5'
         ]
-
-
+        addOpens = [
+                "com.sbm4j.hearthstone.myhearthstone/com.sbm4j.hearthstone.myhearthstone.services.imports": "com.github.database.rider.junit5",
+                "com.sbm4j.hearthstone.myhearthstone/com.sbm4j.hearthstone.myhearthstone.services.db": "com.github.database.rider.junit5"
+        ]
     }
     testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'

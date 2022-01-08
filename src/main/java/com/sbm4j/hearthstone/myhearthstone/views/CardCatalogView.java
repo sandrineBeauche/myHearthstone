@@ -12,6 +12,7 @@ import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
@@ -45,6 +46,9 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
     @FXML
     protected ToggleButton tglbCollection;
+
+    @FXML
+    protected Button cmdImportCatalog;
 
     @InjectViewModel
     protected CardCatalogViewModel viewModel;
@@ -99,6 +103,10 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
     public void onCriteriaChange(){
 
+    }
+
+    public void importCatalogCommand(){
+        this.viewModel.getImportCatalogCommand().execute();
     }
 
     public class CardCell extends GridCell<CardCatalogItem>{

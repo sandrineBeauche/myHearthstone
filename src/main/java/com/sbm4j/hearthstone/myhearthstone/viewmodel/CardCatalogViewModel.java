@@ -1,13 +1,18 @@
 package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
 import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
 import com.sbm4j.hearthstone.myhearthstone.model.Rarity;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
 import com.sbm4j.hearthstone.myhearthstone.views.CardCatalogItem;
 import com.sbm4j.hearthstone.myhearthstone.views.ManaOption;
 import de.saxsys.mvvmfx.ViewModel;
+import de.saxsys.mvvmfx.utils.commands.Action;
+import de.saxsys.mvvmfx.utils.commands.Command;
+import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -24,6 +29,8 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     @Inject
     protected DBFacade dbFacade;
 
+    @Inject
+    protected Injector injector;
 
     /* Collection property */
     private ObjectProperty<ObservableList<CardCatalogItem>> collection = new SimpleObjectProperty<ObservableList<CardCatalogItem>>();
@@ -115,7 +122,19 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
         List<CardCatalogItem> items = this.dbFacade.getCatalog();
         this.collection.set(FXCollections.observableArrayList(items));
 
-
-
     }
+
+    protected Command importCatalogCommand = new DelegateCommand(() -> new Action(){
+        @Override
+        protected void action() throws Exception {
+            importCatalog();
+        }
+    });
+
+    private void importCatalog(){
+        ImportCatalogAction action = this.injector.getInstance(ImportCatalogAction.class);
+        action.handle(null);
+    }
+
+    public Command getImportCatalogCommand(){ return this.importCatalogCommand;}
 }

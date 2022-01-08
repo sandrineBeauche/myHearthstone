@@ -35,7 +35,7 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
 
     @Override
     public File getCatalogJsonFile() {
-        URL res = this.getClass().getClassLoader().getResource("cardsTest.json");
+        URL res = this.getClass().getClassLoader().getResource("cards.json");
         return new File(res.getFile());
     }
 

@@ -65,7 +65,17 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
     @Override
     public void handle(ActionEvent event) {
+        try {
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setTitle("Importer le catalogue");
+            dialog.setHeaderText("Importation du catalogue de cartes Hearthstone");
+            dialog.setWidth(600);
 
+            new Thread(this).start();
+            dialog.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

@@ -50,7 +50,7 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Override
     public File getCatalogJsonFile() {
-        return new File(this.dataRoot,"cardsTest.json");
+        return new File(this.dataRoot,"cards.json");
     }
 
     @Override
