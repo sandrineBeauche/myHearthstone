@@ -118,7 +118,7 @@ public class DBFacadeTests {
     @DataSet("initDBDataset.xml")
     public void getAvailableClasses(){
         List<CardClass> results = this.facade.getClasses(false);
-        assertEquals(14, results.size());
+        assertEquals(11, results.size());
         assertEquals("Chaman", results.get(0).getName());
     }
 
@@ -126,7 +126,7 @@ public class DBFacadeTests {
     @DataSet("initDBDataset.xml")
     public void getAvailableClassesWithAll(){
         List<CardClass> results = this.facade.getClasses(true);
-        assertEquals(15, results.size());
+        assertEquals(12, results.size());
         assertEquals("ALL", results.get(0).getCode());
     }
 
@@ -134,16 +134,16 @@ public class DBFacadeTests {
     @DataSet("initDBDataset.xml")
     public void getAvailableCardSets(){
         List<CardSet> results = this.facade.getSets(false);
-        assertEquals(49, results.size());
-        assertEquals("ULDUM", results.get(0).getCode());
+        assertEquals(29, results.size());
+        assertEquals("ALTERAC_VALLEY", results.get(0).getCode());
     }
 
     @Test
     @DataSet("initDBDataset.xml")
     public void getAvailableCardSetsWithWild(){
         List<CardSet> results = this.facade.getSets(true);
-        assertEquals(50, results.size());
-        assertEquals("WILD", results.get(0).getCode());
+        assertEquals(31, results.size());
+        assertEquals("STANDARD", results.get(0).getCode());
     }
 
     @Test

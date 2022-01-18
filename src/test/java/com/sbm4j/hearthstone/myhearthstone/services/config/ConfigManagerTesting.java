@@ -16,7 +16,6 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
         this.initDB = initDB;
     }
 
-
     @Override
     public String getConnectionUrl() {
         return "jdbc:hsqldb:mem:db1";
@@ -48,7 +47,12 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
 
     @Override
     public File getImageDirectory() {
-        URL res = this.getClass().getClassLoader().getResource("images");
-        return new File(res.getFile());
+        if(this.dataRoot != null){
+            return super.getImageDirectory();
+        }
+        else {
+            URL res = this.getClass().getClassLoader().getResource("images");
+            return new File(res.getFile());
+        }
     }
 }

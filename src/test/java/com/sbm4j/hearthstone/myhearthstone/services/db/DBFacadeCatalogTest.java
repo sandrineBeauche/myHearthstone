@@ -97,7 +97,7 @@ public class DBFacadeCatalogTest {
         List<CardCatalogItem> results = this.facade.getCatalog(criteria);
 
         assertNotNull(results);
-        assertEquals(0, results.size());
+        assertEquals(15, results.size());
         Session session = this.db.getSession();
         results.forEach(current -> {
            int id = current.dbfId();

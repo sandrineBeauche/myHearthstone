@@ -16,7 +16,6 @@ public class ConfigManagerImpl implements ConfigManager {
 
     private static String thumbnailsDirectoryName = "cards/thumbsCards";
 
-    protected boolean production = true;
 
     public ConfigManagerImpl(){}
 
@@ -26,15 +25,15 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Inject
     public void init(){
-        if(this.production){
-            String path = System.getProperty("user.dir");
+        String path = System.getProperty("user.dir");
+        if(path.contains("bin")) {
             this.dataRoot = new File(new File(path).getParentFile(), "data");
-            if(!this.dataRoot.exists()){
-                this.dataRoot.mkdir();
-            }
         }
         else {
-            this.dataRoot = new File("/home/sandrine/progs/myHearthstone");
+            this.dataRoot = new File(path, "data");
+        }
+        if(!this.dataRoot.exists()){
+            this.dataRoot.mkdir();
         }
     }
 

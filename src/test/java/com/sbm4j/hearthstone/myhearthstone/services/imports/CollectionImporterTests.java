@@ -6,7 +6,7 @@ import com.github.database.rider.junit5.DBUnitExtension;
 import com.github.database.rider.junit5.util.EntityManagerProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleTesting;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonUserData;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
@@ -39,7 +39,7 @@ public class CollectionImporterTests {
         this.jsonCollectionFile= new File(classLoader.getResource("hsreplayCollection.json").getFile());
 
         Injector injector = Guice.createInjector(
-                new HearthstoneModuleTesting(null, false));
+                new HearthstoneModuleDBTesting(null, false));
 
         this.dbManager = injector.getInstance(DBManager.class);
         this.importer = injector.getInstance(ImportCollectionAction.class);

@@ -176,5 +176,22 @@ jlink {
 }
 
 jlinkZip {
+    doFirst{
+        System.out.println("zip distributions")
+    }
     group = 'distribution'
+}
+
+distZip {
+    into("${project.name}-${version}") {
+        from '.'
+        include 'data/*'
+    }
+}
+
+distTar {
+    into("${project.name}-${version}") {
+        from '.'
+        include 'data/*'
+    }
 }

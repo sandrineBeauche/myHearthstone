@@ -5,12 +5,14 @@ import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import javafx.scene.image.Image;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
+@Disabled
 public class CardImageManagerTests {
 
     @TempDir
