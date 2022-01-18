@@ -56,9 +56,16 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
     protected ImportCardReport call() throws Exception {
         File jsonFile = this.configManager.getCatalogJsonFile();
         if(jsonFile != null){
-            HashSet<String> unknownTags = this.verifyTags(jsonFile);
+            ArrayList<JsonCard> cards = this.parseCards(jsonFile);
+            HashSet<String> unknownTags = this.verifyTags(cards);
+            HashSet<String> unknownSets = this.verifySets(cards);
+            HashSet<String> unknownRarities = this.verifyRarities(cards);
+            HashSet<String> unknownClasses = this.verifyClasses(cards);
 
-            this.importCards(jsonFile);
+            if(unknownTags.size() == 0 && unknownSets.size() == 0 &&
+                    unknownRarities.size() == 0 && unknownClasses.size() == 0){
+                this.importCards(jsonFile);
+            }
         }
         return null;
     }
@@ -127,11 +134,10 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
         return result;
     }
 
-    public HashSet<String> verifyTags(File data) throws IOException {
+    public HashSet<String> verifyTags(ArrayList<JsonCard> cards) throws IOException {
         HashSet<String> unknownTags = new HashSet<String>();
 
         this.updateMessage("Vérification des tags");
-        ArrayList<JsonCard> cards = this.parseCards(data);
 
         for(JsonCard current: cards){
             this.verifyTag(current.getSpellSchool(), unknownTags);
@@ -142,12 +148,84 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
         }
 
         if(unknownTags.size() > 0) {
-            logger.warn("list of the unknown tags: " + unknownTags.toString());
+            logger.warn("List of unknown tags: " + unknownTags.toString());
         }
         else{
             logger.info("All the tags are valids");
         }
         return unknownTags;
+    }
+
+    @Override
+    public HashSet<String> verifySets(ArrayList<JsonCard> cards) throws IOException {
+        HashSet<String> unknownSets = new HashSet<String>();
+
+        this.updateMessage("Vérification des extensions");
+        for(JsonCard current: cards){
+            try{
+                this.dbFacade.getSet(current.getSet());
+            }
+            catch(NoResultException ex){
+                unknownSets.add(current.getSet());
+            }
+        }
+
+        if(unknownSets.size() > 0){
+            logger.warn("List of unknown sets: " + unknownSets.toString());
+        }
+        else{
+            logger.info("All the sets are valid");
+        }
+
+        return unknownSets;
+    }
+
+    @Override
+    public HashSet<String> verifyRarities(ArrayList<JsonCard> cards) throws IOException {
+        HashSet<String> unknownRarities = new HashSet<String>();
+
+        this.updateMessage("Vérification des raretés");
+        for(JsonCard current: cards){
+            try{
+                this.dbFacade.getRarity(current.getRarity());
+            }
+            catch(NoResultException ex){
+                unknownRarities.add(current.getSet());
+            }
+        }
+
+        if(unknownRarities.size() > 0){
+            logger.warn("List of unknown rarities: " + unknownRarities.toString());
+        }
+        else{
+            logger.info("All the rarities are valid");
+        }
+
+        return unknownRarities;
+    }
+
+    @Override
+    public HashSet<String> verifyClasses(ArrayList<JsonCard> cards) throws IOException {
+        HashSet<String> unknownClasses = new HashSet<String>();
+
+        this.updateMessage("Vérification des classes");
+        for(JsonCard current: cards){
+            try{
+                this.dbFacade.getClasse(current.getCardClass());
+            }
+            catch(NoResultException ex){
+                unknownClasses.add(current.getSet());
+            }
+        }
+
+        if(unknownClasses.size() > 0){
+            logger.warn("List of unknown classes: " + unknownClasses.toString());
+        }
+        else{
+            logger.info("All the classes are valid");
+        }
+
+        return unknownClasses;
     }
 
     protected void verifyListOfTags(ArrayList<String> tags, HashSet<String> unknownTags){
@@ -226,14 +304,14 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
         card.setCardSet(cardSet);
 
         card.getCardClass().clear();
-        String classe = json.getCardClass();
-        if(classe == null) {
+        if(json.getClasses() != null) {
             for (String current : json.getClasses()) {
                 CardClass cl = this.dbFacade.getClasse(current);
                 card.getCardClass().add(cl);
             }
         }
         else{
+            String classe = json.getCardClass();
             CardClass cl = this.dbFacade.getClasse(classe);
             card.getCardClass().add(cl);
         }
@@ -351,6 +429,8 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
             }
         }
     }
+
+
 
 
     public ImportCardReport getReport() {

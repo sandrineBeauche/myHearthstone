@@ -4,7 +4,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
 import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
 import com.sbm4j.hearthstone.myhearthstone.model.CardTag;
 import com.sbm4j.hearthstone.myhearthstone.model.Rarity;
-import com.sbm4j.hearthstone.myhearthstone.views.CardCatalogItem;
+import com.sbm4j.hearthstone.myhearthstone.model.CardCatalogItem;
 
 import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
@@ -22,11 +22,13 @@ public interface DBFacade {
 
     CardTag getTag(String code);
 
-    List<CardClass> getClasses();
+    List<CardClass> getClasses(boolean includeAll);
 
-    List<CardSet> getSets();
+    List<CardSet> getSets(boolean includeWild);
 
-    List<CardCatalogItem> getCatalog();
+    List<CardCatalogItem> getCatalog(CatalogCriteria criteria);
 
-    List<Rarity> getRarities();
+    List<Rarity> getRarities(boolean includeAll);
+
+    List<CardTag> getTags();
 }

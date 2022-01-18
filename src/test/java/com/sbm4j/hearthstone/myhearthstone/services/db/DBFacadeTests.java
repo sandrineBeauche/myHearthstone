@@ -6,7 +6,7 @@ import com.github.database.rider.junit5.DBUnitExtension;
 import com.github.database.rider.junit5.util.EntityManagerProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleTesting;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
 import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
 import com.sbm4j.hearthstone.myhearthstone.model.CardTag;
@@ -20,7 +20,9 @@ import org.junit.jupiter.api.io.TempDir;
 import javax.persistence.NoResultException;
 
 import java.io.File;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(DBUnitExtension.class)
@@ -38,7 +40,7 @@ public class DBFacadeTests {
 
     @BeforeEach
     public void beforeEach(){
-        Injector injector = Guice.createInjector(new HearthstoneModuleTesting(this.tempDir));
+        Injector injector = Guice.createInjector(new HearthstoneModuleDBTesting(this.tempDir, false));
         this.facade = injector.getInstance(DBFacade.class);
         this.db = injector.getInstance(DBManager.class);
     }
@@ -112,4 +114,51 @@ public class DBFacadeTests {
     }
 
 
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void getAvailableClasses(){
+        List<CardClass> results = this.facade.getClasses(false);
+        assertEquals(14, results.size());
+        assertEquals("Chaman", results.get(0).getName());
+    }
+
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void getAvailableClassesWithAll(){
+        List<CardClass> results = this.facade.getClasses(true);
+        assertEquals(15, results.size());
+        assertEquals("ALL", results.get(0).getCode());
+    }
+
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void getAvailableCardSets(){
+        List<CardSet> results = this.facade.getSets(false);
+        assertEquals(49, results.size());
+        assertEquals("ULDUM", results.get(0).getCode());
+    }
+
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void getAvailableCardSetsWithWild(){
+        List<CardSet> results = this.facade.getSets(true);
+        assertEquals(50, results.size());
+        assertEquals("WILD", results.get(0).getCode());
+    }
+
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void getAvailableRarities(){
+        List<Rarity> results = this.facade.getRarities(false);
+        assertEquals(5, results.size());
+        assertEquals("FREE", results.get(0).getCode());
+    }
+
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void getAvailableRaritiesWithAll(){
+        List<Rarity> results = this.facade.getRarities(true);
+        assertEquals(6, results.size());
+        assertEquals("ALL", results.get(0).getCode());
+    }
 }

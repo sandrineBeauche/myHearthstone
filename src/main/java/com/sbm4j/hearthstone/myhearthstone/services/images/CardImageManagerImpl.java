@@ -104,13 +104,18 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
         }
     }
 
-    protected Image imageFilename(File parent, String cardId, boolean alternate) throws FileNotFoundException {
+    protected Image imageFilename(File parent, String cardId, boolean alternate) {
         File result =  new File(parent, cardId + ".png");
         if(alternate && !result.exists()){
             return this.alternateCardImage;
         }
         else{
-            return new Image(new FileInputStream(result));
+            try {
+                return new Image(new FileInputStream(result));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
 
@@ -120,22 +125,22 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
     }
 
     @Override
-    public Image getBigCardImage(String cardId, boolean alternate) throws FileNotFoundException {
+    public Image getBigCardImage(String cardId, boolean alternate) {
         return imageFilename(this.bigImagesDir, cardId, alternate);
     }
 
     @Override
-    public Image getSmallCardImage(String cardId, boolean alternate) throws FileNotFoundException {
+    public Image getSmallCardImage(String cardId, boolean alternate) {
         return imageFilename(this.smallImagesDir, cardId, alternate);
     }
 
     @Override
-    public Image getTileCardImage(String cardId, boolean alternate) throws FileNotFoundException {
+    public Image getTileCardImage(String cardId, boolean alternate) {
         return imageFilename(this.tileImagesDir, cardId, alternate);
     }
 
     @Override
-    public Image getThumbnailCardImage(String cardId, boolean alternate) throws FileNotFoundException {
+    public Image getThumbnailCardImage(String cardId, boolean alternate) {
         return imageFilename(this.thumbsImagesDir, cardId, alternate);
     }
 

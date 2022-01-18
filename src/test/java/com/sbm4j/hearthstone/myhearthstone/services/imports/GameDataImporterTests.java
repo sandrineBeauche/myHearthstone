@@ -4,11 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.github.database.rider.core.api.connection.ConnectionHolder;
+import com.github.database.rider.core.api.dataset.DataSetFormat;
+import com.github.database.rider.core.api.exporter.ExportDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
 import com.github.database.rider.junit5.util.EntityManagerProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleTesting;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-//@ExtendWith(DBUnitExtension.class)
+@ExtendWith(DBUnitExtension.class)
 public class GameDataImporterTests {
 
     protected File jsonCardsFile;
@@ -31,8 +33,8 @@ public class GameDataImporterTests {
 
     protected ImportCatalogAction importer;
 
-    //private ConnectionHolder connectionHolder = () ->
-    //        EntityManagerProvider.instance("pu-hearthstone").connection();
+    private ConnectionHolder connectionHolder = () ->
+            EntityManagerProvider.instance("pu-hearthstone").connection();
 
     @TempDir
     protected File tempDir;
@@ -43,7 +45,7 @@ public class GameDataImporterTests {
         this.jsonCardsFile= new File(classLoader.getResource("cards.json").getFile());
 
         Injector injector = Guice.createInjector(
-                new HearthstoneModuleTesting(this.tempDir, true));
+                new HearthstoneModuleDBTesting(this.tempDir, true));
 
         this.dbManager = injector.getInstance(DBManager.class);
         this.importer = injector.getInstance(ImportCatalogAction.class);
@@ -64,7 +66,8 @@ public class GameDataImporterTests {
 
     @Test
     public void verifyTagsTest() throws Exception {
-        HashSet<String> result = this.importer.verifyTags(this.jsonCardsFile);
+        ArrayList<JsonCard> cards = this.importer.parseCards(this.jsonCardsFile);
+        HashSet<String> result = this.importer.verifyTags(cards);
         assertEquals(0, result.size());
     }
 
@@ -116,6 +119,18 @@ public class GameDataImporterTests {
         assertEquals(2, card.getUserData().getTags().size());
     }
 
+    @Test
+    public void addNewDoubleClassCard() throws IOException {
+        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(25);
+
+        this.importer.addCardDetail(jsonCard);
+        this.dbManager.closeSession();
+
+        CardDetail card = this.dbManager.getSession().get(CardDetail.class, jsonCard.getDbfId());
+        assertNotNull(card);
+        assertEquals(2, card.getCardClass().size());
+    }
+
 
     @Test
     public void updateCard() throws IOException {
@@ -146,6 +161,7 @@ public class GameDataImporterTests {
 
 
     @Test
+    @ExportDataSet(format = DataSetFormat.XML,outputName="target/exported/xml/allTables.xml")
     public void importNewCards() throws IOException {
         this.importer.importCards(this.jsonCardsFile);
         this.importer.importCards(this.jsonCardsFile);

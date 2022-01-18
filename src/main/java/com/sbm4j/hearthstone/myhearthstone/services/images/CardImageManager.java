@@ -8,13 +8,13 @@ import java.io.FileNotFoundException;
 public interface CardImageManager {
     void downloadCardImages(String cardId);
 
-    Image getBigCardImage(String cardId, boolean alternate) throws FileNotFoundException;
+    Image getBigCardImage(String cardId, boolean alternate);
 
-    Image getSmallCardImage(String cardId, boolean alternate) throws FileNotFoundException;
+    Image getSmallCardImage(String cardId, boolean alternate);
 
-    Image getTileCardImage(String cardId, boolean alternate) throws FileNotFoundException;
+    Image getTileCardImage(String cardId, boolean alternate);
 
-    Image getThumbnailCardImage(String cardId, boolean alternate) throws FileNotFoundException;
+    Image getThumbnailCardImage(String cardId, boolean alternate);
 
     File getBigCardImageAsFile(String cardId);
 

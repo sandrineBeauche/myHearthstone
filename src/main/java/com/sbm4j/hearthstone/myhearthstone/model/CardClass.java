@@ -1,11 +1,20 @@
 package com.sbm4j.hearthstone.myhearthstone.model;
 
-import javax.persistence.*;
 
-@org.hibernate.annotations.NamedQuery(
-        name="class_from_code",
-        query="select c from CardClass c where c.code = :code"
-)
+import javax.persistence.*;
+import org.hibernate.annotations.NamedQuery;
+import org.hibernate.annotations.NamedQueries;
+
+@NamedQueries({
+        @NamedQuery(
+                name = "class_from_code",
+                query = "select c from CardClass c where c.code = :code"
+        ),
+        @NamedQuery(
+                name = "available_classes",
+                query = "select c from CardClass c order by c.name"
+        )
+})
 @Entity
 @Table(name = "cardClass")
 public class CardClass implements CodedEntity{
@@ -50,5 +59,10 @@ public class CardClass implements CodedEntity{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + "(" + this.code + ")";
     }
 }

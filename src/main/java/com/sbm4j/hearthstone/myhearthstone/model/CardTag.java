@@ -2,10 +2,16 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
-@org.hibernate.annotations.NamedQuery(
-        name="tag_from_code",
-        query="select t from CardTag t where t.code = :code"
-)
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(
+                name="tag_from_code",
+                query="select t from CardTag t where t.code = :code"
+        ),
+        @org.hibernate.annotations.NamedQuery(
+                name="available_tags",
+                query="select t from CardTag t order by t.name"
+        )
+})
 @Entity
 @Table(name = "cardTag")
 public class CardTag {
@@ -25,6 +31,17 @@ public class CardTag {
 
     @Column
     private int exclusiveGroup;
+
+    public CardTag(){}
+
+    public CardTag(int id, String code, String name, boolean isUser, int exclusiveGroup){
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.isUser = isUser;
+        this.exclusiveGroup = exclusiveGroup;
+
+    }
 
     public int getId() {
         return id;
@@ -64,5 +81,10 @@ public class CardTag {
 
     public void setExclusiveGroup(int exclusiveGroup) {
         this.exclusiveGroup = exclusiveGroup;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }

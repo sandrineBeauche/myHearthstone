@@ -2,10 +2,17 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
-@org.hibernate.annotations.NamedQuery(
-        name="rarity_from_code",
-        query="select r from Rarity r where r.code = :code"
-)
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(
+                name="rarity_from_code",
+                query="select r from Rarity r where r.code = :code"
+        ),
+        @org.hibernate.annotations.NamedQuery(
+                name = "available_rarities",
+                query = "select r from Rarity r order by r.cost"
+        )
+})
+
 @Entity
 @Table(name = "Rarity")
 public class Rarity implements CodedEntity{
@@ -95,5 +102,10 @@ public class Rarity implements CodedEntity{
 
     public void setGainGold(int gainGold) {
         this.gainGold = gainGold;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + "(" + this.code + ")";
     }
 }

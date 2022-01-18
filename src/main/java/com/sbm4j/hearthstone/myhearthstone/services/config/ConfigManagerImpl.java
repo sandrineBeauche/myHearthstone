@@ -8,22 +8,34 @@ import java.io.File;
 
 public class ConfigManagerImpl implements ConfigManager {
 
-    private static String bigImagesDirectoryName = "bigCards";
+    private static String bigImagesDirectoryName = "cards/bigCards";
 
-    private static String smallImagesDirectoryName = "smallCards";
+    private static String smallImagesDirectoryName = "cards/smallCards";
 
-    private static String tileImagesDirectoryName = "tilesCards";
+    private static String tileImagesDirectoryName = "cards/tilesCards";
 
-    private static String thumbnailsDirectoryName = "thumbsCards";
+    private static String thumbnailsDirectoryName = "cards/thumbsCards";
+
+    protected boolean production = true;
 
     public ConfigManagerImpl(){}
 
 
     protected File dataRoot;
 
+
     @Inject
     public void init(){
-        this.dataRoot = new File("/home/sandrine/progs/myHearthstone");
+        if(this.production){
+            String path = System.getProperty("user.dir");
+            this.dataRoot = new File(new File(path).getParentFile(), "data");
+            if(!this.dataRoot.exists()){
+                this.dataRoot.mkdir();
+            }
+        }
+        else {
+            this.dataRoot = new File("/home/sandrine/progs/myHearthstone");
+        }
     }
 
     @Override
@@ -60,22 +72,22 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Override
     public File getBigImagesDir() {
-        return new File(this.dataRoot, bigImagesDirectoryName);
+        return new File(this.getImageDirectory(), bigImagesDirectoryName);
     }
 
     @Override
     public File getSmallImagesDir() {
-        return new File(this.dataRoot, smallImagesDirectoryName);
+        return new File(this.getImageDirectory(), smallImagesDirectoryName);
     }
 
     @Override
     public File getTileImagesDir() {
-        return new File(this.dataRoot, tileImagesDirectoryName);
+        return new File(this.getImageDirectory(), tileImagesDirectoryName);
     }
 
     @Override
     public File getThumbsImagesDir() {
-        return new File(this.dataRoot, thumbnailsDirectoryName);
+        return new File(this.getImageDirectory(), thumbnailsDirectoryName);
     }
 
     @Override

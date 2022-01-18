@@ -81,8 +81,6 @@ public class CardDetail {
     private Rarity rarity;
 
 
-
-
     @OneToOne
     @PrimaryKeyJoinColumn
     private CardUserData userData;

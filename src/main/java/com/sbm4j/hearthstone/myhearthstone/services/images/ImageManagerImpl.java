@@ -19,11 +19,21 @@ public class ImageManagerImpl implements ImageManager{
     @Inject
     protected ConfigManager configManager;
 
+
+    protected Image getResourceImage(String name) {
+        InputStream in = ImageManagerImpl.class.getClassLoader().getResourceAsStream(name);
+        if(in != null) {
+            return new Image(in);
+        }
+        else{
+            return null;
+        }
+    }
+
     @Override
     public Image getCardClassImage(String code) {
         String name = "cardClasses/" + code + ".png";
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream(name);
-        return new Image(in);
+        return this.getResourceImage(name);
     }
 
     @Override
@@ -31,22 +41,25 @@ public class ImageManagerImpl implements ImageManager{
         String name = this.configManager.getImageDirectory().getAbsolutePath()
                 + File.separator + "extensions" + File.separator + "icons"
                 + File.separator + code + ".png";
-
-        return new Image(new FileInputStream(name));
+        File f = new File(name);
+        if(f.exists()){
+            return new Image(new FileInputStream(f));
+        }
+        else{
+            return null;
+        }
     }
 
     @Override
     public Image getRarityIcon(String code) {
         String name = "rarity/" + code + ".png";
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream(name);
-        return new Image(in);
+        return this.getResourceImage(name);
     }
 
     @Override
     public Image getManaIcon(String code) {
         String name = "mana/" + code + ".png";
-        InputStream in = this.getClass().getClassLoader().getResourceAsStream(name);
-        return new Image(in);
+        return this.getResourceImage(name);
     }
 
 

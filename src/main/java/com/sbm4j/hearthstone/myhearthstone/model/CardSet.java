@@ -2,10 +2,17 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
-@org.hibernate.annotations.NamedQuery(
-        name="cardSet_from_code",
-        query="select s from CardSet s where s.code = :code"
-)
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(
+                name="cardSet_from_code",
+                query="select s from CardSet s where s.code = :code"
+        ),
+        @org.hibernate.annotations.NamedQuery(
+                name = "available_sets",
+                query = "select s from CardSet s order by s.orderChrono desc, s.name"
+        )
+})
+
 @Entity
 @Table(name = "cardSet")
 public class CardSet implements CodedEntity{
@@ -24,12 +31,17 @@ public class CardSet implements CodedEntity{
     @Column()
     protected Boolean isStandard = false;
 
+    @Column()
+    protected int orderChrono;
+
     public CardSet(){}
 
-    public CardSet(int id, String code, String name){
+    public CardSet(int id, String code, String name, boolean standard, int order){
         this.id = id;
         this.code = code;
         this.name = name;
+        this.isStandard = standard;
+        this.orderChrono = order;
     }
 
     public int getId() {
@@ -62,5 +74,18 @@ public class CardSet implements CodedEntity{
 
     public void setStandard(Boolean standard) {
         isStandard = standard;
+    }
+
+    public int getOrderChrono() {
+        return orderChrono;
+    }
+
+    public void setOrderChrono(int orderChrono) {
+        this.orderChrono = orderChrono;
+    }
+
+    @Override
+    public String toString() {
+        return this.name + "(" + this.code + ")";
     }
 }

@@ -7,7 +7,7 @@ import java.net.MalformedURLException;
 
 public interface ImageManager {
 
-    Image getCardClassImage(String code);
+    Image getCardClassImage(String code) throws FileNotFoundException;
 
     Image getCardSetIcon(String code) throws MalformedURLException, FileNotFoundException;
 

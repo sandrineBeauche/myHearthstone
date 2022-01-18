@@ -16,9 +16,6 @@ import java.util.concurrent.TimeoutException;
 
 public abstract class AbstractUITest extends FxRobot {
 
-    @TempDir
-    protected File tempDir;
-
 
     public class  ActionApp extends MvvmfxGuiceApplication {
 
@@ -29,8 +26,7 @@ public abstract class AbstractUITest extends FxRobot {
 
         @Override
         public void initGuiceModules(List<Module> modules) throws Exception {
-            HearthstoneModuleTesting module = new HearthstoneModuleTesting(tempDir, true);
-            modules.add(module);
+            modules.addAll(initModules());
         }
 
         @Override
@@ -41,6 +37,10 @@ public abstract class AbstractUITest extends FxRobot {
 
     @BeforeEach
     public void beforeEach() throws TimeoutException {
+        this.setupAppTest();
+    }
+
+    protected void setupAppTest() throws TimeoutException {
         FxToolkit.registerPrimaryStage();
         ActionApp app = new ActionApp();
         FxToolkit.toolkitContext().setSetupTimeoutInMillis(Long.MAX_VALUE);
@@ -48,6 +48,8 @@ public abstract class AbstractUITest extends FxRobot {
     }
 
     public abstract void startAppTest(Injector injector, Stage stage);
+
+    public abstract List<Module> initModules();
 
 
 }

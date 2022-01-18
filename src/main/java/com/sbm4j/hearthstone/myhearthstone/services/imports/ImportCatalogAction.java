@@ -22,7 +22,13 @@ public interface ImportCatalogAction extends EventHandler<ActionEvent> {
 
     ArrayList<JsonCard> parseCards(Reader jsonReader, boolean cutJson) throws IOException;
 
-    HashSet<String> verifyTags(File data) throws IOException;
+    HashSet<String> verifyTags(ArrayList<JsonCard> cards) throws IOException;
+
+    HashSet<String> verifySets(ArrayList<JsonCard> cards) throws IOException;
+
+    HashSet<String> verifyRarities(ArrayList<JsonCard> cards) throws IOException;
+
+    HashSet<String> verifyClasses(ArrayList<JsonCard> cards) throws IOException;
 
     void importCards(File jsonFile) throws IOException;
 

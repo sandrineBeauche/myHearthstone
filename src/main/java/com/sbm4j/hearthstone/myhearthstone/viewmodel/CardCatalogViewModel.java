@@ -2,23 +2,20 @@ package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
-import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
-import com.sbm4j.hearthstone.myhearthstone.model.Rarity;
+import com.sbm4j.hearthstone.myhearthstone.model.*;
+import com.sbm4j.hearthstone.myhearthstone.services.db.CatalogCriteria;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
-import com.sbm4j.hearthstone.myhearthstone.views.CardCatalogItem;
 import com.sbm4j.hearthstone.myhearthstone.views.ManaOption;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
 import de.saxsys.mvvmfx.utils.commands.Command;
 import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
 import javafx.fxml.Initializable;
+import org.controlsfx.control.IndexedCheckModel;
 
 import java.net.URL;
 import java.util.List;
@@ -90,20 +87,52 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     public ManaOption getSelectedMana(){return this.selectedMana.get();}
     public void setSelectedMana(ManaOption value){this.selectedMana.set(value);}
 
+    /* SelectedInCollection property */
+    private BooleanProperty selectedInCollection = new SimpleBooleanProperty();
+    public BooleanProperty getSelectedInCollectionProperty(){return this.selectedInCollection;}
+    public Boolean getSelectedInCollection(){return this.selectedInCollection.get();}
+    public void setSelectedInCollection(Boolean value){this.selectedInCollection.set(value);}
+
+    /* AvailableTags property */
+    private ObjectProperty<ObservableList<CardTag>> availableTags = new SimpleObjectProperty<ObservableList<CardTag>>();
+    public ObjectProperty<ObservableList<CardTag>> getAvailableTagsProperty(){ return this.availableTags; }
+    public ObservableList<CardTag> getAvailableTags(){ return this.availableTags.get();}
+    public void setAvailableTags(ObservableList<CardTag> value){ this.availableTags.set(value);}
+
+
+    /* CheckModelTags property */
+    private ObjectProperty<IndexedCheckModel<CardTag>> checkModelTags = new SimpleObjectProperty<IndexedCheckModel<CardTag>>();
+    public ObjectProperty<IndexedCheckModel<CardTag>> getCheckModelTagsProperty(){return this.checkModelTags;}
+    public IndexedCheckModel<CardTag> getCheckModelTags(){return this.checkModelTags.get();}
+    public void setCheckModelTags(IndexedCheckModel<CardTag> value){this.checkModelTags.set(value);}
+
+
+    /* nbCardsTxt property */
+    private StringProperty nbCardsTxt = new SimpleStringProperty();
+    public StringProperty getNbCardsTxtProperty(){return this.nbCardsTxt;}
+    public String getNbCardsTxt(){return this.nbCardsTxt.get();}
+    public void setNbCardsTxt(String value){this.nbCardsTxt.set(value);}
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        List<CardClass> classes = this.dbFacade.getClasses();
+        List<CardClass> classes = this.dbFacade.getClasses(false);
         this.availableClasses.set(FXCollections.observableArrayList(classes));
-        this.setSelectedCardClass(classes.get(0));
+        if(classes.size() > 0) {
+            this.setSelectedCardClass(classes.get(0));
+        }
 
-        List<CardSet> sets = this.dbFacade.getSets();
+        List<CardSet> sets = this.dbFacade.getSets(true);
         this.availableSets.set(FXCollections.observableArrayList(sets));
-        this.setSelectedSet(sets.get(0));
+        if(sets.size() > 0) {
+            this.setSelectedSet(sets.get(0));
+        }
 
-        List<Rarity> rarities = this.dbFacade.getRarities();
+        List<Rarity> rarities = this.dbFacade.getRarities(true);
         this.availableRarity.set(FXCollections.observableArrayList(rarities));
-        this.setSelectedRarity(rarities.get(0));
+        if(rarities.size() > 0) {
+            this.setSelectedRarity(rarities.get(0));
+        }
 
         ManaOption [] manas = {
                 new ManaOption("ALL", "Toutes les cartes", -1),
@@ -119,10 +148,20 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
         this.availableMana.set(FXCollections.observableArrayList(manas));
         this.setSelectedMana(manas[0]);
 
-        List<CardCatalogItem> items = this.dbFacade.getCatalog();
-        this.collection.set(FXCollections.observableArrayList(items));
+        List<CardTag> tags = this.dbFacade.getTags();
+        this.availableTags.set(FXCollections.observableArrayList(tags));
 
+        this.setSelectedInCollection(true);
+
+        CatalogCriteria criteria = new CatalogCriteria(
+                this.selectedClass.get(),
+                this.selectedSet.get(),
+                this.selectedRarity.get(), manas[0], this.getSelectedInCollection(), null);
+        List<CardCatalogItem> items = this.dbFacade.getCatalog(criteria);
+        this.collection.set(FXCollections.observableArrayList(items));
+        this.setNbCardsTxt(items.size() + " cartes");
     }
+
 
     protected Command importCatalogCommand = new DelegateCommand(() -> new Action(){
         @Override
@@ -137,4 +176,25 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     }
 
     public Command getImportCatalogCommand(){ return this.importCatalogCommand;}
+
+    public void refreshCatalog(){
+        CatalogCriteria criteria = new CatalogCriteria(
+                this.getSelectedClass(),
+                this.getSelectedSet(),
+                this.getSelectedRarity(),
+                this.getSelectedMana(),
+                this.getSelectedInCollection(),
+                this.checkModelTags.get().getCheckedItems()
+        );
+        List<CardCatalogItem> items = this.dbFacade.getCatalog(criteria);
+        ObservableList<CardCatalogItem> coll = this.getCollection();
+        coll.clear();
+        coll.addAll(items);
+        this.setNbCardsTxt(items.size() + " cartes");
+    }
+
+    public void resetTags(){
+        this.getCheckModelTags().clearChecks();
+        this.refreshCatalog();
+    }
 }

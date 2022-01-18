@@ -2,7 +2,7 @@ package com.sbm4j.hearthstone.myhearthstone.services.images;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleTesting;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import javafx.scene.image.Image;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class CardImageManagerTests {
     @BeforeEach
     public void beforeEach(){
         Injector injector = Guice.createInjector(
-                new HearthstoneModuleTesting(this.tempDir));
+                new HearthstoneModuleDBTesting(this.tempDir));
         this.imageManager = injector.getInstance(CardImageManager.class);
     }
 

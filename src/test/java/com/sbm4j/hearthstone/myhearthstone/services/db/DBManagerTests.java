@@ -6,7 +6,7 @@ import com.github.database.rider.junit5.DBUnitExtension;
 import com.github.database.rider.junit5.util.EntityManagerProvider;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleTesting;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ public class DBManagerTests {
 
     @BeforeEach
     public void beforeEach(){
-        Injector injector = Guice.createInjector(new HearthstoneModuleTesting(this.tempDir));
+        Injector injector = Guice.createInjector(new HearthstoneModuleDBTesting(this.tempDir));
         this.manager = injector.getInstance(DBManager.class);
     }
 

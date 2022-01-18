@@ -1,6 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
-  <CARDCLASS ID="6" CODE="DEATHKNIGHT" NAME="Chevalier de la mort"/>
   <CARDCLASS ID="7" CODE="DRUID" NAME="Druide"/>
   <CARDCLASS ID="8" CODE="HUNTER" NAME="Chasseur"/>
   <CARDCLASS ID="9" CODE="MAGE" NAME="Mage"/>
@@ -10,61 +9,39 @@
   <CARDCLASS ID="13" CODE="SHAMAN" NAME="Chaman"/>
   <CARDCLASS ID="14" CODE="WARLOCK" NAME="Démoniste"/>
   <CARDCLASS ID="15" CODE="WARRIOR" NAME="Guerrier"/>
-  <CARDCLASS ID="16" CODE="DREAM" NAME="Rêve"/>
   <CARDCLASS ID="17" CODE="NEUTRAL" NAME="Neutre"/>
-  <CARDCLASS ID="18" CODE="WHIZBANG" NAME="Whizbang"/>
   <CARDCLASS ID="19" CODE="DEMONHUNTER" NAME="Chasseur de démon"/>
   <CARDDETAIL/>
   <CARDDETAIL_CARDCLASS/>
-  <CARDSET ID="20" CODE="INVALID" ISSTANDARD="false" NAME="Invalide"/>
-  <CARDSET ID="21" CODE="TEST_TEMPORARY" ISSTANDARD="false" NAME="Test"/>
-  <CARDSET ID="22" CODE="BASIC" ISSTANDARD="false" NAME="Basic"/>
-  <CARDSET ID="23" CODE="EXPERT1" ISSTANDARD="false" NAME="Héritage"/>
-  <CARDSET ID="24" CODE="HOF" ISSTANDARD="false" NAME="Hof"/>
-  <CARDSET ID="25" CODE="MISSIONS" ISSTANDARD="false" NAME="Missions"/>
-  <CARDSET ID="26" CODE="DEMO" ISSTANDARD="false" NAME="Démo"/>
-  <CARDSET ID="27" CODE="NONE" ISSTANDARD="false" NAME="Aucune"/>
-  <CARDSET ID="28" CODE="CHEAT" ISSTANDARD="false" NAME="Triche"/>
-  <CARDSET ID="29" CODE="BLANK" ISSTANDARD="false" NAME="Blanc"/>
-  <CARDSET ID="30" CODE="DEBUG_SP" ISSTANDARD="false" NAME="Debug"/>
-  <CARDSET ID="31" CODE="PROMO" ISSTANDARD="false" NAME="Promo"/>
-  <CARDSET ID="32" CODE="NAXX" ISSTANDARD="false" NAME="La malédiction de Naxxramas"/>
-  <CARDSET ID="33" CODE="GVG" ISSTANDARD="false" NAME="Gobelins et gnomes"/>
-  <CARDSET ID="34" CODE="BRM" ISSTANDARD="false" NAME="Mont Rochenoire"/>
-  <CARDSET ID="35" CODE="TGT" ISSTANDARD="false" NAME="Le grand tournoi"/>
-  <CARDSET ID="36" CODE="CREDITS" ISSTANDARD="false" NAME="Credits"/>
-  <CARDSET ID="37" CODE="HERO_SKINS" ISSTANDARD="false" NAME="Héros skins"/>
-  <CARDSET ID="38" CODE="TB" ISSTANDARD="false" NAME="TB"/>
-  <CARDSET ID="39" CODE="SLUSH" ISSTANDARD="false" NAME="Slush"/>
-  <CARDSET ID="40" CODE="LOE" ISSTANDARD="false" NAME="Ligue des explorateurs"/>
-  <CARDSET ID="41" CODE="OG" ISSTANDARD="false" NAME="Les murmures des dieux très anciens"/>
-  <CARDSET ID="42" CODE="OG_RESERVE" ISSTANDARD="false" NAME="Les murmures des dieux très anciens - réserve"/>
-  <CARDSET ID="43" CODE="KARA" ISSTANDARD="false" NAME="Une nuit à Karazhan"/>
-  <CARDSET ID="44" CODE="KARA_RESERVE" ISSTANDARD="false" NAME="Une nuit à Karazhan - réserve"/>
-  <CARDSET ID="45" CODE="GANGS" ISSTANDARD="false" NAME="Main basse sur Gadgetzan"/>
-  <CARDSET ID="46" CODE="GANGS_RESERVE" ISSTANDARD="false" NAME="Main basse sur Gadgetzan - réserve"/>
-  <CARDSET ID="47" CODE="UNGORO" ISSTANDARD="false" NAME="Voyage au centre d&apos;Un&apos;Goro"/>
-  <CARDSET ID="48" CODE="ICECROWN" ISSTANDARD="false" NAME="Chevaliers du Trône de glace"/>
-  <CARDSET ID="49" CODE="LOOTAPALOOZA" ISSTANDARD="false" NAME="Kobolds et catacombes"/>
-  <CARDSET ID="50" CODE="GILNEAS" ISSTANDARD="false" NAME="Le bois maudit"/>
-  <CARDSET ID="51" CODE="BOOMSDAY" ISSTANDARD="false" NAME="Projet Armageboum"/>
-  <CARDSET ID="52" CODE="TROLL" ISSTANDARD="false" NAME="Les jeux de Rastakhan"/>
-  <CARDSET ID="53" CODE="DALARAN" ISSTANDARD="false" NAME="Éveil des ombres"/>
-  <CARDSET ID="54" CODE="DRAGONS" ISSTANDARD="false" NAME="L’Envol des Dragons"/>
-  <CARDSET ID="55" CODE="YEAR_OF_THE_DRAGON" ISSTANDARD="false" NAME="Le Réveil de Galakrond"/>
-  <CARDSET ID="56" CODE="BLACK_TEMPLE" ISSTANDARD="false" NAME="Les Cendres de l’Outreterre"/>
-  <CARDSET ID="57" CODE="SCHOLOMANCE" ISSTANDARD="false" NAME="L&apos;académie de Scholomance"/>
-  <CARDSET ID="58" CODE="BATTLEGROUNDS" ISSTANDARD="false" NAME="Les jeux de Rastakhan"/>
-  <CARDSET ID="59" CODE="DEMON_HUNTER_INITIATE" ISSTANDARD="false" NAME="Initié chasseur de démon"/>
-  <CARDSET ID="60" CODE="DARKMOON_FAIRE" ISSTANDARD="false" NAME="Folle journée à Sombrelune"/>
-  <CARDSET ID="61" CODE="THE_BARRENS" ISSTANDARD="false" NAME="Forgés dans les tarides"/>
-  <CARDSET ID="62" CODE="WAILING_CAVERNS" ISSTANDARD="false" NAME="Les cavernes"/>
-  <CARDSET ID="63" CODE="STORMWIND" ISSTANDARD="false" NAME="Unis à Hurlevent"/>
-  <CARDSET ID="64" CODE="ALTERAC_VALLEY" ISSTANDARD="false" NAME="Divisés dans la vallée d&apos;Alterac"/>
-  <CARDSET ID="65" CODE="LEGACY" ISSTANDARD="false" NAME="legacy"/>
-  <CARDSET ID="66" CODE="CORE" ISSTANDARD="false" NAME="Fondamental"/>
-  <CARDSET ID="67" CODE="VANILLA" ISSTANDARD="false" NAME="vanilla"/>
-  <CARDSET ID="68" CODE="ULDUM" ISSTANDARD="false" NAME="Les aventuriers d&apos;Uldum"/>
+  <CARDSET ID="23" CODE="EXPERT1" ISSTANDARD="false" NAME="Héritage" ORDERCHRONO="0"/>
+  <CARDSET ID="32" CODE="NAXX" ISSTANDARD="false" NAME="La malédiction de Naxxramas" ORDERCHRONO="1"/>
+  <CARDSET ID="33" CODE="GVG" ISSTANDARD="false" NAME="Gobelins et gnomes" ORDERCHRONO="2"/>
+  <CARDSET ID="34" CODE="BRM" ISSTANDARD="false" NAME="Mont Rochenoire" ORDERCHRONO="3"/>
+  <CARDSET ID="35" CODE="TGT" ISSTANDARD="false" NAME="Le grand tournoi" ORDERCHRONO="4"/>
+  <CARDSET ID="40" CODE="LOE" ISSTANDARD="false" NAME="Ligue des explorateurs" ORDERCHRONO="5"/>
+  <CARDSET ID="41" CODE="OG" ISSTANDARD="false" NAME="Les murmures des dieux très anciens" ORDERCHRONO="6"/>
+  <CARDSET ID="43" CODE="KARA" ISSTANDARD="false" NAME="Une nuit à Karazhan" ORDERCHRONO="7"/>
+  <CARDSET ID="45" CODE="GANGS" ISSTANDARD="false" NAME="Main basse sur Gadgetzan" ORDERCHRONO="8"/>
+  <CARDSET ID="47" CODE="UNGORO" ISSTANDARD="false" NAME="Voyage au centre d&apos;Un&apos;Goro" ORDERCHRONO="9"/>
+  <CARDSET ID="48" CODE="ICECROWN" ISSTANDARD="false" NAME="Chevaliers du Trône de glace" ORDERCHRONO="10"/>
+  <CARDSET ID="49" CODE="LOOTAPALOOZA" ISSTANDARD="false" NAME="Kobolds et catacombes" ORDERCHRONO="11"/>
+  <CARDSET ID="50" CODE="GILNEAS" ISSTANDARD="false" NAME="Le bois maudit" ORDERCHRONO="12"/>
+  <CARDSET ID="51" CODE="BOOMSDAY" ISSTANDARD="false" NAME="Projet Armageboum" ORDERCHRONO="13"/>
+  <CARDSET ID="52" CODE="TROLL" ISSTANDARD="false" NAME="Les jeux de Rastakhan" ORDERCHRONO="14"/>
+  <CARDSET ID="53" CODE="DALARAN" ISSTANDARD="false" NAME="Éveil des ombres" ORDERCHRONO="15"/>
+  <CARDSET ID="68" CODE="ULDUM" ISSTANDARD="false" NAME="Les aventuriers d&apos;Uldum" ORDERCHRONO="16"/>
+  <CARDSET ID="54" CODE="DRAGONS" ISSTANDARD="false" NAME="L’Envol des Dragons" ORDERCHRONO="17"/>
+  <CARDSET ID="55" CODE="YEAR_OF_THE_DRAGON" ISSTANDARD="false" NAME="Le Réveil de Galakrond" ORDERCHRONO="18"/>
+  <CARDSET ID="56" CODE="BLACK_TEMPLE" ISSTANDARD="false" NAME="Les Cendres de l’Outreterre" ORDERCHRONO="19"/>
+  <CARDSET ID="57" CODE="SCHOLOMANCE" ISSTANDARD="true" NAME="L&apos;académie de Scholomance" ORDERCHRONO="20"/>
+  <CARDSET ID="59" CODE="DEMON_HUNTER_INITIATE" ISSTANDARD="false" NAME="Initié chasseur de démon" ORDERCHRONO="21"/>
+  <CARDSET ID="60" CODE="DARKMOON_FAIRE" ISSTANDARD="false" NAME="Folle journée à Sombrelune" ORDERCHRONO="22"/>
+  <CARDSET ID="61" CODE="THE_BARRENS" ISSTANDARD="true" NAME="Forgés dans les tarides" ORDERCHRONO="23"/>
+  <CARDSET ID="63" CODE="STORMWIND" ISSTANDARD="true" NAME="Unis à Hurlevent" ORDERCHRONO="24"/>
+  <CARDSET ID="64" CODE="ALTERAC_VALLEY" ISSTANDARD="true" NAME="Divisés dans la vallée d&apos;Alterac" ORDERCHRONO="25"/>
+  <CARDSET ID="65" CODE="LEGACY" ISSTANDARD="false" NAME="legacy" ORDERCHRONO="0"/>
+  <CARDSET ID="66" CODE="CORE" ISSTANDARD="false" NAME="Fondamental" ORDERCHRONO="0"/>
+  <CARDSET ID="67" CODE="VANILLA" ISSTANDARD="true" NAME="vanilla" ORDERCHRONO="0"/>
   <CARDTAG ID="69" CODE="TAUNT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Provocation"/>
   <CARDTAG ID="70" CODE="SPELLPOWER" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Dégâts des sorts"/>
   <CARDTAG ID="71" CODE="DIVINE_SHIELD" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Bouclier divin"/>

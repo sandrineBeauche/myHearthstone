@@ -1,27 +1,28 @@
 package com.sbm4j.hearthstone.myhearthstone.views;
 
 import com.google.inject.Inject;
-import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
-import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
-import com.sbm4j.hearthstone.myhearthstone.model.Rarity;
+import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Callback;
+import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
+import org.controlsfx.control.IndexedCheckModel;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
@@ -48,7 +49,10 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
     protected ToggleButton tglbCollection;
 
     @FXML
-    protected Button cmdImportCatalog;
+    protected CheckComboBox<CardTag> cmbTags;
+
+    @FXML
+    protected Label lblNbCards;
 
     @InjectViewModel
     protected CardCatalogViewModel viewModel;
@@ -75,6 +79,19 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
         this.cmbRarity.valueProperty().bindBidirectional(viewModel.getSelectedRarityProperty());
         this.cmbMana.itemsProperty().bindBidirectional(viewModel.getAvailableManaProperty());
         this.cmbMana.valueProperty().bindBidirectional(viewModel.getSelectedManaProperty());
+        this.tglbCollection.selectedProperty().bindBidirectional(viewModel.getSelectedInCollectionProperty());
+        IndexedCheckModel<CardTag> model = this.cmbTags.checkModelProperty().get();
+        this.viewModel.setCheckModelTags(model);
+        this.cmbTags.checkModelProperty().bindBidirectional((viewModel.getCheckModelTagsProperty()));
+        this.cmbTags.getItems().addAll(this.viewModel.getAvailableTags());
+        this.viewModel.getAvailableTags().addListener((ListChangeListener<? super CardTag>) c -> {
+            cmbTags.getItems().clear();
+            cmbTags.getItems().addAll(c.getList());
+        });
+        this.viewModel.getCheckModelTagsProperty().addListener((observable, oldValue, newValue) -> {
+            this.viewModel.refreshCatalog();
+        });
+        this.lblNbCards.textProperty().bindBidirectional(viewModel.getNbCardsTxtProperty());
 
 
         this.cmbCardClass.setCellFactory(ComboBoxCellFactory.<CardClass>buildFactory(this.imageManager));
@@ -102,7 +119,11 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
 
     public void onCriteriaChange(){
+        this.viewModel.refreshCatalog();
+    }
 
+    public void resetTagsFilter(){
+        this.viewModel.resetTags();
     }
 
     public void importCatalogCommand(){
@@ -115,13 +136,12 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
         protected void updateItem(CardCatalogItem item, boolean empty) {
             super.updateItem(item, empty);
             if(!empty) {
-                Image image = null;
-                try {
-                    image = cardImageManager.getThumbnailCardImage(item.getId(), true);
-                } catch (FileNotFoundException e) {
-                    image = configManager.getAlternateCardImage();
+                Image img = cardImageManager.getThumbnailCardImage(item.id(), true);
+                ImageView imgView = new ImageView(img);
+                if(item.nbCards() == 0){
+                    imgView.setOpacity(0.5);
                 }
-                setGraphic(new ImageView(image));
+                setGraphic(imgView);
             }
         }
     }
