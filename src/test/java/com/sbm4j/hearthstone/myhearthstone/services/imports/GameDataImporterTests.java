@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.github.database.rider.core.api.connection.ConnectionHolder;
+import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.DataSetFormat;
 import com.github.database.rider.core.api.exporter.ExportDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
@@ -23,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-@Disabled
+
 @ExtendWith(DBUnitExtension.class)
 public class GameDataImporterTests {
 
@@ -93,7 +94,7 @@ public class GameDataImporterTests {
     }
 
     @Test
-    @Disabled
+    @DataSet("initDBDataset.xml")
     public void getCardStatus_Modified() throws Exception {
         JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(0);
 
@@ -108,6 +109,7 @@ public class GameDataImporterTests {
 
 
     @Test
+    @DataSet("initDBDataset.xml")
     public void addNewCard() throws IOException {
         JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(1);
 
@@ -120,8 +122,9 @@ public class GameDataImporterTests {
     }
 
     @Test
+    @DataSet("initDBDataset.xml")
     public void addNewDoubleClassCard() throws IOException {
-        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(25);
+        JsonCard jsonCard = this.importer.parseCards(this.jsonCardsFile).get(24);
 
         this.importer.addCardDetail(jsonCard);
         this.dbManager.closeSession();

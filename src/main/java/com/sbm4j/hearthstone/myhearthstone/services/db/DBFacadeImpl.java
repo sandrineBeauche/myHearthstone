@@ -237,7 +237,7 @@ public class DBFacadeImpl implements DBFacade {
                                          CriteriaBuilder builder,
                                          Root<CardDetail> cardDetailRoot){
         if(rarity != null && !rarity.getCode().equals("ALL")){
-            Path<Rarity> rarityPath = cardDetailRoot.get("com/sbm4j/hearthstone/myhearthstone/services/images/rarity");
+            Path<Rarity> rarityPath = cardDetailRoot.get("rarity");
             restrictions.add(builder.equal(rarityPath, rarity));
         }
     }

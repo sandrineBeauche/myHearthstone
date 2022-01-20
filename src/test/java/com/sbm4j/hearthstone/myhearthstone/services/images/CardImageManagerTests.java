@@ -12,7 +12,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-@Disabled
+
 public class CardImageManagerTests {
 
     @TempDir
