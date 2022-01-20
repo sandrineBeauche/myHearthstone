@@ -173,6 +173,7 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     private void importCatalog(){
         ImportCatalogAction action = this.injector.getInstance(ImportCatalogAction.class);
         action.handle(null);
+        this.refreshCatalog();
     }
 
     public Command getImportCatalogCommand(){ return this.importCatalogCommand;}

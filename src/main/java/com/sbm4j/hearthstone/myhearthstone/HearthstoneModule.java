@@ -49,7 +49,7 @@ public class HearthstoneModule extends AbstractModule{
     }
 
     protected void bindImports(){
-        bind(ImportCatalogAction.class).to(JSONCardImporter.class).in(Scopes.SINGLETON);
-        bind(ImportCollectionAction.class).to(JSONCollectionImporter.class).in(Scopes.SINGLETON);
+        bind(ImportCatalogAction.class).to(JSONCardImporter.class);
+        bind(ImportCollectionAction.class).to(JSONCollectionImporter.class);
     }
 }

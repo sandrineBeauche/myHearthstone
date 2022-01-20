@@ -28,4 +28,6 @@ public interface CardImageManager {
 
     void deleteAllCards();
 
+    void clearThumbsCache();
+
 }

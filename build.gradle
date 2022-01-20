@@ -185,13 +185,13 @@ jlinkZip {
 distZip {
     into("${project.name}-${version}") {
         from '.'
-        include 'data/*'
+        include 'data/**'
     }
 }
 
 distTar {
     into("${project.name}-${version}") {
         from '.'
-        include 'data/*'
+        include 'data/**'
     }
 }

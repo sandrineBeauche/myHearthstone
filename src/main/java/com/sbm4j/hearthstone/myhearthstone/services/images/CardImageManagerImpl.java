@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class CardImageManagerImpl extends AbstractImageManager implements CardImageManager {
 
@@ -24,6 +25,8 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
     private File thumbsImagesDir;
 
     private Image alternateCardImage;
+
+    protected HashMap<String, Image> thumbsCache = new HashMap<String, Image>();
 
     @Inject
     protected DownloadManager downloadManager;
@@ -42,19 +45,19 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
     public void init(){
         this.bigImagesDir = this.config.getBigImagesDir();
         if(!this.bigImagesDir.exists()){
-            this.bigImagesDir.mkdir();
+            this.bigImagesDir.mkdirs();
         }
         this.smallImagesDir = this.config.getSmallImagesDir();
         if(!this.smallImagesDir.exists()){
-            this.smallImagesDir.mkdir();
+            this.smallImagesDir.mkdirs();
         }
         this.tileImagesDir = this.config.getTileImagesDir();
         if(!this.tileImagesDir.exists()){
-            this.tileImagesDir.mkdir();
+            this.tileImagesDir.mkdirs();
         }
         this.thumbsImagesDir = this.config.getThumbsImagesDir();
         if(!this.thumbsImagesDir.exists()){
-            this.thumbsImagesDir.mkdir();
+            this.thumbsImagesDir.mkdirs();
         }
 
         this.alternateCardImage = this.config.getAlternateCardImage();
@@ -141,8 +144,19 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
 
     @Override
     public Image getThumbnailCardImage(String cardId, boolean alternate) {
-        return imageFilename(this.thumbsImagesDir, cardId, alternate);
+        if(this.thumbsCache.containsKey(cardId)){
+            return this.thumbsCache.get(cardId);
+        }
+        else{
+            Image result = imageFilename(this.thumbsImagesDir, cardId, alternate);
+            if(result != this.alternateCardImage){
+                this.thumbsCache.put(cardId, result);
+            }
+            return result;
+        }
     }
+
+
 
     @Override
     public File getBigCardImageAsFile(String cardId) {
@@ -196,6 +210,12 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
         this.emptySubDirectory(this.smallImagesDir);
         this.emptySubDirectory(this.tileImagesDir);
         this.emptySubDirectory(this.thumbsImagesDir);
+    }
+
+    @Override
+    public void clearThumbsCache() {
+        this.thumbsCache.clear();
+
     }
 
 }

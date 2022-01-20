@@ -11,7 +11,6 @@ import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -23,7 +22,6 @@ import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 import org.controlsfx.control.IndexedCheckModel;
 
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -119,6 +117,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
 
     public void onCriteriaChange(){
+        this.cardImageManager.clearThumbsCache();
         this.viewModel.refreshCatalog();
     }
 

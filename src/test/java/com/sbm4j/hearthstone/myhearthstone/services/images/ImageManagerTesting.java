@@ -12,6 +12,7 @@ public class ImageManagerTesting extends ImageManagerImpl{
     protected String resourcesPath = System.getProperty("user.dir") + File.separator + "build" +
             File.separator + "resources" + File.separator + "main" + File.separator;
 
+    /*
     @Override
     protected Image getResourceImage(String name) {
         String resourcePath = this.resourcesPath + name;
@@ -23,4 +24,5 @@ public class ImageManagerTesting extends ImageManagerImpl{
         }
         return null;
     }
+     */
 }

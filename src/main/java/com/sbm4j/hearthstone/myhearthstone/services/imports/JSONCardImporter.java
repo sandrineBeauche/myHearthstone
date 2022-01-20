@@ -12,8 +12,12 @@ import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.Notifications;
 import org.controlsfx.dialog.ProgressDialog;
 import org.hibernate.Session;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -27,6 +31,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 public class JSONCardImporter extends Task<ImportCardReport> implements ImportCatalogAction {
 
@@ -67,7 +72,7 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
                 this.importCards(jsonFile);
             }
         }
-        return null;
+        return this.report;
     }
 
     @Override
@@ -78,12 +83,60 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
             dialog.setHeaderText("Importation du catalogue de cartes Hearthstone");
             dialog.setWidth(600);
 
+            //ButtonType loginButtonType = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
             new Thread(this).start();
-            dialog.showAndWait();
+            Optional<Void> result = dialog.showAndWait();
+            if(!result.isPresent()){
+                this.cancel();
+            }
+            this.showReportNotification();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+
+    protected void showReportNotification(){
+        if(this.report.errors.size() == 0 && this.report.globalErrors.size() == 0){
+            this.showOkReportNotification();
+        }
+        else{
+            this.showErrorReportNotification();
+        }
+    }
+
+    protected void showOkReportNotification(){
+        String title = "Importation du catalogue de cartes";
+        String text = this.report.nbCreated + " cartes ajoutées, " + this.report.nbUpdated + " cartes mises à jour";
+        try {
+            Notifications.create().title(title).text(text).showInformation();
+        }
+        catch(NullPointerException ex){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText("Importation effectuée avec succès!");
+            alert.setContentText(text);
+            alert.showAndWait();
+        }
+    }
+
+    protected void showErrorReportNotification(){
+        String title = "Importation du catalogue de cartes";
+        String text = this.report.toString();
+        try {
+            Notifications.create().title(title).text(text).showError();
+        }
+        catch(NullPointerException ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(title);
+            alert.setHeaderText("Erreurs lors de l'importation");
+            alert.setContentText(text);
+            alert.setResizable(true);
+            alert.setWidth(500);
+            alert.showAndWait();
+        }
     }
 
 
@@ -149,6 +202,7 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
         if(unknownTags.size() > 0) {
             logger.warn("List of unknown tags: " + unknownTags.toString());
+            this.report.addError("tags inconnus: " + unknownTags.toString());
         }
         else{
             logger.info("All the tags are valids");
@@ -172,6 +226,7 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
         if(unknownSets.size() > 0){
             logger.warn("List of unknown sets: " + unknownSets.toString());
+            this.report.addError("Extensions inconnues: " + unknownSets.toString());
         }
         else{
             logger.info("All the sets are valid");
@@ -196,6 +251,7 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
         if(unknownRarities.size() > 0){
             logger.warn("List of unknown rarities: " + unknownRarities.toString());
+            this.report.addError("Raretés inconnues: " + unknownRarities.toString());
         }
         else{
             logger.info("All the rarities are valid");
@@ -214,12 +270,13 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
                 this.dbFacade.getClasse(current.getCardClass());
             }
             catch(NoResultException ex){
-                unknownClasses.add(current.getSet());
+                unknownClasses.add(current.getCardClass());
             }
         }
 
         if(unknownClasses.size() > 0){
             logger.warn("List of unknown classes: " + unknownClasses.toString());
+            this.report.addError("classes inconnues: " + unknownClasses.toString());
         }
         else{
             logger.info("All the classes are valid");
@@ -258,6 +315,10 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
         long numStep = 0;
 
         for(JsonCard current: jsonCards){
+            if(this.isCancelled()){
+                break;
+            }
+
             switch (this.cardDetailStatus(current)){
                 case NEW_CARD -> {
                     this.addCardDetail(current);

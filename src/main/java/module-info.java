@@ -33,4 +33,5 @@ module com.sbm4j.hearthstone.myhearthstone {
     opens com.sbm4j.hearthstone.myhearthstone.services.download to com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.services.imports to com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.model to com.google.gson, com.google.guice, de.saxsys.mvvmfx, javafx.fxml, org.hibernate.orm.core;
+
 }

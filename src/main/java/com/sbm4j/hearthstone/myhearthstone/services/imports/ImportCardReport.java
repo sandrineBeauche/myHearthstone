@@ -77,4 +77,21 @@ public class ImportCardReport {
         }
         this.errors.get(dbfid).add(message);
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+        if(this.globalErrors.size() > 0){
+            for(String current: this.globalErrors){
+                builder.append(current + "\n");
+            }
+        }
+        if(this.errors.size() > 0){
+            this.errors.forEach((key, value) -> {
+                builder.append("(" + key + "): " + value + "\n");
+            });
+        }
+
+        return builder.toString();
+    }
 }
