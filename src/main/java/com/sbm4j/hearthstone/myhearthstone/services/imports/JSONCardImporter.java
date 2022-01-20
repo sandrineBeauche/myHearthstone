@@ -83,7 +83,6 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
             dialog.setHeaderText("Importation du catalogue de cartes Hearthstone");
             dialog.setWidth(600);
 
-            //ButtonType loginButtonType = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
             new Thread(this).start();
@@ -103,6 +102,7 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
             this.showOkReportNotification();
         }
         else{
+            logger.error(this.report.toString());
             this.showErrorReportNotification();
         }
     }
@@ -124,7 +124,7 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
     protected void showErrorReportNotification(){
         String title = "Importation du catalogue de cartes";
-        String text = this.report.toString();
+        String text = "Il y a eu des erreurs lors de l'importation, veuillez consulter les logs pour plus de précisions";
         try {
             Notifications.create().title(title).text(text).showError();
         }

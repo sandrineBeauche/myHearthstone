@@ -9,8 +9,10 @@ import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.Notifications;
 import org.controlsfx.dialog.ProgressDialog;
 import org.hibernate.Session;
 
@@ -34,6 +36,8 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
 
     protected long workDone;
 
+    protected ImportCollectionReport report = new ImportCollectionReport();
+
 
     @Override
     public JsonUserData parseUserData(File jsonFile) throws FileNotFoundException {
@@ -50,7 +54,13 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
         this.totalWork = data.getCollection().size();
         this.workDone = 0;
         data.getCollection().forEach((key, values) ->{
-            this.importCollectionItem(key, values);
+            try {
+                this.importCollectionItem(key, values);
+                this.report.incrNbUpdated();
+            }
+            catch(Exception ex){
+                this.report.addError(key, ex.getMessage());
+            }
         });
     }
 
@@ -90,7 +100,49 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
         if(jsonFile != null){
             this.importCollection(jsonFile);
         }
-        return null;
+        return this.report;
+    }
+
+    protected void showReportNotification(){
+        if(this.report.errors.size() == 0){
+            this.showOkReportNotification();
+        }
+        else{
+            logger.error(this.report.toString());
+            this.showErrorReportNotification();
+        }
+    }
+
+    protected void showOkReportNotification(){
+        String title = "Importation de la collection utilisateur";
+        String text = this.report.nbUpdated + " cartes mises à jour";
+        try {
+            Notifications.create().title(title).text(text).showInformation();
+        }
+        catch(NullPointerException ex){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(title);
+            alert.setHeaderText("Importation effectuée avec succès!");
+            alert.setContentText(text);
+            alert.showAndWait();
+        }
+    }
+
+    protected void showErrorReportNotification(){
+        String title = "Importation du catalogue de cartes";
+        String text = this.report.toString();
+        try {
+            Notifications.create().title(title).text(text).showError();
+        }
+        catch(NullPointerException ex){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(title);
+            alert.setHeaderText("Erreurs lors de l'importation");
+            alert.setContentText(text);
+            alert.setResizable(true);
+            alert.setWidth(500);
+            alert.showAndWait();
+        }
     }
 
     @Override
@@ -103,6 +155,7 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
 
             new Thread(this).start();
             dialog.showAndWait();
+            this.showReportNotification();
         } catch (Exception e) {
             e.printStackTrace();
         }
