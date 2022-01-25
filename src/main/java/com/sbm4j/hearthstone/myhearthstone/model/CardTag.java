@@ -2,15 +2,24 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
-@org.hibernate.annotations.NamedQueries({
-        @org.hibernate.annotations.NamedQuery(
+@NamedQueries({
+        @NamedQuery(
                 name="tag_from_code",
                 query="select t from CardTag t where t.code = :code"
         ),
-        @org.hibernate.annotations.NamedQuery(
+        @NamedQuery(
                 name="available_tags",
                 query="select t from CardTag t order by t.name"
+        ),
+        @NamedQuery(
+                name = "tags_stats_from_deck",
+                query = "select t.name, sum(a.nbCards) " +
+                        "from DeckAssociation a join a.card.userData.tags t " +
+                        "where a.deck = :deck " +
+                        "group by t.name " +
+                        "order by t.name"
         )
+
 })
 @Entity
 @Table(name = "cardTag")

@@ -72,6 +72,51 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public Deck createDeck(String name, Hero hero) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteDeck(int id) {
+        return false;
+    }
+
+    @Override
+    public Deck duplicateDeck(int id, String name) {
+        return null;
+    }
+
+    @Override
+    public boolean addCardToDeck(int dbfId, Deck deck) {
+        return false;
+    }
+
+    @Override
+    public boolean removeCardFromDeck(int dbfId, Deck deck, boolean all) {
+        return false;
+    }
+
+    @Override
+    public List<DeckListItem> getDeckList() {
+        return null;
+    }
+
+    @Override
+    public List<DeckCardListItem> getDeckCardList(Deck deck) {
+        return null;
+    }
+
+    @Override
+    public Integer[] getManaCurveStats(Deck deck) {
+        return null;
+    }
+
+    @Override
+    public List<Object[]> getTagsStats(Deck deck) {
+        return null;
+    }
+
+    @Override
     public List<CardCatalogItem> getCatalog(CatalogCriteria criteria) {
         return List.of(
                 new CardCatalogItem(1, "AT_001", "Lance de flammes", 2, 1),

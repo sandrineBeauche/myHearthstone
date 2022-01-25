@@ -10,8 +10,11 @@
 
         <properties>
             <!--<property name="hibernate.ejb.cfgfile" value="hibernate.cfg.xml" />-->
-            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+            <!--property name="hibernate.metadata_builder_contributor"
+                      value="com.sbm4j.hearthstone.myhearthstone.services.db.SqlFunctionsMetadataBuilderContributor"/-->
+            <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>
+            <!--property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" /-->
+            <property name="hibernate.dialect" value="com.sbm4j.hearthstone.myhearthstone.services.db.CustomHSQLDBDialect" />
 
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:db1" />
             <property name="javax.persistence.jdbc.user" value="sa" />

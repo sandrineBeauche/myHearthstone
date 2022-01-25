@@ -19,11 +19,15 @@
         <property name="connection.username">sa</property>
         <property name="connection.password"></property>
 
+        <property name="hibernate.metadata_builder_contributor">
+            com.sbm4j.hearthstone.myhearthstone.services.db.SqlFunctionsMetadataBuilderContributor</property>
+
         <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
 
         <!-- SQL dialect -->
-        <property name="dialect">org.hibernate.dialect.HSQLDialect</property>
+        <!-- property name="dialect">org.hibernate.dialect.HSQLDialect</property-->
+        <property name="dialect">com.sbm4j.hearthstone.myhearthstone.services.db.CustomHSQLDBDialect</property>
 
         <!-- Disable the second-level cache  -->
         <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
@@ -41,6 +45,9 @@
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Rarity"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardTag"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.CardUserData"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Hero"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Deck"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.DeckAssociation"/>
     </session-factory>
 
 </hibernate-configuration>

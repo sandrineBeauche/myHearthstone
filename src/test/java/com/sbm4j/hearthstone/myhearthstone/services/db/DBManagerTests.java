@@ -20,7 +20,7 @@ import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@Disabled
+
 @ExtendWith(DBUnitExtension.class)
 public class DBManagerTests {
 
@@ -39,6 +39,7 @@ public class DBManagerTests {
     }
 
     @Test
+    @DataSet("emptyDataset.xml")
     public void saveToDatabaseTest() throws Exception {
         Session session = manager.getSession();
 

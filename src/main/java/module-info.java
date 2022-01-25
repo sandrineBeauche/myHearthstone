@@ -21,6 +21,7 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires java.sql;
 
     exports com.sbm4j.hearthstone.myhearthstone;
+    exports com.sbm4j.hearthstone.myhearthstone.services.db to org.hibernate.orm.core;
 
     opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core, de.saxsys.mvvmfx, com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.model.json to com.google.gson;

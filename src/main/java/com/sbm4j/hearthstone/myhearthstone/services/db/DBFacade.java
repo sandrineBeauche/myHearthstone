@@ -1,10 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.services.db;
 
-import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
-import com.sbm4j.hearthstone.myhearthstone.model.CardSet;
-import com.sbm4j.hearthstone.myhearthstone.model.CardTag;
-import com.sbm4j.hearthstone.myhearthstone.model.Rarity;
-import com.sbm4j.hearthstone.myhearthstone.model.CardCatalogItem;
+import com.sbm4j.hearthstone.myhearthstone.model.*;
+import javafx.scene.chart.XYChart;
 
 import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
@@ -31,4 +28,22 @@ public interface DBFacade {
     List<Rarity> getRarities(boolean includeAll);
 
     List<CardTag> getTags();
+
+    Deck createDeck(String name, Hero hero);
+
+    boolean deleteDeck(int id);
+
+    Deck duplicateDeck(int id, String name);
+
+    boolean addCardToDeck(int dbfId, Deck deck);
+
+    boolean removeCardFromDeck(int dbfId, Deck deck, boolean all);
+
+    List<DeckListItem> getDeckList();
+
+    List<DeckCardListItem> getDeckCardList(Deck deck);
+
+    Integer[] getManaCurveStats(Deck deck);
+
+    List<Object[]> getTagsStats(Deck deck);
 }
