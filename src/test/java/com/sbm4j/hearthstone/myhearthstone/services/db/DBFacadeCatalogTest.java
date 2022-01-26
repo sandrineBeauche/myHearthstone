@@ -41,7 +41,7 @@ public class DBFacadeCatalogTest {
 
     @BeforeEach
     public void beforeEach() {
-        Injector injector = Guice.createInjector(new HearthstoneModuleDBTesting(null, false));
+        Injector injector = Guice.createInjector(new HearthstoneModuleDBTesting(null));
         this.facade = injector.getInstance(DBFacade.class);
         this.db = injector.getInstance(DBManager.class);
 

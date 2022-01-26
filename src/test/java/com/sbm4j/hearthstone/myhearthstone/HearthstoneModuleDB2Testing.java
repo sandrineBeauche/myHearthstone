@@ -19,18 +19,12 @@ public class HearthstoneModuleDB2Testing extends HearthstoneModule {
 
     protected File rootFile;
 
-    protected boolean initDB = false;
-
     protected ConfigManagerTesting config;
 
     public HearthstoneModuleDB2Testing(File rootFile){
         this.rootFile = rootFile;
     }
 
-    public HearthstoneModuleDB2Testing(File rootFile, boolean initDB){
-        this.rootFile = rootFile;
-        this.initDB = initDB;
-    }
 
     @Override
     protected void bindConfig() {}
@@ -38,7 +32,7 @@ public class HearthstoneModuleDB2Testing extends HearthstoneModule {
     @Provides
     protected ConfigManager providesConfigManager(){
         if(this.config == null){
-            this.config = new ConfigManagerTesting(this.rootFile, this.initDB);
+            this.config = new ConfigManagerTesting(this.rootFile);
         }
         return this.config;
     }

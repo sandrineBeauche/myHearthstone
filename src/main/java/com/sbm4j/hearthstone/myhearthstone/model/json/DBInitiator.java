@@ -17,6 +17,8 @@ public class DBInitiator {
 
     private ArrayList<CardTag> tags;
 
+    private ArrayList<JsonHero> heros;
+
     public static String filename = "gameData.json";
 
     public ArrayList<Rarity> getRarity() {
@@ -49,5 +51,13 @@ public class DBInitiator {
 
     public void setTags(ArrayList<CardTag> tags) {
         this.tags = tags;
+    }
+
+    public ArrayList<JsonHero> getHeros() {
+        return heros;
+    }
+
+    public void setHeros(ArrayList<JsonHero> heros) {
+        this.heros = heros;
     }
 }

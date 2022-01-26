@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public interface DBFacade {
-    void initDB() throws FileNotFoundException, URISyntaxException;
 
     Rarity getRarity(String code) throws NoResultException;
 
@@ -18,6 +17,8 @@ public interface DBFacade {
     CardSet getSet(String code) throws NoResultException;
 
     CardTag getTag(String code);
+
+    Hero getHero(String code) throws NoResultException;
 
     List<CardClass> getClasses(boolean includeAll);
 
@@ -28,6 +29,8 @@ public interface DBFacade {
     List<Rarity> getRarities(boolean includeAll);
 
     List<CardTag> getTags();
+
+    List<Hero> getHeros();
 
     Deck createDeck(String name, Hero hero);
 

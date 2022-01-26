@@ -8,9 +8,6 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public class DBFacadeTesting implements DBFacade{
-    @Override
-    public void initDB() throws FileNotFoundException, URISyntaxException {
-    }
 
     @Override
     public Rarity getRarity(String code) throws NoResultException {
@@ -29,6 +26,11 @@ public class DBFacadeTesting implements DBFacade{
 
     @Override
     public CardTag getTag(String code) {
+        return null;
+    }
+
+    @Override
+    public Hero getHero(String code) throws NoResultException {
         return null;
     }
 
@@ -68,6 +70,11 @@ public class DBFacadeTesting implements DBFacade{
 
     @Override
     public List<CardTag> getTags() {
+        return null;
+    }
+
+    @Override
+    public List<Hero> getHeros() {
         return null;
     }
 

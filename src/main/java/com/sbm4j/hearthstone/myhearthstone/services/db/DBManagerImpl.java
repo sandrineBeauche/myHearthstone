@@ -9,6 +9,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.Rarity;
 import com.sbm4j.hearthstone.myhearthstone.model.json.DBInitiator;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
+import com.sbm4j.hearthstone.myhearthstone.utils.ResourceUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -16,14 +17,21 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.internal.SessionImpl;
 
 
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -48,32 +56,37 @@ public class DBManagerImpl implements DBManager {
     public void init() throws Exception {
         this.createRegistry();
         this.createFactory();
-        this.addGroupConcatDistinctFunction();
+
+        if(!hasFunctionInDatabase("GROUP_CONCAT_DISTINCT")) {
+            this.addGroupConcatDistinctFunction();
+        }
     }
 
-    protected void addGroupConcatDistinctFunction(){
-        String aggFuncSql = "CREATE AGGREGATE FUNCTION group_concat_distinct " +
-                "(IN val VARCHAR(100), IN flag BOOLEAN, INOUT buffer VARCHAR(1000), INOUT counter INT) " +
-                    "RETURNS VARCHAR(1000) " +
-                    "CONTAINS SQL " +
-                    "BEGIN ATOMIC " +
-                        "IF FLAG THEN " +
-                            "RETURN BUFFER; " +
-                        "ELSE " +
-                            "IF val IS NULL THEN RETURN NULL; END IF; " +
-                            "IF buffer IS NULL THEN SET BUFFER = ''; END IF; " +
-                            "IF counter IS NULL THEN SET COUNTER = 0; END IF; " +
-                            "IF (LOCATE(val, buffer) = 0 OR counter = 0) THEN " +
-                                "IF counter > 0 THEN SET buffer = buffer || ','; END IF; " +
-                                "SET buffer = buffer + val; " +
-                            "END IF;" +
-                            "SET counter = counter + 1; " +
-                            "RETURN NULL; " +
-                        "END IF; " +
-                    "END";
+    public boolean hasFunctionInDatabase(String functionName) throws SQLException {
+        SessionImpl session = (SessionImpl) this.getSession();
+        Connection conn = session.connection();
+        DatabaseMetaData metadata = conn.getMetaData();
 
-        Session session = this.getSession();
+        ResultSet result = metadata.getFunctions(null, null, functionName);
+
+        boolean validRow = result.first();
+        boolean found = false;
+        while(validRow && !found) {
+            String funcName = result.getString("FUNCTION_NAME");
+            found = funcName.equals(functionName);
+            if(!found) {
+                validRow = result.next();
+            }
+        }
+        return found;
+    }
+
+    public void addGroupConcatDistinctFunction() throws IOException {
+        String aggFuncSql = ResourceUtil.getResourceContent("group_concat_distinct.sql");
+
         try {
+            Session session = this.getSession();
+
             logger.info("Add the aggregate function group_concat_distinct");
             session.beginTransaction();
             session.createNativeQuery(aggFuncSql).executeUpdate();

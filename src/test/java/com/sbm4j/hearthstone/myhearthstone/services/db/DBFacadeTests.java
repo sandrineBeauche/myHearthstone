@@ -30,7 +30,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+//@Disabled
 @ExtendWith(DBUnitExtension.class)
 public class DBFacadeTests {
 
@@ -41,20 +41,25 @@ public class DBFacadeTests {
 
     protected DBManager db;
 
+    protected DBInitializer initializer;
+
     private ConnectionHolder connectionHolder = () ->
             EntityManagerProvider.instance("pu-hearthstone").connection();
 
     @BeforeEach
     public void beforeEach(){
-        Injector injector = Guice.createInjector(new HearthstoneModuleDBTesting(this.tempDir, false));
+        Injector injector = Guice.createInjector(new HearthstoneModuleDBTesting(this.tempDir));
         this.facade = injector.getInstance(DBFacade.class);
         this.db = injector.getInstance(DBManager.class);
+        this.initializer = injector.getInstance(DBInitializer.class);
     }
 
     @Test
+    //@Disabled
     @DataSet("emptyDataset.xml")
+    //@ExportDataSet(format = DataSetFormat.XML,outputName="target/exported/xml/allTables.xml")
     public void initDBTest() throws Exception{
-        this.facade.initDB();
+        this.initializer.initDB();
     }
 
     @Test
@@ -125,7 +130,7 @@ public class DBFacadeTests {
     @DataSet("initDBDataset.xml")
     public void getAvailableClasses(){
         List<CardClass> results = this.facade.getClasses(false);
-        assertEquals(11, results.size());
+        assertEquals(12, results.size());
         assertEquals("Chaman", results.get(0).getName());
     }
 
@@ -133,7 +138,7 @@ public class DBFacadeTests {
     @DataSet("initDBDataset.xml")
     public void getAvailableClassesWithAll(){
         List<CardClass> results = this.facade.getClasses(true);
-        assertEquals(12, results.size());
+        assertEquals(13, results.size());
         assertEquals("ALL", results.get(0).getCode());
     }
 
@@ -141,7 +146,7 @@ public class DBFacadeTests {
     @DataSet(value = "initDBDataset.xml")
     public void getAvailableCardSets(){
         List<CardSet> results = this.facade.getSets(false);
-        assertEquals(29, results.size());
+        assertEquals(30, results.size());
         assertEquals("ALTERAC_VALLEY", results.get(0).getCode());
     }
 
@@ -149,7 +154,7 @@ public class DBFacadeTests {
     @DataSet("initDBDataset.xml")
     public void getAvailableCardSetsWithWild(){
         List<CardSet> results = this.facade.getSets(true);
-        assertEquals(31, results.size());
+        assertEquals(32, results.size());
         assertEquals("STANDARD", results.get(0).getCode());
     }
 

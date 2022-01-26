@@ -1,26 +1,19 @@
 package com.sbm4j.hearthstone.myhearthstone.services.db;
 
-import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
-import com.sbm4j.hearthstone.myhearthstone.model.json.DBInitiator;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.model.CardCatalogItem;
-import com.sbm4j.hearthstone.myhearthstone.views.ManaOption;
-import javafx.scene.chart.XYChart;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
-import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,16 +25,21 @@ public class DBFacadeImpl implements DBFacade {
     @Inject
     protected ConfigManager config;
 
+    @Inject
+    protected Injector injector;
+
     public DBFacadeImpl(){}
 
     protected static Logger logger = LogManager.getLogger();
 
     @Inject
-    public void init() throws FileNotFoundException, URISyntaxException {
+    public void init() throws FileNotFoundException {
         if(this.config.getInitDB()){
-            this.initDB();
+            DBInitializer initializer = this.injector.getInstance(DBInitializer.class);
+            initializer.initDB();
         }
     }
+
 
     @Override
     public Rarity getRarity(String code) throws NoResultException {
@@ -72,70 +70,12 @@ public class DBFacadeImpl implements DBFacade {
     }
 
     @Override
-    public void initDB() throws FileNotFoundException, URISyntaxException {
-        logger.info("Initialize database...");
-        File file = this.config.getJsonGameData();
-        if(file.exists()){
-            logger.info("... with file " + file.getAbsolutePath());
-            FileReader reader = new FileReader(file);
-
-            Gson gson = new Gson();
-            DBInitiator initiator = gson.fromJson(reader, DBInitiator.class);
-            this.initRarity(initiator.getRarity());
-            this.initCardClass(initiator.getClasses());
-            this.initCardSet(initiator.getExtensions());
-            this.initCardTags(initiator.getTags());
-        }
-        else{
-            logger.info(file.getAbsolutePath() + " does not exists. Database cannot be initialized");
-        }
-    }
-
-    protected void initRarity(ArrayList<Rarity> rarity){
+    public Hero getHero(String code) throws NoResultException {
         Session session = this.db.getSession();
-        session.beginTransaction();
-        for(Rarity current: rarity){
-            try {
-                Rarity r = this.getRarity(current.getCode());
-            }
-            catch (NoResultException ex){
-                session.save(current);
-            }
-        }
-        session.getTransaction().commit();
-        this.db.closeSession();
+        TypedQuery<Hero> typedQuery = session.createNamedQuery("hero_from_code", Hero.class);
+        return typedQuery.setParameter("code", code).getSingleResult();
     }
 
-
-    protected void initCardClass(ArrayList<CardClass> classes){
-        Session session = this.db.getSession();
-        session.beginTransaction();
-        for(CardClass current: classes){
-            try {
-                CardClass c = this.getClasse(current.getCode());
-            }
-            catch (NoResultException ex){
-                session.save(current);
-            }
-        }
-        session.getTransaction().commit();
-        this.db.closeSession();
-    }
-
-    protected void initCardSet(ArrayList<CardSet> sets){
-        Session session = this.db.getSession();
-        session.beginTransaction();
-        for(CardSet current: sets){
-            try {
-                CardSet c = this.getSet(current.getCode());
-            }
-            catch (NoResultException ex){
-                session.save(current);
-            }
-        }
-        session.getTransaction().commit();
-        this.db.closeSession();
-    }
 
     @Override
     public List<CardClass> getClasses(boolean includeAll) {
@@ -166,121 +106,11 @@ public class DBFacadeImpl implements DBFacade {
     @Override
     public List<CardCatalogItem> getCatalog(CatalogCriteria criteria) {
         Session session = this.db.getSession();
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<CardCatalogItem> cq = cb.createQuery(CardCatalogItem.class);
-        Root<CardDetail> cardDetailRoot = cq.from(CardDetail.class);
-
-        this.buildSelect(cq, cb, cardDetailRoot);
-
-        List<Predicate> restrictions = new ArrayList<Predicate>();
-        this.buildCardClassPredicate(restrictions, criteria.cardClass(), cardDetailRoot);
-        this.buildCardSetPredicate(restrictions, criteria.cardSet(), cb, cardDetailRoot);
-        this.buildRarityPredicate(restrictions, criteria.rarity(), cb, cardDetailRoot);
-        this.buildManaPredicate(restrictions, criteria.mana(), cb, cardDetailRoot);
-        this.buildInCollectionPredicate(restrictions, criteria.inCollection(), cb, cardDetailRoot);
-        this.buildTagsPredicate(restrictions, criteria.tags(), cardDetailRoot);
-
-        if(restrictions.size() == 1){
-            cq.where(restrictions.get(0));
-        }
-        else{
-            Predicate[] preds = restrictions.toArray(new Predicate[0]);
-            cq.where(cb.and(preds));
-        }
-
-        Path<Integer> costPath = cardDetailRoot.get("cost");
-        Path<String> namePath = cardDetailRoot.get("name");
-        List<Order> orderList = List.of(cb.asc(costPath), cb.asc(namePath));
-        cq.orderBy(orderList);
+        CriteriaQueryBuilder builder = new CriteriaQueryBuilder();
+        CriteriaQuery<CardCatalogItem> cq = builder.buildCatalogQuery(session, criteria);
 
         List<CardCatalogItem> results = session.createQuery(cq).getResultList();
         return results;
-    }
-
-
-    protected void buildSelect(CriteriaQuery<CardCatalogItem> query, CriteriaBuilder builder, Root<CardDetail> cardDetailRoot){
-        Path<Integer> dbfIdPath = cardDetailRoot.get("dbfId");
-        Path<String> idPath = cardDetailRoot.get("id");
-        Path<String> namePath = cardDetailRoot.get("name");
-        Path<Integer> nbCardsPath = cardDetailRoot.get("userData").get("nbTotalCards");
-        Path<Integer> costPath = cardDetailRoot.get("cost");
-
-        query.select(builder.construct(CardCatalogItem.class, dbfIdPath, idPath, namePath, nbCardsPath, costPath));
-        query.distinct(true);
-    }
-
-    protected void buildCardClassPredicate(List<Predicate> restrictions,
-                                                      CardClass cardClass,
-                                                      Root<CardDetail> cardDetailRoot){
-        if(cardClass != null) {
-            Join<CardDetail, CardClass> join = cardDetailRoot.join("cardClass");
-            restrictions.add(join.in(cardClass));
-        }
-    }
-
-    protected void buildCardSetPredicate(List<Predicate> restrictions,
-                                           CardSet cardSet,
-                                           CriteriaBuilder builder,
-                                           Root<CardDetail> cardDetailRoot){
-        if(cardSet != null && !cardSet.getCode().equals("WILD")){
-            Path<CardSet> cardSetPath = cardDetailRoot.get("cardSet");
-
-            if(cardSet.getCode().equals("STANDARD")){
-                Path<Boolean> cardSetStandardPath = cardSetPath.get("isStandard");
-                restrictions.add(builder.equal(cardSetStandardPath, true));
-            }
-            else{
-                restrictions.add(builder.equal(cardSetPath, cardSet));
-            }
-        }
-    }
-
-    protected void buildRarityPredicate(List<Predicate> restrictions,
-                                         Rarity rarity,
-                                         CriteriaBuilder builder,
-                                         Root<CardDetail> cardDetailRoot){
-        if(rarity != null && !rarity.getCode().equals("ALL")){
-            Path<Rarity> rarityPath = cardDetailRoot.get("rarity");
-            restrictions.add(builder.equal(rarityPath, rarity));
-        }
-    }
-
-    protected void buildManaPredicate(List<Predicate> restrictions,
-                                        ManaOption mana,
-                                        CriteriaBuilder builder,
-                                        Root<CardDetail> cardDetailRoot){
-        if(mana != null && !mana.getCode().equals("ALL")){
-            int manaValue = mana.getValue();
-            Path<Integer> manaPath = cardDetailRoot.get("cost");
-            if(manaValue < 7){
-                restrictions.add(builder.equal(manaPath, manaValue));
-            }
-            else{
-                restrictions.add(builder.ge(manaPath, manaValue));
-            }
-        }
-    }
-
-    protected void buildInCollectionPredicate(List<Predicate> restrictions,
-                                              boolean inCollection,
-                                              CriteriaBuilder builder,
-                                              Root<CardDetail> cardDetailRoot){
-        if(inCollection) {
-            Path<Integer> nbCardsPath = cardDetailRoot.get("userData").get("nbTotalCards");
-            restrictions.add(builder.gt(nbCardsPath, 0));
-        }
-    }
-
-
-    protected void buildTagsPredicate(List<Predicate> restrictions,
-                                      List<CardTag> tags,
-                                      Root<CardDetail> cardDetailRoot){
-        if(tags != null && tags.size() > 0) {
-            Join<CardDetail, CardUserData> joinUserData = cardDetailRoot.join("userData");
-            Join<CardUserData, CardTag> joinTags = joinUserData.join("tags");
-
-            restrictions.add(joinTags.in(tags));
-        }
     }
 
 
@@ -303,6 +133,16 @@ public class DBFacadeImpl implements DBFacade {
         List<CardTag> results = typedQuery.getResultList();
         return results;
     }
+
+
+    @Override
+    public List<Hero> getHeros() {
+        Session session = this.db.getSession();
+        TypedQuery<Hero> typedQuery = session.createNamedQuery("available_heros", Hero.class);
+        List<Hero> results = typedQuery.getResultList();
+        return results;
+    }
+
 
     @Override
     public Deck createDeck(String name, Hero hero) {
@@ -494,22 +334,6 @@ public class DBFacadeImpl implements DBFacade {
         query.setParameter("deck", deck);
         List<Object[]> result =  query.getResultList();
         return result;
-    }
-
-
-    protected void initCardTags(ArrayList<CardTag> tags){
-        Session session = this.db.getSession();
-        session.beginTransaction();
-        for(CardTag current: tags){
-            try {
-                CardTag c = this.getTag(current.getCode());
-            }
-            catch (NoResultException ex){
-                session.save(current);
-            }
-        }
-        session.getTransaction().commit();
-        this.db.closeSession();
     }
 
 

@@ -41,7 +41,7 @@ public class CatalogImportActionTest extends AbstractUITest {
 
     @BeforeEach
     public void beforeEach() throws TimeoutException {
-        this.hearthstoneModule = new HearthstoneModuleDB2Testing(tempDir, false);
+        this.hearthstoneModule = new HearthstoneModuleDB2Testing(tempDir);
         Injector injector = Guice.createInjector(this.hearthstoneModule);
         this.manager = injector.getInstance(DBManager.class);
     }

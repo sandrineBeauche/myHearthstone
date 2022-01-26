@@ -2,6 +2,17 @@ package com.sbm4j.hearthstone.myhearthstone.model;
 
 import javax.persistence.*;
 
+
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(
+                name="hero_from_code",
+                query="select h from Hero h where h.code = :code"
+        ),
+        @org.hibernate.annotations.NamedQuery(
+                name = "available_heros",
+                query = "select h from Hero h order by h.name"
+        )
+})
 @Entity
 @Table(name = "hero")
 public class Hero {

@@ -21,6 +21,7 @@
     {"code": "DEMONHUNTER", "name": "Chasseur de démon"}
   ],
   "extensions": [
+    {"code": "HERO_SKINS", "name": "Portrait de héro", "isStandard": false, "orderChrono": 0},
     {"code": "EXPERT1", "name": "Héritage", "isStandard": false, "orderChrono": 0},
     {"code": "NAXX", "name": "La malédiction de Naxxramas", "isStandard": false, "orderChrono": 1},
     {"code": "GVG", "name": "Gobelins et gnomes", "isStandard": false, "orderChrono": 2},
@@ -156,5 +157,17 @@
     {"code": "HORDE", "name": "Horde"},
     {"code": "ALLIANCE", "name": "Alliance"},
     {"code": "NEUTRAL", "name": "Neutre"}
+  ],
+  "heros": [
+    {"code": "ANDUIN_WRYNN", "name":  "Anduin Wrynn", "codeClass": "PRIEST"},
+    {"code": "GARROSH_HURLENFER", "name": "Garrosh Hurlenfer", "codeClass": "WARRIOR"},
+    {"code": "GULDAN", "name": "Guld'an", "codeClass": "WARLOCK"},
+    {"code": "ILLIDAN_HURLORAGE", "name": "Illidan Hurlorage", "codeClass": "DEMONHUNTER"},
+    {"code": "JAINA_PORTVAILLANT", "name": "Jaina Portvaillant", "codeClass": "MAGE"},
+    {"code": "MALFURION_HURLORAGE", "name": "Malfurion Hurlorage", "codeClass": "DRUID"},
+    {"code": "REXXAR", "name": "Rexxar", "codeClass": "HUNTER"},
+    {"code": "THRALL", "name": "Thrall", "codeClass": "SHAMAN"},
+    {"code": "UTHER", "name": "Uther le porteur de lumière", "codeClass": "PALADIN"},
+    {"code": "VALEERA_SANGUINAR", "name": "Valeera Sanguinar", "codeClass": "ROGUE"}
   ]
 }

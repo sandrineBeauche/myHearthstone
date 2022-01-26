@@ -5,15 +5,8 @@ import java.net.URL;
 
 public class ConfigManagerTesting extends ConfigManagerImpl{
 
-    protected boolean initDB = false;
-
     public ConfigManagerTesting(File rootFile){
         this.dataRoot = rootFile;
-    }
-
-    public ConfigManagerTesting(File rootFile, boolean initDB){
-        this.dataRoot = rootFile;
-        this.initDB = initDB;
     }
 
     @Override
@@ -23,7 +16,7 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
 
     @Override
     public Boolean getInitDB() {
-        return this.initDB;
+        return false;
     }
 
     @Override

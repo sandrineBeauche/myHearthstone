@@ -16,9 +16,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
+import java.sql.SQLException;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(DBUnitExtension.class)
@@ -123,6 +123,13 @@ public class DBManagerTests {
 
         assertNull(details);
         assertNotNull(d);
+    }
+
+
+    @Test
+    public void checkFunctionTest() throws SQLException {
+        boolean result = this.manager.hasFunctionInDatabase("GROUP_CONCAT_DISTINCT");
+        assertTrue(result);
     }
 
 }

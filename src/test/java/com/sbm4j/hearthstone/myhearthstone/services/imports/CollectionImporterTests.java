@@ -39,7 +39,7 @@ public class CollectionImporterTests {
         this.jsonCollectionFile= new File(classLoader.getResource("hsreplayCollection.json").getFile());
 
         Injector injector = Guice.createInjector(
-                new HearthstoneModuleDBTesting(null, false));
+                new HearthstoneModuleDBTesting(null));
 
         this.dbManager = injector.getInstance(DBManager.class);
         this.importer = injector.getInstance(ImportCollectionAction.class);

@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import javafx.scene.image.Image;
 
-import java.io.File;
+import java.io.*;
 
 public class ConfigManagerImpl implements ConfigManager {
 
@@ -99,4 +99,5 @@ public class ConfigManagerImpl implements ConfigManager {
     public Boolean getInitDB() {
         return true;
     }
+
 }

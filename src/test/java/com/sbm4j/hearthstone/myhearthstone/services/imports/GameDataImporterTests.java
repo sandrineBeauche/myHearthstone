@@ -46,7 +46,7 @@ public class GameDataImporterTests {
         this.jsonCardsFile= new File(classLoader.getResource("cards.json").getFile());
 
         Injector injector = Guice.createInjector(
-                new HearthstoneModuleDBTesting(this.tempDir, true));
+                new HearthstoneModuleDBTesting(this.tempDir));
 
         this.dbManager = injector.getInstance(DBManager.class);
         this.importer = injector.getInstance(ImportCatalogAction.class);

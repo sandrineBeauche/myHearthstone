@@ -4,10 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManagerImpl;
-import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
-import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacadeImpl;
-import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
-import com.sbm4j.hearthstone.myhearthstone.services.db.DBManagerImpl;
+import com.sbm4j.hearthstone.myhearthstone.services.db.*;
 import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManager;
 import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
@@ -37,6 +34,7 @@ public class HearthstoneModule extends AbstractModule{
     protected void bindDB(){
         bind(DBManager.class).to(DBManagerImpl.class).in(Scopes.SINGLETON);
         bind(DBFacade.class).to(DBFacadeImpl.class).in(Scopes.SINGLETON);
+        bind(DBInitializer.class).to(DBInitializerImpl.class);
     }
 
     protected void bindDownload(){

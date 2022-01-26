@@ -12,7 +12,6 @@ import javax.persistence.*;
                 query = "select r from Rarity r order by r.cost"
         )
 })
-
 @Entity
 @Table(name = "Rarity")
 public class Rarity implements CodedEntity{
