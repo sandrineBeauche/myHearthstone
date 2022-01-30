@@ -13,7 +13,7 @@
 <?import org.controlsfx.control.CheckComboBox?>
 <?import org.controlsfx.control.GridView?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="738.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="738.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <items>
@@ -35,7 +35,7 @@
    <left>
       <ToolBar orientation="VERTICAL" prefHeight="649.0" prefWidth="85.0" BorderPane.alignment="CENTER">
          <items>
-            <ComboBox fx:id="cmbCardClass" onAction="#onCriteriaChange" prefHeight="35.0" prefWidth="73.0" />
+            <ComboBox fx:id="cmbCardClass" onAction="#onCriteriaChange" prefHeight="35.0" prefWidth="73.0" stylesheets="@style.css" />
             <ComboBox fx:id="cmbCardSet" onAction="#onCriteriaChange" prefHeight="35.0" prefWidth="73.0" />
             <ComboBox fx:id="cmbRarity" onAction="#onCriteriaChange" prefHeight="35.0" prefWidth="73.0" />
             <ComboBox fx:id="cmbMana" onAction="#onCriteriaChange" prefHeight="35.0" prefWidth="73.0" />

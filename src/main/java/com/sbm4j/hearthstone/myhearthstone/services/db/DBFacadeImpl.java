@@ -188,6 +188,7 @@ public class DBFacadeImpl implements DBFacade {
 
             List<DeckAssociation> cards = new ArrayList<DeckAssociation>();
             session.beginTransaction();
+            session.save(newDeck);
             for (DeckAssociation current : oldDeck.getCards()) {
                 DeckAssociation newAss = new DeckAssociation();
                 newAss.setCard(current.getCard());
@@ -196,7 +197,7 @@ public class DBFacadeImpl implements DBFacade {
                 session.save(newAss);
             }
 
-            session.save(newDeck);
+
             session.getTransaction().commit();
             this.db.closeSession();
             return newDeck;

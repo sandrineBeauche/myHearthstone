@@ -10,24 +10,24 @@ public class DeckListItem {
 
     private String heroCode;
 
-    private long nbCards;
+    private int nbCards;
 
-    private long nbCardsInCollection;
+    private int nbCardsInCollection;
 
-    private long nbStandardCards;
+    private int nbStandardCards;
 
     private String tags;
 
     public DeckListItem(int deckId, String name, String summary, String heroCode,
-                        long nbCards, long nbCardsInCollection, long nbStandardCards,
+                        Long nbCards, Long nbCardsInCollection, Long nbStandardCards,
                         String tags){
         this.deckId = deckId;
         this.name = name;
         this.summary = summary;
         this.heroCode = heroCode;
-        this.nbCards = nbCards;
-        this.nbCardsInCollection = nbCardsInCollection;
-        this.nbStandardCards = nbStandardCards;
+        this.nbCards = nbCards.intValue();
+        this.nbCardsInCollection = nbCardsInCollection.intValue();
+        this.nbStandardCards = nbStandardCards.intValue();
         this.tags = tags;
     }
 
@@ -67,23 +67,23 @@ public class DeckListItem {
         return nbCards;
     }
 
-    public void setNbCards(long nbCards) {
+    public void setNbCards(int nbCards) {
         this.nbCards = nbCards;
     }
 
-    public long getNbCardsInCollection() {
+    public int getNbCardsInCollection() {
         return nbCardsInCollection;
     }
 
-    public void setNbCardsInCollection(long nbCardsInCollection) {
+    public void setNbCardsInCollection(int nbCardsInCollection) {
         this.nbCardsInCollection = nbCardsInCollection;
     }
 
-    public long getNbStandardCards() {
+    public int getNbStandardCards() {
         return nbStandardCards;
     }
 
-    public void setNbStandardCards(long nbStandardCards) {
+    public void setNbStandardCards(int nbStandardCards) {
         this.nbStandardCards = nbStandardCards;
     }
 

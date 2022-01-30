@@ -10,6 +10,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 
+import com.sbm4j.hearthstone.myhearthstone.utils.NotificationsUtil;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -108,35 +109,19 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
     }
 
     protected void showOkReportNotification(){
-        String title = "Importation du catalogue de cartes";
-        String text = this.report.nbCreated + " cartes ajoutées, " + this.report.nbUpdated + " cartes mises à jour";
-        try {
-            Notifications.create().title(title).text(text).showInformation();
-        }
-        catch(NullPointerException ex){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText("Importation effectuée avec succès!");
-            alert.setContentText(text);
-            alert.showAndWait();
-        }
+        NotificationsUtil.showInfoNotification(
+                "Importation du catalogue de cartes",
+                "Importation effectuée avec succès!",
+                this.report.nbCreated + " cartes ajoutées, " + this.report.nbUpdated + " cartes mises à jour"
+        );
     }
 
     protected void showErrorReportNotification(){
-        String title = "Importation du catalogue de cartes";
-        String text = "Il y a eu des erreurs lors de l'importation, veuillez consulter les logs pour plus de précisions";
-        try {
-            Notifications.create().title(title).text(text).showError();
-        }
-        catch(NullPointerException ex){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(title);
-            alert.setHeaderText("Erreurs lors de l'importation");
-            alert.setContentText(text);
-            alert.setResizable(true);
-            alert.setWidth(500);
-            alert.showAndWait();
-        }
+        NotificationsUtil.showErrorNotification(
+                "Importation du catalogue de cartes",
+                "Erreurs lors de l'importation",
+                "Il y a eu des erreurs lors de l'importation, veuillez consulter les logs pour plus de précisions"
+        );
     }
 
 
