@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.model.CardCatalogItem;
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -197,7 +198,6 @@ public class DBFacadeImpl implements DBFacade {
                 session.save(newAss);
             }
 
-
             session.getTransaction().commit();
             this.db.closeSession();
             return newDeck;
@@ -328,12 +328,12 @@ public class DBFacadeImpl implements DBFacade {
     }
 
     @Override
-    public List<Object[]> getTagsStats(Deck deck) {
+    public List<Pair<String, Integer>> getTagsStats(Deck deck) {
         Session session = this.db.getSession();
-        Query query = session.createNamedQuery("tags_stats_from_deck");
+        TypedQuery query = session.createNamedQuery("tags_stats_from_deck", Pair.class);
         query.setHint( "org.hibernate.readOnly", true );
         query.setParameter("deck", deck);
-        List<Object[]> result =  query.getResultList();
+        List<Pair<String, Integer>> result =  query.getResultList();
         return result;
     }
 

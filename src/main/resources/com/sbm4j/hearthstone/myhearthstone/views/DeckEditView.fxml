@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="810.0" stylesheets="@style.css" text="Deck" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckEditView">
+   <content>
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Général">
+               <content>
+                  <GridPane>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="177.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="78.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="442.0" minWidth="10.0" prefWidth="402.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="246.0" minHeight="0.0" prefHeight="42.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="368.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <TextField fx:id="nameField" prefHeight="23.0" prefWidth="335.0" GridPane.columnIndex="2">
+                           <GridPane.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <Label text="Nom" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="TOP_LEFT" text="Résumé" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                           <GridPane.margin>
+                              <Insets top="10.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <TextArea fx:id="summaryField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </GridPane.margin>
+                        </TextArea>
+                        <ImageView fx:id="heroImage" fitHeight="150.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2">
+                           <GridPane.margin>
+                              <Insets left="10.0" />
+                           </GridPane.margin>
+                        </ImageView>
+                     </children>
+                  </GridPane>
+               </content>
+            </Tab>
+          <Tab closable="false" text="Cartes">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox prefHeight="36.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button mnemonicParsing="false" text="Ajouter">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@plus.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Enlever">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@minus.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Supprimer">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@delete.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <TableView fx:id="cardList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <columns>
+                            <TableColumn fx:id="cardList_RarityCol" editable="false" prefWidth="11.0" />
+                            <TableColumn fx:id="cardList_ImageCol" editable="false" prefWidth="147.0" text="Tuile" />
+                              <TableColumn fx:id="cardList_ManaCol" prefWidth="38.0" text="Mana" />
+                              <TableColumn fx:id="cardList_NameCol" editable="false" prefWidth="210.0" text="Nom" />
+                              <TableColumn fx:id="cardList_nbCardsCol" editable="false" minWidth="0.0" prefWidth="23.0" text="nb." />
+                              <TableColumn fx:id="cardList_nbCollectionCol" editable="false" prefWidth="26.0" text="col." />
+                              <TableColumn fx:id="cardList_standardCol" editable="false" prefWidth="42.0" text="stand." />
+                              <TableColumn fx:id="cardList_tagsCol" editable="false" prefWidth="272.0" text="Tags" />
+                              <TableColumn fx:id="cardList_extCol" prefWidth="52.0" text="Ext." />
+                          </columns>
+                        </TableView>
+                     </center>
+                     <bottom>
+                        <HBox prefHeight="23.0" prefWidth="598.0" BorderPane.alignment="CENTER" />
+                     </bottom>
+                  </BorderPane>
+               </content>
+            </Tab>
+            <Tab closable="false" text="Statistiques">
+                <content>
+                    <GridPane>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="60.0" minHeight="10.0" percentHeight="45.0" prefHeight="32.0" />
+                        <RowConstraints maxHeight="200.0" minHeight="0.0" percentHeight="55.0" prefHeight="200.0" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints maxWidth="286.0" minWidth="0.0" percentWidth="50.0" prefWidth="195.0" />
+                        <ColumnConstraints maxWidth="286.0" minWidth="0.0" percentWidth="50.0" prefWidth="91.0" />
+                     </columnConstraints>
+                     <children>
+                        <TableView fx:id="statsTagsList" prefHeight="145.0" prefWidth="148.0" GridPane.rowSpan="2">
+                          <columns>
+                            <TableColumn fx:id="tagNameCol" prefWidth="211.0" text="Tag" />
+                            <TableColumn fx:id="nbTagCardCol" prefWidth="133.0" text="Nombre de cartes" />
+                          </columns>
+                        </TableView>
+                        <BarChart fx:id="manaCurveChart" title="Mana" GridPane.columnIndex="1">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis minorTickVisible="false" side="LEFT" tickUnit="2.0" upperBound="10.0" />
+                          </yAxis>
+                        </BarChart>
+                        <PieChart GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </GridPane.margin>
+                        </PieChart>
+                     </children></GridPane>
+                </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </content>
+   <graphic>
+      <Button mnemonicParsing="false" text="Retour">
+         <graphic>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@left.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </graphic>
+</TitledPane>

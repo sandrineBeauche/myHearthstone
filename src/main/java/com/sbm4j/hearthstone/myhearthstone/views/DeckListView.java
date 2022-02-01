@@ -90,26 +90,12 @@ public class DeckListView implements FxmlView<DeckListViewModel>, Initializable 
         this.summaryColumn.setCellValueFactory(new PropertyValueFactory<DeckListItem, String>("summary"));
 
         this.heroColumn.setCellFactory(param -> {return new HeroIconCell();});
-        this.nameColumn.setCellFactory(param -> {return buildStringCell();});
-        this.nbCardsColumn.setCellFactory(param -> {return buildIntegerCell();});
-        this.collectionCardsColumn.setCellFactory(param -> {return buildIntegerCell();});
-        this.standardCardsColumn.setCellFactory(param -> {return buildIntegerCell();});
-        this.tagsColumn.setCellFactory(param -> {return buildStringCell();});
-        this.summaryColumn.setCellFactory(param -> {return buildStringCell();});
-    }
-
-    protected TextFieldTableCell<DeckListItem, String> buildStringCell(){
-        TextFieldTableCell<DeckListItem, String> cell = new TextFieldTableCell<DeckListItem, String>();
-        cell.setAlignment(Pos.BASELINE_LEFT);
-        cell.setWrapText(true);
-        return cell;
-    }
-
-    protected TextFieldTableCell<DeckListItem, Integer> buildIntegerCell(){
-        TextFieldTableCell<DeckListItem, Integer> cell = new TextFieldTableCell<DeckListItem, Integer>();
-        cell.setAlignment(Pos.BASELINE_CENTER);
-        cell.setWrapText(true);
-        return cell;
+        this.nameColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, String>buildStringCell();});
+        this.nbCardsColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, Integer>buildIntegerCell();});
+        this.collectionCardsColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, Integer>buildIntegerCell();});
+        this.standardCardsColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, Integer>buildIntegerCell();});
+        this.tagsColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, String>buildStringCell();});
+        this.summaryColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, String>buildStringCell();});
     }
 
 

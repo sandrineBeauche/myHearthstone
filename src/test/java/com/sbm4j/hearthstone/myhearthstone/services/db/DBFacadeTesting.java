@@ -1,6 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.services.db;
 
 import com.sbm4j.hearthstone.myhearthstone.model.*;
+import javafx.util.Pair;
 
 import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
@@ -119,7 +120,7 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
-    public List<Object[]> getTagsStats(Deck deck) {
+    public List<Pair<String, Integer>> getTagsStats(Deck deck) {
         return null;
     }
 

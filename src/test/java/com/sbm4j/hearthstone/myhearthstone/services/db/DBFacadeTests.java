@@ -11,6 +11,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
+import javafx.util.Pair;
 import org.hibernate.Session;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -359,8 +360,9 @@ public class DBFacadeTests {
     public void getDeckTagsStats(){
         Session session = this.db.getSession();
         Deck deck = session.get(Deck.class, 2);
-        List<Object[]> result = this.facade.getTagsStats(deck);
+        List<Pair<String, Integer>> result = this.facade.getTagsStats(deck);
 
         assertNotNull(result);
+        assertEquals(3, result.size());
     }
 }

@@ -2,6 +2,7 @@ package com.sbm4j.hearthstone.myhearthstone.services.db;
 
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import javafx.scene.chart.XYChart;
+import javafx.util.Pair;
 
 import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
@@ -48,5 +49,5 @@ public interface DBFacade {
 
     Integer[] getManaCurveStats(Deck deck);
 
-    List<Object[]> getTagsStats(Deck deck);
+    List<Pair<String, Integer>> getTagsStats(Deck deck);
 }

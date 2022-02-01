@@ -20,12 +20,12 @@ public class DeckCardListItem {
 
     private int mana;
 
-    private boolean isStandard;
+    private boolean standard;
 
     private String tags;
 
     public DeckCardListItem(int dbfId, String id, String name, int nbCards, int nbCardsInCollection,
-                            String setCode, String classCode, String rarityCode, int mana, boolean isStandard,
+                            String setCode, String classCode, String rarityCode, int mana, boolean standard,
                             String tags){
         this.dbfId = dbfId;
         this.id = id;
@@ -36,7 +36,7 @@ public class DeckCardListItem {
         this.classCode = classCode;
         this.rarityCode = rarityCode;
         this.mana = mana;
-        this.isStandard = isStandard;
+        this.standard = standard;
         this.tags = tags;
     }
 
@@ -113,11 +113,11 @@ public class DeckCardListItem {
     }
 
     public boolean isStandard() {
-        return isStandard;
+        return standard;
     }
 
-    public void setStandard(boolean standard) {
-        isStandard = standard;
+    public void setStandard(boolean value) {
+        standard = value;
     }
 
     public String getTags() {
