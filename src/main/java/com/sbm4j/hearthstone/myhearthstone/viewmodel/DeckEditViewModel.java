@@ -3,6 +3,7 @@ package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.Deck;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem;
+import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
@@ -121,9 +122,9 @@ public class DeckEditViewModel implements ViewModel, Initializable {
         this.getCurveManaData().add(new XYChart.Data<String, Number>("7+", 0));
     }
 
-    public void showDeck(int deckId){
+    public void showDeck(DeckListItem deckItem){
         Session session = this.dbManager.getSession();
-        this.currentDeck = session.get(Deck.class, deckId);
+        this.currentDeck = session.get(Deck.class, deckItem.getDeckId());
         if(this.currentDeck != null){
             this.refreshed[0] = false;
             this.refreshed[1] = false;

@@ -9,6 +9,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.sbm4j.hearthstone.myhearthstone.AbstractUITest;
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
+import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
@@ -66,7 +67,8 @@ public class DeckCardListViewDBTest extends AbstractUITest {
     @DataSet("collectionWithDecks1.xml")
     public void firstTest() throws TimeoutException {
         this.setupAppTest();
-        this.viewModel.showDeck(2);
+        DeckListItem deckItem = new DeckListItem(2, null, null, null, 0L,0L,0L, null);
+        this.viewModel.showDeck(deckItem);
 
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
     }
