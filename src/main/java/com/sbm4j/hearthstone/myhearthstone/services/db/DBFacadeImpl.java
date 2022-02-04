@@ -236,7 +236,8 @@ public class DBFacadeImpl implements DBFacade {
                 newAss.setCard(card);
                 newAss.setDeck(deck);
                 session.save(newAss);
-                session.save(deck);
+                deck.getCards().add(newAss);
+                session.update(deck);
             } else {
                 ass.setNbCards(ass.getNbCards() + 1);
                 session.update(ass);
@@ -294,12 +295,33 @@ public class DBFacadeImpl implements DBFacade {
     }
 
     @Override
+    public DeckListItem getDeckListItem(int deckId) {
+        Session session = this.db.getSession();
+        TypedQuery<DeckListItem> query = session.createNamedQuery("Deck.getDecksListItem", DeckListItem.class);
+        query.setHint( "org.hibernate.readOnly", true );
+        query.setParameter("deckId", deckId);
+        DeckListItem result =  query.getSingleResult();
+        return result;
+    }
+
+    @Override
     public List<DeckCardListItem> getDeckCardList(Deck deck) {
         Session session = this.db.getSession();
         TypedQuery<DeckCardListItem> query = session.createNamedQuery("DeckList.getCardList", DeckCardListItem.class);
         query.setHint( "org.hibernate.readOnly", true );
         query.setParameter("deck", deck);
         List<DeckCardListItem> result =  query.getResultList();
+        return result;
+    }
+
+    @Override
+    public DeckCardListItem getDeckCardListItem(Deck deck, int dbfId) {
+        Session session = this.db.getSession();
+        TypedQuery<DeckCardListItem> query = session.createNamedQuery("DeckList.getCardListItem", DeckCardListItem.class);
+        query.setHint( "org.hibernate.readOnly", true );
+        query.setParameter("deck", deck);
+        query.setParameter("dbfId", dbfId);
+        DeckCardListItem result =  query.getSingleResult();
         return result;
     }
 

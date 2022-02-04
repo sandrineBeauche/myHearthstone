@@ -45,7 +45,11 @@ public interface DBFacade {
 
     List<DeckListItem> getDeckList();
 
+    DeckListItem getDeckListItem(int deckId);
+
     List<DeckCardListItem> getDeckCardList(Deck deck);
+
+    DeckCardListItem getDeckCardListItem(Deck deck, int dbfId);
 
     Integer[] getManaCurveStats(Deck deck);
 

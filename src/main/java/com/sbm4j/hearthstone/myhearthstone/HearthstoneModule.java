@@ -15,6 +15,8 @@ import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCardImporter;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCollectionImporter;
+import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
+import com.sbm4j.hearthstone.myhearthstone.services.notifications.NotificatorImpl;
 
 
 public class HearthstoneModule extends AbstractModule{
@@ -25,6 +27,7 @@ public class HearthstoneModule extends AbstractModule{
         this.bindDownload();
         this.bindImages();
         this.bindImports();
+        this.bindNotifications();
     }
 
     protected void bindConfig(){
@@ -49,5 +52,9 @@ public class HearthstoneModule extends AbstractModule{
     protected void bindImports(){
         bind(ImportCatalogAction.class).to(JSONCardImporter.class);
         bind(ImportCollectionAction.class).to(JSONCollectionImporter.class);
+    }
+
+    protected void bindNotifications(){
+        bind(Notificator.class).to(NotificatorImpl.class).in(Scopes.SINGLETON);
     }
 }

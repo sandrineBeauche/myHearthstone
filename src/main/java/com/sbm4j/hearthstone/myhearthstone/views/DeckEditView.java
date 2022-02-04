@@ -19,6 +19,9 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
@@ -100,11 +103,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        TableView.TableViewSelectionModel selectionCardModel = this.cardList.getSelectionModel();
-        selectionCardModel.setSelectionMode(SelectionMode.SINGLE);
-        selectionCardModel.setCellSelectionEnabled(false);
-        this.viewModel.setSelectedCardModel(selectionCardModel);
-        this.viewModel.setTabSelectionModel(this.tabPane.getSelectionModel());
+        this.viewModel.setSelectedCardModel(this.cardList);
+        SingleSelectionModel<Tab> tabSelectionModel = this.tabPane.getSelectionModel();
+        this.viewModel.setTabSelectionModel(tabSelectionModel);
         this.viewModel.initialize(location, resources);
 
         this.titledPane.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
@@ -147,9 +148,26 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         manaCurveSeries.setName("mana");
         manaCurveSeries.dataProperty().bindBidirectional(this.viewModel.getCurveManaDataProperty());
         manaCurveChart.getData().add(manaCurveSeries);
+
+        this.cardList.setOnDragOver(event -> dragOverEventHandler(event));
+        this.cardList.setOnDragDropped(event -> dragDroppedEventHandler(event));
     }
 
 
+    protected void dragOverEventHandler(DragEvent event){
+        if(event.getGestureSource().getClass() == CardCatalogView.CardCell.class){
+            event.acceptTransferModes(TransferMode.COPY);
+        }
+    }
+
+    protected void dragDroppedEventHandler(DragEvent event){
+        if(event.getGestureSource().getClass() == CardCatalogView.CardCell.class) {
+            Dragboard db = event.getDragboard();
+            int dbfId = Integer.valueOf(db.getString());
+            this.viewModel.addCardFromDbfId(dbfId);
+            this.cardList.refresh();
+        }
+    }
 
     public class CardTileCell extends TableCell<DeckCardListItem, String> {
         @Override
@@ -162,7 +180,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 imgView.setPreserveRatio(true);
 
                 DeckCardListItem currentItem = this.getTableRow().getItem();
-                if(currentItem.getNbCards() > currentItem.getNbCardsInCollection()){
+                if(currentItem != null && currentItem.getNbCards() > currentItem.getNbCardsInCollection()){
                     imgView.setOpacity(0.5);
                 }
 
@@ -209,5 +227,18 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         }
     }
 
+    public void incrSelectedCard(){
+        this.viewModel.incrSelectedCard();
+        this.cardList.refresh();
+    }
 
+    public void decrSelectedCard(){
+        this.viewModel.decrSelectedCard();
+        this.cardList.refresh();
+    }
+
+    public void deleteSelectedCard(){
+        this.viewModel.deleteSelectedCard();
+        this.cardList.refresh();
+    }
 }

@@ -325,6 +325,15 @@ public class DBFacadeTests {
 
     @Test
     @DataSet("collectionWithDecks1.xml")
+    public void getDeckListItem(){
+        DeckListItem result = this.facade.getDeckListItem(2);
+
+        assertNotNull(result);
+        assertEquals("deck1", result.getName());
+    }
+
+    @Test
+    @DataSet("collectionWithDecks1.xml")
     public void getDeckCardsList(){
         Session session = this.db.getSession();
         Deck deck = session.get(Deck.class, 2);
@@ -341,6 +350,17 @@ public class DBFacadeTests {
                                 hasProperty("nbCards", equalTo(2)),
                                 hasProperty("classCode", equalTo("MAGE")))
                 ));
+    }
+
+    @Test
+    @DataSet("collectionWithDecks1.xml")
+    public void getDeckCardListItem(){
+        Session session = this.db.getSession();
+        Deck deck = session.get(Deck.class, 2);
+        DeckCardListItem result = this.facade.getDeckCardListItem(deck, 66848);
+
+        assertNotNull(result);
+        assertEquals("Magistère Aubétreinte", result.getName());
     }
 
 

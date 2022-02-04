@@ -9,6 +9,8 @@ import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.collections.ListChangeListener;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
@@ -16,6 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.util.Callback;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.GridCell;
@@ -131,6 +134,12 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
     public class CardCell extends GridCell<CardCatalogItem>{
 
+        public CardCell(){
+            super();
+            this.setOnDragDetected(dragEventHandler);
+            this.setOnMouseClicked(mouseClickedEventHandler);
+        }
+
         @Override
         protected void updateItem(CardCatalogItem item, boolean empty) {
             super.updateItem(item, empty);
@@ -144,5 +153,47 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
             }
         }
     }
+
+    protected EventHandler<MouseEvent> dragEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            CardCell source = (CardCell) event.getSource();
+            System.out.println("drag handled from " + source.getItem().name());
+            Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+            Image img = cardImageManager.getTileCardImage(source.getItem().id(), false);
+            db.setDragView(img);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString(Integer.toString(source.getItem().dbfId()));
+            db.setContent(content);
+
+            event.consume();
+        }
+    };
+
+    protected EventHandler<Event> contextMenuEventHandler = new EventHandler<Event>() {
+        @Override
+        public void handle(Event event) {
+            CardCell source = (CardCell) event.getSource();
+            System.out.println("context menu handled from " + source.getItem().name());
+        }
+    };
+
+    protected EventHandler<MouseEvent> mouseClickedEventHandler = new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            if(event.getClickCount() == 2) {
+                CardCell source = (CardCell) event.getSource();
+                System.out.println("mouse double-clicked handled from " + source.getItem().name());
+            }
+            else{
+                if(event.getButton() == MouseButton.SECONDARY){
+                    CardCell source = (CardCell) event.getSource();
+                    System.out.println("context menu handled from " + source.getItem().name());
+                }
+            }
+        }
+    };
+
 
 }

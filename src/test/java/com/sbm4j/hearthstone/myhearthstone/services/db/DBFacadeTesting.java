@@ -110,7 +110,17 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public DeckListItem getDeckListItem(int deckId) {
+        return null;
+    }
+
+    @Override
     public List<DeckCardListItem> getDeckCardList(Deck deck) {
+        return null;
+    }
+
+    @Override
+    public DeckCardListItem getDeckCardListItem(Deck deck, int dbfId) {
         return null;
     }
 

@@ -12,6 +12,8 @@ import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.JSonCardImporterTesting;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.JsonCollectionImporterTesting;
+import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
+import com.sbm4j.hearthstone.myhearthstone.services.notifications.NotificatorTesting;
 
 import java.io.File;
 
@@ -47,5 +49,10 @@ public class HearthstoneModuleDBTesting extends HearthstoneModule {
     protected void bindImages() {
         bind(ImageManager.class).to(ImageManagerTesting.class).in(Scopes.SINGLETON);
         bind(CardImageManager.class).to(CardImageManagerImpl.class).in(Scopes.SINGLETON);
+    }
+
+    @Override
+    protected void bindNotifications() {
+        bind(Notificator.class).to(NotificatorTesting.class).in(Scopes.SINGLETON);
     }
 }

@@ -17,6 +17,21 @@ import javax.persistence.*;
                         "order by ca.cost, ca.name"
         ),
         @NamedQuery(
+                name = "DeckList.getCardListItem",
+                query = "select new com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem(" +
+                            "ca.dbfId, ca.id, ca.name, a.nbCards, ca.userData.nbTotalCards," +
+                            "ca.cardSet.code, cl.code, ca.rarity.code, ca.cost, ca.cardSet.isStandard, " +
+                            "group_concat(t.name)" +
+                        ") " +
+                        "from DeckAssociation a join a.card ca join ca.cardClass cl join ca.userData.tags t " +
+                        "where a.deck = :deck " +
+                            "and (cl.code = a.deck.hero.classe.code or cl.code = 'NEUTRAL') " +
+                            "and ca.dbfId = :dbfId " +
+                        "group by ca.dbfId, ca.id, ca.name, a.nbCards, ca.userData.nbTotalCards, " +
+                            "ca.cardSet.code, cl.code, ca.rarity.code, ca.cost, ca.cardSet.isStandard"
+
+        ),
+        @NamedQuery(
                 name = "DeckList.manaCurveInf7",
                 query = "select a.card.cost, sum(a.nbCards) " +
                         "from DeckAssociation a " +

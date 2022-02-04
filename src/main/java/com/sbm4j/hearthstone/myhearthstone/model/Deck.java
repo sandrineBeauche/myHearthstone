@@ -29,6 +29,22 @@ import java.util.List;
                         "order by d.hero.code, d.name"
         ),
         @NamedQuery(
+                name = "Deck.getDecksListItem",
+                query = "select new com.sbm4j.hearthstone.myhearthstone.model.DeckListItem(" +
+                            "d.id, d.name, d.summary, d.hero.code, sum(a.nbCards), " +
+                            "sum(least(a.card.userData.nbTotalCards, a.nbCards)), " +
+                            "sum(" +
+                                "(case when a.card.cardSet.isStandard = TRUE then a.nbCards else 0 end)" +
+                            "), " +
+                            "(select group_concat_distinct(t.name)" +
+                                "from DeckAssociation a join a.card.userData.tags t " +
+                                "where a.deck = d)" +
+                            ") " +
+                        "from Deck d join d.cards a " +
+                        "where d.id = :deckId " +
+                        "group by d.id, d.name, d.summary, d.hero.code"
+        ),
+        @NamedQuery(
                 name = "Deck.getEmptyDecksList",
                 query = "select new com.sbm4j.hearthstone.myhearthstone.model.DeckListItem(" +
                         "d.id, d.name, d.summary, d.hero.code, 0L, 0L, 0L, '') " +

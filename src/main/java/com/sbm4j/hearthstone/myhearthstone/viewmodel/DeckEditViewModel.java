@@ -7,6 +7,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
+import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
 import de.saxsys.mvvmfx.ViewModel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -16,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TableView;
@@ -25,6 +27,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 
+import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
@@ -69,6 +72,12 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     public ObjectProperty<TableView.TableViewSelectionModel<DeckCardListItem>> getSelectedCardModelProperty(){return this.selectedCardModel;}
     public TableView.TableViewSelectionModel<DeckCardListItem> getSelectedCardModel(){return this.selectedCardModel.get();}
     public void setSelectedCardModel(TableView.TableViewSelectionModel<DeckCardListItem> value){this.selectedCardModel.set(value);}
+    public void setSelectedCardModel(TableView<DeckCardListItem> tableView){
+        TableView.TableViewSelectionModel<DeckCardListItem> value = tableView.getSelectionModel();
+        value.setSelectionMode(SelectionMode.SINGLE);
+        value.setCellSelectionEnabled(false);
+        this.setSelectedCardModel(value);
+    }
 
     /* tabSelectionModel property */
     private ObjectProperty<SingleSelectionModel<Tab>> tabSelectionModel = new SimpleObjectProperty<SingleSelectionModel<Tab>>();
@@ -97,6 +106,9 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
     @Inject
     protected ImageManager imageManager;
+
+    @Inject
+    protected Notificator notificator;
 
 
     protected Deck currentDeck;
@@ -182,5 +194,90 @@ public class DeckEditViewModel implements ViewModel, Initializable {
         this.getStatsTagsList().addAll(stats);
     }
 
-    
+
+    protected DeckCardListItem updateCardListItem(int dbfId, int deltaValue, boolean delete) {
+        DeckCardListItem cardItem = this.getCardsList().stream().filter(item -> item.getDbfId() == dbfId)
+                .findAny().orElse(null);
+
+        if(cardItem != null){
+            int currentValue = cardItem.getNbCards();
+            int newValue = currentValue + deltaValue;
+            if(delete || newValue <= 0){
+                this.getCardsList().remove(cardItem);
+                return null;
+            }
+            else{
+                cardItem.setNbCards(currentValue + deltaValue);
+                return cardItem;
+            }
+        }
+        else{
+            try{
+                DeckCardListItem newCardItem = this.dbFacade.getDeckCardListItem(this.currentDeck, dbfId);
+                this.getCardsList().add(newCardItem);
+                return newCardItem;
+            }
+            catch(NoResultException ex){
+                return null;
+            }
+        }
+    }
+
+
+    public void addCardFromDbfId(int dbfId){
+        logger.info("Add card with dbfId " + dbfId + " to deck " + this.currentDeck.getName() + "(" + this.currentDeck.getId() + ")");
+
+        boolean result = this.dbFacade.addCardToDeck(dbfId, this.currentDeck);
+        if(result){
+            DeckCardListItem newCardItem = this.updateCardListItem(dbfId, 1, false);
+            this.notificator.notifyAddCardToDeckSuccess(newCardItem.getName(), this.currentDeck.getName());
+        }
+        else{
+            this.notificator.notifyAddCardToDeckError(dbfId, this.currentDeck.getName());
+        }
+    }
+
+    public void removeCardFromDbfId(int dbfId, boolean all){
+        logger.info("Remove card with dbfId " + dbfId + " from deck " + this.currentDeck.getName() + "(" + this.currentDeck.getId() + ")");
+
+        boolean result = this.dbFacade.removeCardFromDeck(dbfId, this.currentDeck, all);
+        if(result){
+            DeckCardListItem newCardItem = this.updateCardListItem(dbfId, -1, all);
+            String cardName;
+            if(newCardItem != null){
+                cardName = newCardItem.getName();
+            }
+            else{
+                cardName = Integer.toString(dbfId);
+            }
+            this.notificator.notifyRemoveCardFromDeckSuccess(cardName, this.currentDeck.getName());
+        }
+        else{
+            this.notificator.notifyRemoveCardFromDeckError(Integer.toString(dbfId), this.currentDeck.getName());
+        }
+    }
+
+    public void incrSelectedCard(){
+        DeckCardListItem selected = this.getSelectedCardModel().getSelectedItem();
+        if(selected != null) {
+            int dbfId = selected.getDbfId();
+            this.addCardFromDbfId(dbfId);
+        }
+    }
+
+    public void decrSelectedCard(){
+        DeckCardListItem selected = this.getSelectedCardModel().getSelectedItem();
+        if(selected != null){
+            int dbfId = selected.getDbfId();
+            this.removeCardFromDbfId(dbfId, false);
+        }
+    }
+
+    public void deleteSelectedCard(){
+        DeckCardListItem selected = this.getSelectedCardModel().getSelectedItem();
+        if(selected != null){
+            int dbfId = selected.getDbfId();
+            this.removeCardFromDbfId(dbfId, true);
+        }
+    }
 }

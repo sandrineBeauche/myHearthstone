@@ -75,7 +75,7 @@
                      <top>
                         <HBox prefHeight="36.0" prefWidth="598.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Button mnemonicParsing="false" text="Ajouter">
+                              <Button mnemonicParsing="false" onAction="#incrSelectedCard" text="Ajouter">
                                  <graphic>
                                     <ImageView pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -87,7 +87,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" text="Enlever">
+                              <Button mnemonicParsing="false" onAction="#decrSelectedCard" text="Enlever">
                                  <graphic>
                                     <ImageView pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -99,7 +99,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </HBox.margin>
                               </Button>
-                              <Button mnemonicParsing="false" text="Supprimer">
+                              <Button mnemonicParsing="false" onAction="#deleteSelectedCard" text="Supprimer">
                                  <graphic>
                                     <ImageView pickOnBounds="true" preserveRatio="true">
                                        <image>
