@@ -130,7 +130,10 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox prefHeight="23.0" prefWidth="598.0" BorderPane.alignment="CENTER" />
+                        <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="23.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="45.0" text="Label" />
+                           </children></HBox>
                      </bottom>
                   </BorderPane>
                </content>

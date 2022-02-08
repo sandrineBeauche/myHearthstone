@@ -350,12 +350,12 @@ public class DBFacadeImpl implements DBFacade {
     }
 
     @Override
-    public List<Pair<String, Integer>> getTagsStats(Deck deck) {
+    public List<TagStat> getTagsStats(Deck deck) {
         Session session = this.db.getSession();
-        TypedQuery query = session.createNamedQuery("tags_stats_from_deck", Pair.class);
+        TypedQuery query = session.createNamedQuery("tags_stats_from_deck", TagStat.class);
         query.setHint( "org.hibernate.readOnly", true );
         query.setParameter("deck", deck);
-        List<Pair<String, Integer>> result =  query.getResultList();
+        List<TagStat> result =  query.getResultList();
         return result;
     }
 

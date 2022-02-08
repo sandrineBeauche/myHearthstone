@@ -53,5 +53,5 @@ public interface DBFacade {
 
     Integer[] getManaCurveStats(Deck deck);
 
-    List<Pair<String, Integer>> getTagsStats(Deck deck);
+    List<TagStat> getTagsStats(Deck deck);
 }

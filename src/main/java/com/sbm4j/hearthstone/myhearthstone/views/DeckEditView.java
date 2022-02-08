@@ -4,6 +4,7 @@ package com.sbm4j.hearthstone.myhearthstone.views;
 import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
+import com.sbm4j.hearthstone.myhearthstone.model.TagStat;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
@@ -29,6 +30,7 @@ import javafx.util.Pair;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable {
@@ -76,13 +78,16 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     protected TableColumn<DeckCardListItem, String> cardList_extCol;
 
     @FXML
+    protected Label nbCardsLabel;
+
+    @FXML
     protected TabPane tabPane;
 
     @FXML
     protected BarChart<String, Number> manaCurveChart;
 
     @FXML
-    protected TableView<Pair<String, Integer>> statsTagsList;
+    protected TableView<TagStat> statsTagsList;
 
     @FXML
     protected TableColumn<Pair<String, Integer>, String> tagNameCol;
@@ -94,6 +99,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     @InjectViewModel
     protected DeckEditViewModel viewModel;
 
+
     @Inject
     protected CardImageManager cardImageManager;
 
@@ -103,9 +109,6 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.viewModel.setSelectedCardModel(this.cardList);
-        SingleSelectionModel<Tab> tabSelectionModel = this.tabPane.getSelectionModel();
-        this.viewModel.setTabSelectionModel(tabSelectionModel);
         this.viewModel.initialize(location, resources);
 
         this.titledPane.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
@@ -113,9 +116,11 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.summaryField.textProperty().bindBidirectional(this.viewModel.getSummaryProperty());
         this.heroImage.imageProperty().bindBidirectional(this.viewModel.getHeroImgProperty());
         this.cardList.itemsProperty().bindBidirectional(this.viewModel.getCardsListProperty());
-        this.cardList.selectionModelProperty().bindBidirectional(this.viewModel.getSelectedCardModelProperty());
-        this.tabPane.selectionModelProperty().bindBidirectional(this.viewModel.getTabSelectionModelProperty());
         this.statsTagsList.itemsProperty().bindBidirectional(this.viewModel.getStatsTagsListProperty());
+
+        TableView.TableViewSelectionModel<DeckCardListItem> selectionModel = this.cardList.getSelectionModel();
+        selectionModel.setSelectionMode(SelectionMode.SINGLE);
+        selectionModel.setCellSelectionEnabled(false);
 
         this.cardList_RarityCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("rarityCode"));
         this.cardList_ManaCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, Integer>("mana"));
@@ -127,7 +132,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.cardList_tagsCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("tags"));
         this.cardList_extCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("setCode"));
 
-        this.tagNameCol.setCellValueFactory(new PropertyValueFactory("key"));
+        this.tagNameCol.setCellValueFactory(new PropertyValueFactory("tag"));
         this.nbTagCardCol.setCellValueFactory(new PropertyValueFactory("value"));
 
         this.cardList_RarityCol.setCellFactory(param -> {return new ColorRectangleCell();});
@@ -143,7 +148,6 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.tagNameCol.setCellFactory(param -> CellBuilder.buildStringCell());
         this.nbTagCardCol.setCellFactory(param -> CellBuilder.buildIntegerCell());
 
-
         XYChart.Series<String, Number> manaCurveSeries = new XYChart.Series<>();
         manaCurveSeries.setName("mana");
         manaCurveSeries.dataProperty().bindBidirectional(this.viewModel.getCurveManaDataProperty());
@@ -151,8 +155,57 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
         this.cardList.setOnDragOver(event -> dragOverEventHandler(event));
         this.cardList.setOnDragDropped(event -> dragDroppedEventHandler(event));
+
+        this.tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            refreshCurrentTab(newValue.intValue());
+        });
+
+        viewModel.subscribe(DeckEditViewModel.SHOW_DECK, (key, payload) -> {
+            String deckName = (String) payload[0];
+            this.titledPane.setText(deckName);
+            if(this.tabPane.getSelectionModel().getSelectedIndex() == 0){
+                this.refreshGeneralTab();
+            }
+            else {
+                this.tabPane.getSelectionModel().select(0);
+            }
+        });
     }
 
+    protected void refreshCurrentTab(int index){
+        switch(index){
+            case 0 -> refreshGeneralTab();
+            case 1 -> refreshCardsListTab();
+            case 2 -> refreshStatsTab();
+        }
+    }
+
+    protected void refreshGeneralTab(){
+        if(!this.viewModel.getRefreshed()[0]) {
+            this.viewModel.refreshGeneralTab();
+        }
+    }
+
+    protected void refreshCardsListTab(){
+        if(this.viewModel.getRefreshed()[1]){
+            this.cardList.refresh();
+        }
+        else{
+            this.viewModel.refreshCardListTab();
+        }
+    }
+
+    protected void refreshStatsTab(){
+        if(this.viewModel.getRefreshed()[2]){
+            this.statsTagsList.refresh();
+            List<XYChart.Data<String, Number>> data = this.viewModel.getCurveManaData().stream().toList();
+            this.viewModel.getCurveManaData().clear();
+            this.viewModel.getCurveManaData().addAll(data);
+        }
+        else{
+            this.viewModel.refreshStatsTab();
+        }
+    }
 
     protected void dragOverEventHandler(DragEvent event){
         if(event.getGestureSource().getClass() == CardCatalogView.CardCell.class){
@@ -228,17 +281,19 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     }
 
     public void incrSelectedCard(){
-        this.viewModel.incrSelectedCard();
+        DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
+        this.viewModel.incrSelectedCard(selected);
         this.cardList.refresh();
     }
 
     public void decrSelectedCard(){
-        this.viewModel.decrSelectedCard();
+        DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
+        this.viewModel.decrSelectedCard(selected);
         this.cardList.refresh();
     }
 
     public void deleteSelectedCard(){
-        this.viewModel.deleteSelectedCard();
-        this.cardList.refresh();
+        DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
+        this.viewModel.deleteSelectedCard(selected);
     }
 }

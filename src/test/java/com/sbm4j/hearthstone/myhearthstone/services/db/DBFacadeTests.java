@@ -380,7 +380,7 @@ public class DBFacadeTests {
     public void getDeckTagsStats(){
         Session session = this.db.getSession();
         Deck deck = session.get(Deck.class, 2);
-        List<Pair<String, Integer>> result = this.facade.getTagsStats(deck);
+        List<TagStat> result = this.facade.getTagsStats(deck);
 
         assertNotNull(result);
         assertEquals(3, result.size());

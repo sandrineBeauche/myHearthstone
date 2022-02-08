@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-@Disabled
+//@Disabled
 @ExtendWith(DBUnitExtension.class)
 public class CardDragDropTest extends AbstractUITest {
 
@@ -81,7 +81,7 @@ public class CardDragDropTest extends AbstractUITest {
     public void dragDropTest() throws TimeoutException {
         this.setupAppTest();
 
-        DeckListItem deckItem = new DeckListItem(2, null, null, null, 0L,0L,0L, null);
+        DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.deckEditViewModel.showDeck(deckItem);
 
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);

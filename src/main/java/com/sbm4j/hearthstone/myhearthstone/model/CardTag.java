@@ -13,7 +13,7 @@ import javax.persistence.*;
         ),
         @NamedQuery(
                 name = "tags_stats_from_deck",
-                query = "select new javafx.util.Pair(t.name, sum(a.nbCards)) " +
+                query = "select new com.sbm4j.hearthstone.myhearthstone.model.TagStat(t.name, sum(a.nbCards)) " +
                         "from DeckAssociation a join a.card.userData.tags t " +
                         "where a.deck = :deck " +
                         "group by t.name " +

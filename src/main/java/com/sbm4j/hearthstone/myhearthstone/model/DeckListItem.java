@@ -63,7 +63,7 @@ public class DeckListItem {
         this.heroCode = heroCode;
     }
 
-    public long getNbCards() {
+    public int getNbCards() {
         return nbCards;
     }
 

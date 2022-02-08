@@ -130,7 +130,7 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
-    public List<Pair<String, Integer>> getTagsStats(Deck deck) {
+    public List<TagStat> getTagsStats(Deck deck) {
         return null;
     }
 
