@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 public interface DBFacade {
 

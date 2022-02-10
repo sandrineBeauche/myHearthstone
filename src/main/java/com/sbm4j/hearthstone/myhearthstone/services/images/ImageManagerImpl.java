@@ -36,6 +36,8 @@ public class ImageManagerImpl implements ImageManager{
 
     protected HashMap<String, Image> heroPortrait = new HashMap<String, Image>();
 
+    protected HashMap<String, Image> resourceImage = new HashMap<>();
+
 
     protected Image getImage(String code, HashMap<String,Image> cache, String directoryName) throws FileNotFoundException {
         if(cache.containsKey(code)){
@@ -99,15 +101,21 @@ public class ImageManagerImpl implements ImageManager{
 
     @Override
     public ImageView getImageViewFromResource(Class ownerClazz, String resourceName){
-        InputStream in = ownerClazz.getResourceAsStream(resourceName);
-        if(in != null) {
-            Image image = new Image(in);
-            ImageView imgView = new ImageView(image);
-            return imgView;
+        Image img = null;
+        if(this.resourceImage.containsKey(resourceName)){
+            img = this.resourceImage.get(resourceName);
         }
         else{
-            logger.error("Image reousrce not found: " + resourceName);
-            return null;
+            InputStream in = ownerClazz.getResourceAsStream(resourceName);
+            if(in != null) {
+                img = new Image(in);
+                this.resourceImage.put(resourceName, img);
+            }
+            else{
+                logger.error("Image resource not found: " + resourceName);
+                return null;
+            }
         }
+        return new ImageView(img);
     }
 }

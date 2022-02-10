@@ -19,5 +19,5 @@ public interface ImageManager {
 
     Image getIconImage(Class<?> clazz, String code) throws FileNotFoundException;
 
-    public ImageView getImageViewFromResource(Class ownerClazz, String resourceName);
+    ImageView getImageViewFromResource(Class ownerClazz, String resourceName);
 }

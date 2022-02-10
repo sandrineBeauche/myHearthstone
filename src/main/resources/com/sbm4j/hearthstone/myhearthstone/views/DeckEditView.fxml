@@ -35,9 +35,10 @@
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="442.0" minWidth="10.0" prefWidth="402.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="246.0" minHeight="0.0" prefHeight="42.0" vgrow="NEVER" />
-                      <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="137.0" vgrow="NEVER" />
-                      <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="368.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="246.0" minHeight="0.0" prefHeight="40.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="173.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="170.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <TextField fx:id="nameField" prefHeight="23.0" prefWidth="335.0" GridPane.columnIndex="2">
@@ -60,7 +61,7 @@
                               <Insets right="10.0" top="10.0" />
                            </GridPane.margin>
                         </TextArea>
-                        <ImageView fx:id="heroImage" fitHeight="150.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2">
+                        <ImageView fx:id="heroImage" fitHeight="191.0" fitWidth="158.0" pickOnBounds="true" preserveRatio="true" GridPane.rowSpan="2">
                            <GridPane.margin>
                               <Insets left="10.0" />
                            </GridPane.margin>
@@ -118,21 +119,21 @@
                         <TableView fx:id="cardList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                           <columns>
                             <TableColumn fx:id="cardList_RarityCol" editable="false" prefWidth="11.0" />
-                            <TableColumn fx:id="cardList_ImageCol" editable="false" prefWidth="147.0" text="Tuile" />
-                              <TableColumn fx:id="cardList_ManaCol" prefWidth="38.0" text="Mana" />
-                              <TableColumn fx:id="cardList_NameCol" editable="false" prefWidth="210.0" text="Nom" />
-                              <TableColumn fx:id="cardList_nbCardsCol" editable="false" minWidth="0.0" prefWidth="23.0" text="nb." />
-                              <TableColumn fx:id="cardList_nbCollectionCol" editable="false" prefWidth="26.0" text="col." />
-                              <TableColumn fx:id="cardList_standardCol" editable="false" prefWidth="42.0" text="stand." />
-                              <TableColumn fx:id="cardList_tagsCol" editable="false" prefWidth="272.0" text="Tags" />
-                              <TableColumn fx:id="cardList_extCol" prefWidth="52.0" text="Ext." />
+                            <TableColumn fx:id="cardList_ImageCol" editable="false" prefWidth="141.0" resizable="false" text="Tuile" />
+                              <TableColumn fx:id="cardList_ManaCol" prefWidth="39.0" resizable="false" text="Mana" />
+                              <TableColumn fx:id="cardList_NameCol" editable="false" prefWidth="215.0" text="Nom" />
+                              <TableColumn fx:id="cardList_nbCardsCol" editable="false" minWidth="0.0" prefWidth="23.0" resizable="false" text="nb." />
+                              <TableColumn fx:id="cardList_nbCollectionCol" editable="false" prefWidth="45.0" text="col." />
+                              <TableColumn fx:id="cardList_standardCol" editable="false" prefWidth="88.0" text="stand." />
+                              <TableColumn fx:id="cardList_extCol" minWidth="9.0" prefWidth="37.0" resizable="false" text="Ext." />
+                              <TableColumn fx:id="cardList_tagsCol" editable="false" prefWidth="222.0" text="Tags" />
                           </columns>
                         </TableView>
                      </center>
                      <bottom>
                         <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="23.0" prefWidth="598.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="45.0" text="Label" />
+                              <Label fx:id="nbCardsLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="45.0" text="Label" />
                            </children></HBox>
                      </bottom>
                   </BorderPane>

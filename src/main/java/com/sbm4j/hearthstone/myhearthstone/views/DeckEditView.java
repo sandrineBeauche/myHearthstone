@@ -7,12 +7,14 @@ import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.model.TagStat;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
+import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
@@ -27,6 +29,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Pair;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -122,28 +126,29 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
         selectionModel.setCellSelectionEnabled(false);
 
-        this.cardList_RarityCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("rarityCode"));
-        this.cardList_ManaCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, Integer>("mana"));
-        this.cardList_ImageCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("id"));
-        this.cardList_NameCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("name"));
-        this.cardList_nbCardsCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, Integer>("nbCards"));
-        this.cardList_nbCollectionCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, Integer>("nbCardsInCollection"));
-        this.cardList_standardCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, Boolean>("standard"));
-        this.cardList_tagsCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("tags"));
-        this.cardList_extCol.setCellValueFactory(new PropertyValueFactory<DeckCardListItem, String>("setCode"));
+        this.cardList_RarityCol.setCellValueFactory(new PropertyValueFactory("rarityCode"));
+        this.cardList_ManaCol.setCellValueFactory(new PropertyValueFactory("mana"));
+        this.cardList_ImageCol.setCellValueFactory(new PropertyValueFactory("id"));
+        this.cardList_NameCol.setCellValueFactory(new PropertyValueFactory("name"));
+        this.cardList_nbCardsCol.setCellValueFactory(new PropertyValueFactory("nbCards"));
+        this.cardList_nbCollectionCol.setCellValueFactory(new PropertyValueFactory("nbCardsInCollection"));
+        this.cardList_standardCol.setCellValueFactory(new PropertyValueFactory("standard"));
+        this.cardList_tagsCol.setCellValueFactory(new PropertyValueFactory("tags"));
+        this.cardList_extCol.setCellValueFactory(new PropertyValueFactory("setCode"));
 
         this.tagNameCol.setCellValueFactory(new PropertyValueFactory("tag"));
         this.nbTagCardCol.setCellValueFactory(new PropertyValueFactory("value"));
 
-        this.cardList_RarityCol.setCellFactory(param -> {return new ColorRectangleCell();});
-        this.cardList_ManaCol.setCellFactory(param -> {return CellBuilder.<DeckCardListItem, Integer>buildIntegerCell();});
-        this.cardList_ImageCol.setCellFactory(param -> {return new CardTileCell();});
-        this.cardList_NameCol.setCellFactory(param -> {return CellBuilder.<DeckCardListItem, String>buildStringCell();});
-        this.cardList_nbCardsCol.setCellFactory(param -> {return CellBuilder.<DeckCardListItem, Integer>buildIntegerCell();});
-        this.cardList_nbCollectionCol.setCellFactory(param -> {return CellBuilder.<DeckCardListItem, Integer>buildIntegerCell();});
-        this.cardList_standardCol.setCellFactory(CheckBoxTableCell.forTableColumn(this.cardList_standardCol));
-        this.cardList_tagsCol.setCellFactory(param -> {return CellBuilder.<DeckCardListItem, String>buildStringCell();});
-        this.cardList_extCol.setCellFactory(param -> {return new SetIconCell();});
+        this.cardList_RarityCol.setCellFactory(param -> new ColorRectangleCell());
+        this.cardList_ManaCol.setCellFactory(param -> CellBuilder.buildIntegerCell());
+        this.cardList_ImageCol.setCellFactory(param -> new CardTileCell());
+        this.cardList_NameCol.setCellFactory(param -> CellBuilder.buildStringCell());
+        this.cardList_nbCardsCol.setCellFactory(param -> CellBuilder.buildIntegerCell());
+        this.cardList_nbCollectionCol.setCellFactory(param -> new CollectionCardCell());
+        this.cardList_standardCol.setCellFactory(param -> new StandardCardCell());
+        this.cardList_tagsCol.setCellFactory(param -> CellBuilder.buildStringCell());
+        this.cardList_extCol.setCellFactory(param -> new SetIconCell());
+
 
         this.tagNameCol.setCellFactory(param -> CellBuilder.buildStringCell());
         this.nbTagCardCol.setCellFactory(param -> CellBuilder.buildIntegerCell());
@@ -222,7 +227,81 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         }
     }
 
-    public class CardTileCell extends TableCell<DeckCardListItem, String> {
+
+    protected class CardListImageTooltip extends Tooltip{
+
+        protected String cardId;
+
+        protected ImageView image;
+
+        public CardListImageTooltip(String cardId){
+            super();
+            this.cardId = cardId;
+            this.setOnShowing(param -> this.onShowingHandler());
+        }
+
+        protected void onShowingHandler(){
+            if(this.image == null){
+                File f = cardImageManager.getBigCardImageAsFile(this.cardId);
+                try {
+                    this.image = new ImageView(new Image(new FileInputStream(f)));
+                    this.image.setFitHeight(500);
+                    this.image.setPreserveRatio(true);
+                    setGraphic(image);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
+
+    protected class StandardCardCell extends TableCell<DeckCardListItem, Boolean> {
+
+        public StandardCardCell(){
+            this.setPadding(new Insets(5, 0, 0, 15));
+        }
+
+        @Override
+        public void updateItem(Boolean item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty && item){
+                ImageView imgView = imageManager.getImageViewFromResource(ImageManagerImpl.class,
+                        "standard-badge.png");
+                imgView.setFitWidth(60);
+                imgView.setPreserveRatio(true);
+                setGraphic(imgView);
+            }
+        }
+    }
+
+    protected class CollectionCardCell extends TableCell<DeckCardListItem, Integer>{
+
+        public CollectionCardCell(){
+            this.setPadding(new Insets(5, 0, 0, 10));
+        }
+
+        @Override
+        protected void updateItem(Integer item, boolean empty) {
+            super.updateItem(item, empty);
+            if(!empty){
+                DeckCardListItem currentItem = this.getTableRow().getItem();
+                if(currentItem != null) {
+                    if (currentItem.getNbCards() <= item) {
+                        ImageView img = imageManager.getImageViewFromResource(ImageManager.class, "collection.png");
+                        img.setFitWidth(30);
+                        img.setPreserveRatio(true);
+                        setGraphic(img);
+                    } else {
+                        Label lbl = new Label(item.toString());
+                        setGraphic(lbl);
+                    }
+                }
+            }
+        }
+    }
+
+    protected class CardTileCell extends TableCell<DeckCardListItem, String> {
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -238,11 +317,17 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 }
 
                 setGraphic(imgView);
+                this.setTooltip(new CardListImageTooltip(item));
             }
         }
     }
 
-    public class SetIconCell extends TableCell<DeckCardListItem, String> {
+    protected class SetIconCell extends TableCell<DeckCardListItem, String> {
+
+        public SetIconCell(){
+            this.setPadding(new Insets(5, 0, 0, 5));
+        }
+
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -250,6 +335,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 try {
                     Image img = imageManager.getCardSetIcon(item);
                     ImageView imgView = new ImageView(img);
+                    String tooltipString = viewModel.getExtensionTooltips(item);
+                    Tooltip tooltip = new Tooltip(tooltipString);
+                    this.setTooltip(tooltip);
                     setGraphic(imgView);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -261,7 +349,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         }
     }
 
-    public class ColorRectangleCell extends TableCell<DeckCardListItem, String> {
+    protected class ColorRectangleCell extends TableCell<DeckCardListItem, String> {
         @Override
         protected void updateItem(String item, boolean empty) {
             super.updateItem(item, empty);
@@ -276,6 +364,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                     case "LEGENDARY" -> rect.setFill(Color.ORANGE);
                 }
                 setGraphic(rect);
+                this.setTooltip(new Tooltip(viewModel.getRarityTooltips(item)));
             }
         }
     }

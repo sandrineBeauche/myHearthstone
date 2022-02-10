@@ -1,6 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.views;
 
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.cell.TextFieldTableCell;
 
@@ -10,6 +11,7 @@ public class CellBuilder {
         TextFieldTableCell<S, T> cell = new TextFieldTableCell<S, T>();
         cell.setAlignment(Pos.BASELINE_LEFT);
         cell.setWrapText(true);
+        cell.setPadding(new Insets(0, 0, 0, 20));
         return cell;
     }
 

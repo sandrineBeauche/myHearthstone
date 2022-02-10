@@ -1,10 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 
 import com.google.inject.Inject;
-import com.sbm4j.hearthstone.myhearthstone.model.Deck;
-import com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem;
-import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
-import com.sbm4j.hearthstone.myhearthstone.model.TagStat;
+import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
@@ -113,7 +110,9 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     protected Boolean [] refreshed;
     public Boolean [] getRefreshed(){ return this.refreshed;}
 
+    protected HashMap<String, String> extensionTooltips = new HashMap<>();
 
+    protected HashMap<String, String> rarityTooltips = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -127,6 +126,14 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             this.getCurveManaData().add(data);
         }
         this.getCurveManaData().add(new XYChart.Data<String, Number>("7+", 0));
+
+        for(CardSet current: this.dbFacade.getSets(false)){
+            this.extensionTooltips.put(current.getCode(), current.getName());
+        }
+
+        for(Rarity current: this.dbFacade.getRarities(false)){
+            this.rarityTooltips.put(current.getCode(), current.getName());
+        }
     }
 
     public void showDeck(DeckListItem deckItem){
@@ -326,5 +333,13 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             int dbfId = selected.getDbfId();
             this.removeCardFromDbfId(dbfId, true);
         }
+    }
+
+    public String getExtensionTooltips(String code){
+        return this.extensionTooltips.get(code);
+    }
+
+    public String getRarityTooltips(String code){
+        return this.rarityTooltips.get(code);
     }
 }
