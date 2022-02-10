@@ -67,7 +67,7 @@ public class DeckCardListViewDBTest extends AbstractUITest {
     @DataSet("collectionWithDecks1.xml")
     public void firstTest() throws TimeoutException {
         this.setupAppTest();
-        DeckListItem deckItem = new DeckListItem(2, null, null, null, 0L,0L,0L, null);
+        DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
 
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);

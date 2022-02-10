@@ -5,12 +5,10 @@ import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
+import com.sbm4j.hearthstone.myhearthstone.services.images.cardClasses.CardClassImageLoader;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
 import de.saxsys.mvvmfx.ViewModel;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -60,6 +58,12 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     public ObjectProperty<Image> getHeroImgProperty(){return this.heroImg;}
     public Image getHeroImg(){return this.heroImg.get();}
     public void setHeroImg(Image value){this.heroImg.set(value);}
+    
+    /* deckClassIcon property */
+    private ObjectProperty<Image> deckClassIcon = new SimpleObjectProperty<Image>();
+    public ObjectProperty<Image> getDeckClassIconProperty(){return this.deckClassIcon;}
+    public Image getDeckClassIcon(){return this.deckClassIcon.get();}
+    public void setDeckClassIcon(Image value){this.deckClassIcon.set(value);}
 
 
     /* cardsList property */
@@ -87,6 +91,17 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     public ObservableList<TagStat> getStatsTagsList(){return this.statsTagsList.get();}
     public void setStatsTagsList(ObservableList<TagStat> value){this.statsTagsList.set(value);}
 
+    /* isStandard property */
+    private BooleanProperty isStandard = new SimpleBooleanProperty();
+    public BooleanProperty getIsStandardProperty(){return this.isStandard;}
+    public Boolean getIsStandard(){return this.isStandard.get();}
+    public void setIsStandard(Boolean value){this.isStandard.set(value);}
+
+    /* isValid property */
+    private BooleanProperty isValid = new SimpleBooleanProperty();
+    public BooleanProperty getIsValidProperty(){return this.isValid;}
+    public Boolean getIsValid(){return this.isValid.get();}
+    public void setIsValid(Boolean value){this.isValid.set(value);}
 
     @Inject
     protected DBFacade dbFacade;
@@ -147,6 +162,8 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
             String title = "Deck " + this.currentDeck.getName();
             this.setTitle(title);
+            this.setIsStandard(deckItem.getNbCards() == deckItem.getNbStandardCards());
+            this.setIsValid(deckItem.getNbCards() == 30 && deckItem.getNbCardsInCollection() == 30);
             this.publish(SHOW_DECK, title);
         }
     }
@@ -162,6 +179,8 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             try {
                 Image heroImg = this.imageManager.getHeroPortrait(heroCode);
                 this.setHeroImg(heroImg);
+                Image classeImg = CardClassImageLoader.getImage(this.currentDeck.getHero().getClasse().getCode());
+                this.setDeckClassIcon(classeImg);
             } catch (FileNotFoundException e) {
                 logger.error("Image file not found for hero " + heroCode);
             }
@@ -175,7 +194,19 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
             this.getCardsList().clear();
             this.getCardsList().addAll(items);
+            this.refreshNbcards();
+
             this.refreshStatsTab();
+        }
+    }
+
+    protected void refreshNbcards(){
+        int nbCards = this.currentDeckItem.getNbCards();
+        if(nbCards > 1){
+            this.setNbCardsTotal(nbCards + " cartes");
+        }
+        else{
+            this.setNbCardsTotal(nbCards + " carte");
         }
     }
 
@@ -263,6 +294,7 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
     protected void updateDeckListItem(DeckCardListItem item, int nbDelta){
         this.currentDeckItem.setNbCards(this.currentDeckItem.getNbCards() + nbDelta);
+        this.refreshNbcards();
         if(item.getNbCardsInCollection() >= item.getNbCards()){
             this.currentDeckItem.setNbCardsInCollection(this.currentDeckItem.getNbCardsInCollection() + nbDelta);
         }

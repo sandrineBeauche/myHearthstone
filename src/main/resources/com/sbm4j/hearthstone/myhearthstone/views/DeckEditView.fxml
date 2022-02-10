@@ -30,9 +30,10 @@
                <content>
                   <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="177.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="78.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="442.0" minWidth="10.0" prefWidth="402.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="200.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="76.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="145.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="456.0" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints maxHeight="246.0" minHeight="0.0" prefHeight="40.0" vgrow="NEVER" />
@@ -41,22 +42,22 @@
                       <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="170.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="nameField" prefHeight="23.0" prefWidth="335.0" GridPane.columnIndex="2">
+                        <TextField fx:id="nameField" prefHeight="23.0" prefWidth="335.0" GridPane.columnIndex="3">
                            <GridPane.margin>
                               <Insets right="10.0" top="10.0" />
                            </GridPane.margin>
                         </TextField>
-                        <Label text="Nom" GridPane.columnIndex="1">
+                        <Label text="Nom" GridPane.columnIndex="2">
                            <GridPane.margin>
                               <Insets top="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label alignment="TOP_LEFT" text="Résumé" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="TOP">
+                        <Label alignment="TOP_LEFT" text="Résumé" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.valignment="TOP">
                            <GridPane.margin>
                               <Insets top="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextArea fx:id="summaryField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <TextArea fx:id="summaryField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
                            <GridPane.margin>
                               <Insets right="10.0" top="10.0" />
                            </GridPane.margin>
@@ -66,6 +67,7 @@
                               <Insets left="10.0" />
                            </GridPane.margin>
                         </ImageView>
+                        <ImageView fx:id="deckClassIcon" fitHeight="51.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" />
                      </children>
                   </GridPane>
                </content>
@@ -131,9 +133,28 @@
                         </TableView>
                      </center>
                      <bottom>
-                        <HBox nodeOrientation="RIGHT_TO_LEFT" prefHeight="23.0" prefWidth="598.0" BorderPane.alignment="CENTER">
+                        <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="23.0" prefWidth="598.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Label fx:id="nbCardsLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="15.0" prefWidth="45.0" text="Label" />
+                              <Label fx:id="nbCardsLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" nodeOrientation="RIGHT_TO_LEFT" prefHeight="23.0" text="Label" textAlignment="RIGHT">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin></Label>
+                              <ImageView fx:id="smallStandardBadge" fitHeight="21.0" fitWidth="73.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="20.0" top="5.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@../services/images/standard-badge.png" />
+                                 </image>
+                              </ImageView>
+                              <ImageView fx:id="smallValidIcon" fitHeight="21.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
+                                 <HBox.margin>
+                                    <Insets bottom="5.0" left="20.0" top="5.0" />
+                                 </HBox.margin>
+                                 <image>
+                                    <Image url="@valid.png" />
+                                 </image>
+                              </ImageView>
                            </children></HBox>
                      </bottom>
                   </BorderPane>

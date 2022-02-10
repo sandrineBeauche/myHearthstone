@@ -11,14 +11,12 @@ import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -99,6 +97,15 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     @FXML
     protected TableColumn<Pair<String, Integer>, Integer> nbTagCardCol;
 
+    @FXML
+    protected ImageView smallStandardBadge;
+
+    @FXML
+    protected ImageView smallValidIcon;
+
+    @FXML
+    protected ImageView deckClassIcon;
+
 
     @InjectViewModel
     protected DeckEditViewModel viewModel;
@@ -115,17 +122,37 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     public void initialize(URL location, ResourceBundle resources) {
         this.viewModel.initialize(location, resources);
 
-        this.titledPane.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
-        this.nameField.textProperty().bindBidirectional(this.viewModel.getNameProperty());
-        this.summaryField.textProperty().bindBidirectional(this.viewModel.getSummaryProperty());
-        this.heroImage.imageProperty().bindBidirectional(this.viewModel.getHeroImgProperty());
-        this.cardList.itemsProperty().bindBidirectional(this.viewModel.getCardsListProperty());
-        this.statsTagsList.itemsProperty().bindBidirectional(this.viewModel.getStatsTagsListProperty());
+        this.installBindings();
+        this.initCardListColumns();
+        this.initTagStatsListColumns();
 
         TableView.TableViewSelectionModel<DeckCardListItem> selectionModel = this.cardList.getSelectionModel();
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
         selectionModel.setCellSelectionEnabled(false);
 
+        this.installHandlers();
+    }
+
+    protected void installBindings(){
+        this.titledPane.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
+        this.nameField.textProperty().bindBidirectional(this.viewModel.getNameProperty());
+        this.summaryField.textProperty().bindBidirectional(this.viewModel.getSummaryProperty());
+        this.heroImage.imageProperty().bindBidirectional(this.viewModel.getHeroImgProperty());
+        this.deckClassIcon.imageProperty().bindBidirectional(this.viewModel.getDeckClassIconProperty());
+        this.cardList.itemsProperty().bindBidirectional(this.viewModel.getCardsListProperty());
+        this.statsTagsList.itemsProperty().bindBidirectional(this.viewModel.getStatsTagsListProperty());
+        this.nbCardsLabel.textProperty().bindBidirectional(this.viewModel.getNbCardsTotalProperty());
+
+        XYChart.Series<String, Number> manaCurveSeries = new XYChart.Series<>();
+        manaCurveSeries.setName("mana");
+        manaCurveSeries.dataProperty().bindBidirectional(this.viewModel.getCurveManaDataProperty());
+        manaCurveChart.getData().add(manaCurveSeries);
+
+        this.smallStandardBadge.visibleProperty().bindBidirectional(this.viewModel.getIsStandardProperty());
+        this.smallValidIcon.visibleProperty().bindBidirectional(this.viewModel.getIsValidProperty());
+    }
+
+    protected void initCardListColumns(){
         this.cardList_RarityCol.setCellValueFactory(new PropertyValueFactory("rarityCode"));
         this.cardList_ManaCol.setCellValueFactory(new PropertyValueFactory("mana"));
         this.cardList_ImageCol.setCellValueFactory(new PropertyValueFactory("id"));
@@ -136,9 +163,6 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.cardList_tagsCol.setCellValueFactory(new PropertyValueFactory("tags"));
         this.cardList_extCol.setCellValueFactory(new PropertyValueFactory("setCode"));
 
-        this.tagNameCol.setCellValueFactory(new PropertyValueFactory("tag"));
-        this.nbTagCardCol.setCellValueFactory(new PropertyValueFactory("value"));
-
         this.cardList_RarityCol.setCellFactory(param -> new ColorRectangleCell());
         this.cardList_ManaCol.setCellFactory(param -> CellBuilder.buildIntegerCell());
         this.cardList_ImageCol.setCellFactory(param -> new CardTileCell());
@@ -148,16 +172,17 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.cardList_standardCol.setCellFactory(param -> new StandardCardCell());
         this.cardList_tagsCol.setCellFactory(param -> CellBuilder.buildStringCell());
         this.cardList_extCol.setCellFactory(param -> new SetIconCell());
+    }
 
+    protected void initTagStatsListColumns(){
+        this.tagNameCol.setCellValueFactory(new PropertyValueFactory("tag"));
+        this.nbTagCardCol.setCellValueFactory(new PropertyValueFactory("value"));
 
         this.tagNameCol.setCellFactory(param -> CellBuilder.buildStringCell());
         this.nbTagCardCol.setCellFactory(param -> CellBuilder.buildIntegerCell());
+    }
 
-        XYChart.Series<String, Number> manaCurveSeries = new XYChart.Series<>();
-        manaCurveSeries.setName("mana");
-        manaCurveSeries.dataProperty().bindBidirectional(this.viewModel.getCurveManaDataProperty());
-        manaCurveChart.getData().add(manaCurveSeries);
-
+    protected void installHandlers(){
         this.cardList.setOnDragOver(event -> dragOverEventHandler(event));
         this.cardList.setOnDragDropped(event -> dragDroppedEventHandler(event));
 

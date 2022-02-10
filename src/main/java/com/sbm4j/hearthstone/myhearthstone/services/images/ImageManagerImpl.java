@@ -60,6 +60,7 @@ public class ImageManagerImpl implements ImageManager{
     }
 
 
+
     @Override
     public Image getCardSetIcon(String code) throws FileNotFoundException {
         return getImage(code, cardSetIcon, "extensions" + File.separator + "icons");
