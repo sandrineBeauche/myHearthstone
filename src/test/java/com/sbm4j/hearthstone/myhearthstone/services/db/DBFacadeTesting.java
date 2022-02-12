@@ -36,6 +36,11 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public CardDetail getCardFromDbfId(int dbfId) {
+        return null;
+    }
+
+    @Override
     public List<CardClass> getClasses(boolean includeAll) {
         CardClass [] classes = {
                 new CardClass(4, "ALL", "Toutes les classes"),

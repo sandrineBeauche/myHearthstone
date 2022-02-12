@@ -77,6 +77,13 @@ public class DBFacadeImpl implements DBFacade {
         return typedQuery.setParameter("code", code).getSingleResult();
     }
 
+    @Override
+    public CardDetail getCardFromDbfId(int dbfId) {
+        Session session = this.db.getSession();
+        TypedQuery<CardDetail> typedQuery = session.createNamedQuery("card_from_dbfid", CardDetail.class);
+        return typedQuery.setParameter("dbfId", dbfId).getSingleResult();
+    }
+
 
     @Override
     public List<CardClass> getClasses(boolean includeAll) {

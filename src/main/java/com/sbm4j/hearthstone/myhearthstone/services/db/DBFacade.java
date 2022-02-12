@@ -22,6 +22,8 @@ public interface DBFacade {
 
     Hero getHero(String code) throws NoResultException;
 
+    CardDetail getCardFromDbfId(int dbfId);
+
     List<CardClass> getClasses(boolean includeAll);
 
     List<CardSet> getSets(boolean includeWild);

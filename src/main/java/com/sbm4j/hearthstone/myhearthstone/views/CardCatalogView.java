@@ -12,19 +12,28 @@ import javafx.collections.ListChangeListener;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 import org.controlsfx.control.IndexedCheckModel;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -55,6 +64,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
     @FXML
     protected Label lblNbCards;
 
+
     @InjectViewModel
     protected CardCatalogViewModel viewModel;
 
@@ -66,6 +76,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
     @Inject
     protected ConfigManager configManager;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -116,11 +127,53 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
                 return new CardCell();
             }
         });
+
+    }
+
+
+    protected class CardToolTip extends Tooltip {
+
+        protected CardCatalogItem item;
+
+        protected GridPane grid;
+
+        public CardToolTip(CardCatalogItem item){
+            this.item = item;
+            this.setOnShowing(param -> onShowingHandler());
+        }
+
+        protected void onShowingHandler(){
+            if(this.grid == null) {
+                try {
+                    File fCard = cardImageManager.getBigCardImageAsFile(this.item.id());
+                    ImageView imageCard = new ImageView(new Image(new FileInputStream(fCard)));
+                    imageCard.setFitHeight(500);
+                    imageCard.setPreserveRatio(true);
+
+                    CardDetail details = viewModel.getDetails(item);
+
+                    Image setImg = imageManager.getCardSetLogo(details.getCardSet().getCode());
+                    ImageView setImgView = new ImageView(setImg);
+                    setImgView.setFitWidth(250);
+                    setImgView.setPreserveRatio(true);
+
+
+                    this.grid = new GridPane();
+                    this.grid.add(imageCard, 0, 0, 1, 2);
+                    this.grid.add(setImgView, 1, 0);
+                    setGraphic(this.grid);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
 
     public void onCriteriaChange(){
         this.cardImageManager.clearThumbsCache();
+        this.cardImageManager.clearBigsCache();
         this.viewModel.refreshCatalog();
     }
 
@@ -150,6 +203,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
                     imgView.setOpacity(0.5);
                 }
                 setGraphic(imgView);
+                this.setTooltip(new CardToolTip(item));
             }
         }
     }

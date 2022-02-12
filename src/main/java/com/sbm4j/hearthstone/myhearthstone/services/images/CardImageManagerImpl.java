@@ -28,6 +28,8 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
 
     protected HashMap<String, Image> thumbsCache = new HashMap<String, Image>();
 
+    protected HashMap<String, Image> bigsCache = new HashMap<>();
+
     @Inject
     protected DownloadManager downloadManager;
 
@@ -129,7 +131,16 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
 
     @Override
     public Image getBigCardImage(String cardId, boolean alternate) {
-        return imageFilename(this.bigImagesDir, cardId, alternate);
+        if(this.bigsCache.containsKey(cardId)){
+            return this.bigsCache.get(cardId);
+        }
+        else{
+            Image result = imageFilename(this.bigImagesDir, cardId, alternate);
+            if(result != this.alternateCardImage){
+                this.bigsCache.put(cardId, result);
+            }
+            return result;
+        }
     }
 
     @Override
@@ -215,7 +226,11 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
     @Override
     public void clearThumbsCache() {
         this.thumbsCache.clear();
+    }
 
+    @Override
+    public void clearBigsCache() {
+        this.bigsCache.clear();
     }
 
 }

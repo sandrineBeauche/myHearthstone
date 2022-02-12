@@ -198,4 +198,8 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
         this.getCheckModelTags().clearChecks();
         this.refreshCatalog();
     }
+
+    public CardDetail getDetails(CardCatalogItem item){
+        return this.dbFacade.getCardFromDbfId(item.dbfId());
+    }
 }

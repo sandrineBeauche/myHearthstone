@@ -13,7 +13,7 @@ import org.hibernate.annotations.NamedQueries;
         ),
         @NamedQuery(
                 name="card_from_dbfid",
-                query="select t from CardTag t where t.code = :code"
+                query="select c from CardDetail c where c.dbfId = :dbfId"
         )
 })
 @Entity

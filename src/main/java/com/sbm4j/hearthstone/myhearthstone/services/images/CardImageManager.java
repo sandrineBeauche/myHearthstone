@@ -30,4 +30,6 @@ public interface CardImageManager {
 
     void clearThumbsCache();
 
+    void clearBigsCache();
+
 }
