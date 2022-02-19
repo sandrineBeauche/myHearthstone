@@ -2,11 +2,19 @@ package com.sbm4j.hearthstone.myhearthstone;
 
 import com.google.inject.Module;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckListViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.MainViewModel;
 import com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView;
+import com.sbm4j.hearthstone.myhearthstone.views.DeckEditView;
+import com.sbm4j.hearthstone.myhearthstone.views.DeckListView;
+import com.sbm4j.hearthstone.myhearthstone.views.MainView;
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
 import de.saxsys.mvvmfx.guice.MvvmfxGuiceApplication;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -31,15 +39,15 @@ public class HearthstoneApplication extends MvvmfxGuiceApplication{
 
     @Override
     public void startMvvmfx(Stage stage) throws Exception {
-        ViewTuple<CardCatalogView, CardCatalogViewModel> catalog = FluentViewLoader.fxmlView(CardCatalogView.class).load();
-        Scene root = new Scene(catalog.getView());
+        ViewTuple<MainView, MainViewModel> main = FluentViewLoader.fxmlView(MainView.class).load();
+        Scene root = new Scene(main.getView());
         stage.setScene(root);
         stage.show();
     }
 
     @Override
     public void stopMvvmfx() throws Exception {
-        //super.stopMvvmfx();
+        super.stopMvvmfx();
     }
 
 

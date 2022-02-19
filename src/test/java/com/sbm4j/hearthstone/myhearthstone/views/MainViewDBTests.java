@@ -11,7 +11,7 @@ import com.sbm4j.hearthstone.myhearthstone.AbstractUITest;
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
-import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckListViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.MainViewModel;
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
 import javafx.scene.Scene;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 @ExtendWith(DBUnitExtension.class)
-public class DeckListViewDBTests extends AbstractUITest {
+public class MainViewDBTests extends AbstractUITest {
 
     protected DBManager manager;
 
@@ -34,10 +34,9 @@ public class DeckListViewDBTests extends AbstractUITest {
 
     protected Module hearthstoneModule;
 
-    protected DeckListViewModel viewModel;
-
     private ConnectionHolder connectionHolder = () ->
             EntityManagerProvider.instance("pu-hearthstone").connection();
+
 
     @BeforeEach
     public void beforeEach() throws TimeoutException {
@@ -49,9 +48,8 @@ public class DeckListViewDBTests extends AbstractUITest {
 
     @Override
     public void startAppTest(Injector injector, Stage stage) {
-        ViewTuple<DeckListView, DeckListViewModel> deckList = FluentViewLoader.fxmlView(DeckListView.class).load();
-        this.viewModel = deckList.getViewModel();
-        Scene root = new Scene(deckList.getView());
+        ViewTuple<MainView, MainViewModel> main = FluentViewLoader.fxmlView(MainView.class).load();
+        Scene root = new Scene(main.getView());
         stage.setScene(root);
         stage.show();
     }
@@ -61,16 +59,10 @@ public class DeckListViewDBTests extends AbstractUITest {
         return List.of(this.hearthstoneModule);
     }
 
-    @Test
-    @DataSet("collectionWithDecks1.xml")
-    public void duplicateDeckTest() throws TimeoutException {
-        this.setupAppTest();
-        WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
-    }
 
     @Test
     @DataSet("collectionWithDecks1.xml")
-    public void createDeckTest() throws TimeoutException {
+    public void mainTest() throws TimeoutException {
         this.setupAppTest();
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
     }

@@ -165,7 +165,7 @@ public class DBFacadeImpl implements DBFacade {
         }
         catch(Exception ex){
             logger.error("There is already a deck with the name " + name);
-            return null;
+            throw ex;
         }
     }
 
@@ -212,12 +212,12 @@ public class DBFacadeImpl implements DBFacade {
         catch(NullPointerException ex){
             logger.error("Deck with id " + id + " cannot be duplicated: deck not found!");
             this.db.closeSession();
-            return null;
+            throw ex;
         }
         catch(Exception ex2){
             logger.error(ex2.getMessage(), ex2);
             this.db.closeSession();
-            return null;
+            throw ex2;
         }
     }
 
@@ -346,11 +346,15 @@ public class DBFacadeImpl implements DBFacade {
         query2.setParameter("deck", deck);
         Long result2 = query2.getSingleResult();
 
-        Integer[] result = {0,0,0,0,0,0,0,result2.intValue()};
+        Integer[] result = {0,0,0,0,0,0,0,0};
 
         for(Object [] current: result1){
             Integer index = (Integer) current[0];
             result[index] = ((Long) current[1]).intValue();
+        }
+
+        if(result2 != null){
+            result[7] = result2.intValue();
         }
 
         return result;

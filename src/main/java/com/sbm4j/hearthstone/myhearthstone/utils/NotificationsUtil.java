@@ -7,7 +7,7 @@ public class NotificationsUtil {
 
     public static void showInfoNotification(String title, String header, String content){
         try {
-            Notifications.create().title(title).text(content).showInformation();
+            Notifications.create().darkStyle().title(title).text(content).showInformation();
         }
         catch(NullPointerException ex){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -20,7 +20,7 @@ public class NotificationsUtil {
 
     public static void showErrorNotification(String title, String header, String content){
         try {
-            Notifications.create().title(title).text(content).showError();
+            Notifications.create().darkStyle().title(title).text(content).showError();
         }
         catch(NullPointerException ex){
             Alert alert = new Alert(Alert.AlertType.ERROR);

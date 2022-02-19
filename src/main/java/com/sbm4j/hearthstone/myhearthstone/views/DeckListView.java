@@ -2,10 +2,13 @@ package com.sbm4j.hearthstone.myhearthstone.views;
 
 import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
+import com.sbm4j.hearthstone.myhearthstone.model.Hero;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckListViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
+import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -14,12 +17,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Pair;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DeckListView implements FxmlView<DeckListViewModel>, Initializable {
+
+    @FXML
+    protected TitledPane titledPane;
 
     @FXML
     protected TableView<DeckListItem> decksTable;
@@ -70,6 +81,9 @@ public class DeckListView implements FxmlView<DeckListViewModel>, Initializable 
     @Inject
     protected ImageManager imageManager;
 
+    @Inject
+    private NotificationCenter notificationCenter;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.viewModel.initialize(location, resources);
@@ -96,15 +110,61 @@ public class DeckListView implements FxmlView<DeckListViewModel>, Initializable 
         this.standardCardsColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, Integer>buildIntegerCell();});
         this.tagsColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, String>buildStringCell();});
         this.summaryColumn.setCellFactory(param -> {return CellBuilder.<DeckListItem, String>buildStringCell();});
+
+        this.notificationCenter.subscribe(DeckListViewModel.REFRESH_LIST, (key, payload) -> {
+            decksTable.refresh();
+        });
     }
 
+    public void createNewDeckCallback(){
+        List<Hero> heroes = this.viewModel.getAvailableHeros();
+        Optional<Pair<String, Hero>> params = Dialogs.newDeckDialog(heroes, imageManager);
+        params.ifPresent(values -> {
+            ParamCommand command = this.viewModel.getCreateNewDeckCommand();
+            command.putParameter("name", values.getKey());
+            command.putParameter("hero", values.getValue());
+            command.execute();
+        });
+    }
+
+    public void editDeckCallback(){
+        this.titledPane.toBack();
+        DeckListItem deck = this.viewModel.getSelectionModel().getSelectedItem();
+        this.notificationCenter.publish(DeckEditViewModel.SHOW_DECK, deck);
+    }
 
     public void duplicateDeckCallback(){
-        this.viewModel.getDuplicateDeckCommand().execute();
+        DeckListItem selected = this.viewModel.getSelectionModel().getSelectedItem();
+        TextInputDialog dialog = new TextInputDialog(selected.getName() + "(1)");
+        dialog.setTitle("Dupliquer un deck");
+        dialog.setHeaderText("Dupliquer le deck " + selected.getName());
+        dialog.setContentText("Entrez le nom du nouveau deck: ");
+        dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String newName = result.get();
+            ParamCommand command = this.viewModel.getDuplicateDeckCommand();
+            command.putParameter("name", newName);
+            command.putParameter("deckName", selected.getName());
+            command.putParameter("deckId", selected.getDeckId());
+            command.execute();
+        }
     }
 
     public void deleteDeckCallback(){
-        this.viewModel.getDeleteCommand().execute();
+        DeckListItem selected = this.viewModel.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmation de suppression");
+        alert.setHeaderText("Suppression d'un deck");
+        alert.setContentText("Voulez-vous vraiment supprimer le deck " + selected.getName());
+        alert.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            this.viewModel.getDeleteCommand().execute();
+        }
     }
 
     public class HeroIconCell extends TableCell<DeckListItem, String> {
@@ -122,6 +182,9 @@ public class DeckListView implements FxmlView<DeckListViewModel>, Initializable 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
+            }
+            else{
+                setGraphic(null);
             }
         }
     }

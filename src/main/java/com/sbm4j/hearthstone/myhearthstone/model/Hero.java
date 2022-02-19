@@ -72,8 +72,9 @@ public class Hero {
         this.classe = classe;
     }
 
+
     @Override
     public String toString() {
-        return this.name + "(" + this.code + ")";
+        return this.name;
     }
 }

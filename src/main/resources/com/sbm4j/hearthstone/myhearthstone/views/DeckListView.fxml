@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="781.0" stylesheets="@style.css" text="Decks" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckListView">
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="587.0" prefWidth="781.0" stylesheets="@style.css" text="Decks" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckListView">
    <font>
       <Font size="14.0" />
    </font>
@@ -33,7 +33,7 @@
          <top>
             <HBox prefHeight="33.0" prefWidth="757.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button fx:id="cmdNewButton" mnemonicParsing="false" text="Nouveau">
+                  <Button fx:id="cmdNewButton" mnemonicParsing="false" onAction="#createNewDeckCallback" text="Nouveau">
                      <HBox.margin>
                         <Insets bottom="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -45,7 +45,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button fx:id="cmdEditButton" mnemonicParsing="false" text="Editer">
+                  <Button fx:id="cmdEditButton" mnemonicParsing="false" onAction="#editDeckCallback" text="Editer">
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>

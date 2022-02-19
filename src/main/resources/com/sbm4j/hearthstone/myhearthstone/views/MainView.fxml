@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<SplitPane dividerPositions="0.5" prefHeight="691.0" prefWidth="1266.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.MainView">
+   <items>
+      <fx:include maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="CardCatalogView.fxml" />
+      <StackPane prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <fx:include source="DeckEditView.fxml" />
+            <fx:include maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" source="DeckListView.fxml" />
+         </children>
+      </StackPane>
+   </items>
+</SplitPane>

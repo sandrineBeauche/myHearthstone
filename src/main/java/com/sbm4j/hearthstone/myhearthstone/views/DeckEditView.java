@@ -200,6 +200,10 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 this.tabPane.getSelectionModel().select(0);
             }
         });
+
+        viewModel.subscribe(DeckEditViewModel.BACK, (key, payload) -> {
+            titledPane.toBack();
+        });
     }
 
     protected void refreshCurrentTab(int index){
@@ -297,6 +301,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 imgView.setPreserveRatio(true);
                 setGraphic(imgView);
             }
+            else{
+                setGraphic(null);
+            }
         }
     }
 
@@ -323,6 +330,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                     }
                 }
             }
+            else{
+                setGraphic(null);
+            }
         }
     }
 
@@ -343,6 +353,10 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
                 setGraphic(imgView);
                 this.setTooltip(new CardListImageTooltip(item));
+            }
+            else{
+                this.setGraphic(null);
+                this.setTooltip(null);
             }
         }
     }
@@ -369,7 +383,10 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
+            }
+            else{
+                setGraphic(null);
+                setTooltip(null);
             }
         }
     }
@@ -391,6 +408,10 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 setGraphic(rect);
                 this.setTooltip(new Tooltip(viewModel.getRarityTooltips(item)));
             }
+            else{
+                setGraphic(null);
+                setTooltip(null);
+            }
         }
     }
 
@@ -409,5 +430,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     public void deleteSelectedCard(){
         DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
         this.viewModel.deleteSelectedCard(selected);
+    }
+
+    public void backAction(){
+        this.viewModel.backHandler();
     }
 }

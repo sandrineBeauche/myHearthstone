@@ -14,6 +14,10 @@ import org.hibernate.annotations.NamedQueries;
         @NamedQuery(
                 name="card_from_dbfid",
                 query="select c from CardDetail c where c.dbfId = :dbfId"
+        ),
+        @NamedQuery(
+                name="class_of_card",
+                query="select cl.code from CardDetail c join c.cardClass cl where c.dbfId = :dbfId"
         )
 })
 @Entity

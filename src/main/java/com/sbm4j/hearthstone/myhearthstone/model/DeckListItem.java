@@ -94,4 +94,12 @@ public class DeckListItem {
     public void setTags(String tags) {
         this.tags = tags;
     }
+
+    public boolean isStandard(){
+        return this.nbCards == this.nbStandardCards;
+    }
+
+    public boolean isValid(){
+        return this.nbCards == 30 && this.nbCardsInCollection == 30;
+    }
 }

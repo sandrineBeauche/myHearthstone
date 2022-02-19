@@ -3,8 +3,11 @@ package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.Deck;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
+import com.sbm4j.hearthstone.myhearthstone.model.Hero;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.utils.NotificationsUtil;
+import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
+import com.sbm4j.hearthstone.myhearthstone.views.ParamCommand;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
 import de.saxsys.mvvmfx.utils.commands.Command;
@@ -17,17 +20,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import javax.persistence.PersistenceException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class DeckListViewModel implements ViewModel, Initializable {
 
+    public static final String REFRESH_LIST = "REFRESH_LIST";
+
     @Inject
     protected DBFacade dbFacade;
+
+    protected Logger logger = LogManager.getLogger();
 
     /* items property */
     private ObjectProperty<ObservableList<DeckListItem>> items = new SimpleObjectProperty<ObservableList<DeckListItem>>();
@@ -58,77 +71,85 @@ public class DeckListViewModel implements ViewModel, Initializable {
         }
     }
 
-    public Command getDuplicateDeckCommand(){return this.duplicateDeckCommand;}
-    protected Command duplicateDeckCommand = new DelegateCommand(() -> new Action(){
+
+    public ParamCommand getDuplicateDeckCommand(){return this.duplicateDeckCommand;}
+    protected ParamCommand duplicateDeckCommand = new ParamCommand("Dupliquer un deck",
+            () -> new Action(){
         @Override
-        protected void action() throws Exception {
-            duplicateDeck();
+        protected void action() {
+            HashMap<String, Object> params = duplicateDeckCommand.getParameters();
+
+            String name = (String) params.get("name");
+            String deckName = (String) params.get("deckName");
+            int deckId = (int) params.get("deckId");
+                try {
+                    Deck newDeck = dbFacade.duplicateDeck(deckId, name);
+                    DeckListItem item = dbFacade.getDeckListItem(newDeck.getId());
+                    getItems().add(item);
+                    duplicateDeckCommand.setNotificationMessage("Le deck " + deckName + " a été dupliqué avec succès avec le nom " + name);
+                }
+                catch(PersistenceException ex){
+                    duplicateDeckCommand.setNotificationMessage("Il existe déjà un deck avec le nom " + name + ". ");
+                    throw ex;
+                }
+                catch(Exception ex2){
+                    duplicateDeckCommand.setNotificationMessage("Erreur lors de la duplication du deck  " + deckName + ". ");
+                    throw ex2;
+                }
+
         }
     });
-    protected void duplicateDeck(){
-        DeckListItem selected = this.getSelectionModel().getSelectedItem();
-
-        TextInputDialog dialog = new TextInputDialog(selected.getName() + "(1)");
-        dialog.setTitle("Dupliquer un deck");
-        dialog.setHeaderText("Dupliquer le deck " + selected.getName());
-        dialog.setContentText("Entrez le nom du nouveau deck: ");
-
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()){
-            String newName = result.get();
-            Deck newDeck = this.dbFacade.duplicateDeck(selected.getDeckId(), newName);
-            if(newDeck != null){
-                NotificationsUtil.showInfoNotification("Dupliquer un deck",
-                        "Duplication effectuée avec succès",
-                        "Le deck " + selected.getName() + " a été dupliqué avec succès avec le nom " + newName);
-                refreshDeckList();
-            }
-            else{
-                NotificationsUtil.showErrorNotification("Dupliquer un deck",
-                        "Oups! Il y a des erreurs",
-                        "Erreur de la duplication du deck " + selected.getName() + ". Veuillez consulter les logs pour plus d'informations");
-            }
-        }
-    }
 
 
-    public Command getDeleteCommand(){return this.deleteDeckCommand;}
-    protected Command deleteDeckCommand = new DelegateCommand(() -> new Action(){
+
+    public ParamCommand getDeleteCommand(){return this.deleteDeckCommand;}
+    protected ParamCommand deleteDeckCommand = new ParamCommand("Supprimer un deck",
+            () -> new Action(){
         @Override
         protected void action() throws Exception {
-            deleteDeck();
-        }
-    });
-    protected void deleteDeck(){
-        DeckListItem selected = this.getSelectionModel().getSelectedItem();
-        String deckName = selected.getName();
-
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirmation de suppression");
-        alert.setHeaderText("Suppression d'un deck");
-        alert.setContentText("Voulez-vous vraiment supprimer le deck " + selected.getName());
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK){
-            boolean resultDelete = this.dbFacade.deleteDeck(selected.getDeckId());
+            DeckListItem selected = getSelectionModel().getSelectedItem();
+            String name = selected.getName();
+            boolean resultDelete = dbFacade.deleteDeck(selected.getDeckId());
             if(resultDelete){
-                NotificationsUtil.showInfoNotification("Supprimer un deck",
-                        "Suppression effectuée avec succès",
-                        "Le deck " + deckName + " a été supprimé avec succès.");
-                refreshDeckList();
+                getItems().remove(selected);
+                deleteDeckCommand.setNotificationMessage("Le deck " + name + " a été supprimé avec succès.");
             }
             else {
-                NotificationsUtil.showErrorNotification("Supprimer un deck",
-                        "Oups! Il y a des erreurs",
-                        "Erreur de la suppression du deck " + deckName + ". Veuillez consulter les logs pour plus d'informations");
+                deleteDeckCommand.setNotificationMessage("Erreur de la suppression du deck " + name + ".");
+                throw new Exception();
             }
         }
+    });
+
+
+
+    public ParamCommand getCreateNewDeckCommand(){return this.createNewDeckCommand;}
+    protected ParamCommand createNewDeckCommand = new ParamCommand("Créer un deck", () -> new Action(){
+        @Override
+        protected void action() throws Exception {
+            String name = (String) createNewDeckCommand.getParameters().get("name");
+            Hero hero = (Hero) createNewDeckCommand.getParameters().get("hero");
+
+            logger.info("Create a new deck " + name + " for hero " + hero.toString());
+            Deck newDeck = dbFacade.createDeck(name, hero);
+            if(newDeck != null) {
+                DeckListItem item = new DeckListItem(newDeck.getId(), name, null, hero.getCode(), 0L, 0L, 0L, null);
+                getItems().add(item);
+                createNewDeckCommand.setNotificationMessage("Le deck " + name + " crée avec succès");
+            }
+            else{
+                createNewDeckCommand.setNotificationMessage("Erreur lors de la création du deck " + name);
+                throw new Exception();
+            }
+        }
+    });
+
+
+    public List<Hero> getAvailableHeros(){
+        return dbFacade.getHeros();
     }
 
 
-    protected void refreshDeckList(){
-        List<DeckListItem> decks = this.dbFacade.getDeckList();
-        this.getItems().clear();
-        this.getItems().addAll(decks);
-    }
+
+
 }

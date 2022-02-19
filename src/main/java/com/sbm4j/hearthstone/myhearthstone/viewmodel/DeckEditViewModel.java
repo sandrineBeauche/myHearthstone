@@ -8,17 +8,13 @@ import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.cardClasses.CardClassImageLoader;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
 import de.saxsys.mvvmfx.ViewModel;
+import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.SingleSelectionModel;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
-import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
@@ -33,6 +29,8 @@ import java.util.ResourceBundle;
 public class DeckEditViewModel implements ViewModel, Initializable {
 
     public final static String SHOW_DECK = "SHOW_DECK";
+
+    public final static String BACK = "BACK";
 
     /* title property */
     private StringProperty title = new SimpleStringProperty();
@@ -115,6 +113,9 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     @Inject
     protected Notificator notificator;
 
+    @Inject
+    private NotificationCenter notificationCenter;
+
 
     protected Deck currentDeck;
 
@@ -149,6 +150,12 @@ public class DeckEditViewModel implements ViewModel, Initializable {
         for(Rarity current: this.dbFacade.getRarities(false)){
             this.rarityTooltips.put(current.getCode(), current.getName());
         }
+
+        this.notificationCenter.subscribe(SHOW_DECK, (key, payload) -> {
+            Object[] params = payload.clone();
+            DeckListItem deckItem = (DeckListItem) params[0];
+            showDeck(deckItem);
+        });
     }
 
     public void showDeck(DeckListItem deckItem){
@@ -219,6 +226,7 @@ public class DeckEditViewModel implements ViewModel, Initializable {
                 this.getCurveManaData().get(i).setYValue(curveData[i]);
             }
 
+            this.getStatsTagsList().clear();
             List<TagStat> stats = this.dbFacade.getTagsStats(this.currentDeck);
             this.getStatsTagsList().addAll(stats);
         }
@@ -314,6 +322,7 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             this.updateManaCurve(newCardItem, 1);
             this.updateTagsStats(newCardItem, 1);
             this.updateDeckListItem(newCardItem,1);
+            this.setIsStandard(this.currentDeckItem.isStandard());
             this.notificator.notifyAddCardToDeckSuccess(newCardItem.getName(), this.currentDeck.getName());
         }
         else{
@@ -339,6 +348,7 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             this.updateManaCurve(oldItem, delta);
             this.updateTagsStats(oldItem, delta);
             this.updateDeckListItem(oldItem, delta);
+            this.setIsStandard(this.currentDeckItem.isStandard());
             this.notificator.notifyRemoveCardFromDeckSuccess(cardName, this.currentDeck.getName());
         }
         else{
@@ -365,6 +375,46 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             int dbfId = selected.getDbfId();
             this.removeCardFromDbfId(dbfId, true);
         }
+    }
+
+    public void backHandler(){
+        this.saveDeck();
+        this.publish(BACK);
+        this.notificationCenter.publish(DeckListViewModel.REFRESH_LIST);
+    }
+
+    protected void saveDeck(){
+        boolean isDirty = false;
+        if(!this.getName().equals(this.currentDeckItem.getName())){
+            this.currentDeck.setName(this.getName());
+            isDirty = true;
+        }
+
+        if(this.getSummary() == null){
+            if(this.currentDeckItem.getSummary() != this.getSummary()){
+                this.currentDeck.setSummary(this.getSummary());
+                isDirty = true;
+            }
+        }
+        else{
+            if(!this.getSummary().equals(this.currentDeckItem.getSummary())){
+                this.currentDeck.setSummary(this.getSummary());
+                isDirty = true;
+            }
+        }
+
+        if(isDirty){
+            Session session = this.dbManager.getSession();
+            session.beginTransaction();
+            session.update(this.currentDeck);
+            session.getTransaction().commit();
+        }
+        this.currentDeckItem.setName(this.currentDeck.getName());
+        this.currentDeckItem.setSummary(this.currentDeck.getSummary());
+
+        List<String> tags = this.getStatsTagsList().stream().map(t -> t.getTag()).toList();
+        String tagsString = String.join(",", tags);
+        this.currentDeckItem.setTags(tagsString);
     }
 
     public String getExtensionTooltips(String code){

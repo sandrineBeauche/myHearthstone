@@ -198,7 +198,7 @@
       </TabPane>
    </content>
    <graphic>
-      <Button mnemonicParsing="false" text="Retour">
+      <Button mnemonicParsing="false" onAction="#backAction" text="Retour">
          <graphic>
             <ImageView pickOnBounds="true" preserveRatio="true">
                <image>
