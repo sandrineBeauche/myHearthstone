@@ -84,6 +84,10 @@ public class CardImageManagerImpl extends AbstractImageManager implements CardIm
         String url = serverUri + cardId + ".png";
         String filename = localDirectory.toString() + File.separator + cardId + ".png";
         try {
+            File toFile = new File(filename);
+            if(toFile.exists()){
+                toFile.delete();
+            }
             File result = this.downloadManager.downloadFile(url, filename);
 
             if(serverUri.contains("512x")){

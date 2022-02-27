@@ -15,9 +15,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.Pair;
+import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -122,4 +124,23 @@ public class Dialogs {
     }
 
 
+    public static void showProgressDialog(ParamCommand command, String headerText){
+        try {
+            ProgressDialog dialog = new ProgressDialog(command);
+            dialog.setTitle(command.getTitle());
+            dialog.setHeaderText(headerText);
+            dialog.setWidth(600);
+            dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+            command.execute();
+            Optional<Void> result = dialog.showAndWait();
+            if(!result.isPresent()){
+                //command.cancel();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

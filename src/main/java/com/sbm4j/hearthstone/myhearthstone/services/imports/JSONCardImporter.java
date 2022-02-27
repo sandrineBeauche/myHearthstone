@@ -3,6 +3,7 @@ package com.sbm4j.hearthstone.myhearthstone.services.imports;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
@@ -11,6 +12,8 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 
 import com.sbm4j.hearthstone.myhearthstone.utils.NotificationsUtil;
+import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
+import de.saxsys.mvvmfx.utils.commands.Action;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -34,7 +37,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-public class JSONCardImporter extends Task<ImportCardReport> implements ImportCatalogAction {
+public class JSONCardImporter extends Action implements ImportCatalogAction {
 
     protected static Logger logger = LogManager.getLogger();
 
@@ -52,14 +55,13 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
 
     protected ImportCardReport report = new ImportCardReport();
 
-
     public JSONCardImporter(){
 
     }
 
 
     @Override
-    protected ImportCardReport call() throws Exception {
+    public void action() throws Exception {
         File jsonFile = this.configManager.getCatalogJsonFile();
         if(jsonFile != null){
             ArrayList<JsonCard> cards = this.parseCards(jsonFile);
@@ -72,57 +74,18 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
                     unknownRarities.size() == 0 && unknownClasses.size() == 0){
                 this.importCards(jsonFile);
             }
-        }
-        return this.report;
-    }
 
-    @Override
-    public void handle(ActionEvent event) {
-        try {
-            ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setTitle("Importer le catalogue");
-            dialog.setHeaderText("Importation du catalogue de cartes Hearthstone");
-            dialog.setWidth(600);
-
-            dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
-
-            new Thread(this).start();
-            Optional<Void> result = dialog.showAndWait();
-            if(!result.isPresent()){
-                this.cancel();
+            if(this.report.errors.size() == 0 && this.report.globalErrors.size() == 0){
+                this.updateMessage(this.report.nbCreated + " cartes ajoutées, " + this.report.nbUpdated + " cartes mises à jour");
             }
-            this.showReportNotification();
-        } catch (Exception e) {
-            e.printStackTrace();
+            else{
+                logger.error(this.report.toString());
+                this.updateMessage("Il y a eu des erreurs lors de l'importation.");
+                throw new Exception();
+            }
         }
     }
 
-
-    protected void showReportNotification(){
-        if(this.report.errors.size() == 0 && this.report.globalErrors.size() == 0){
-            this.showOkReportNotification();
-        }
-        else{
-            logger.error(this.report.toString());
-            this.showErrorReportNotification();
-        }
-    }
-
-    protected void showOkReportNotification(){
-        NotificationsUtil.showInfoNotification(
-                "Importation du catalogue de cartes",
-                "Importation effectuée avec succès!",
-                this.report.nbCreated + " cartes ajoutées, " + this.report.nbUpdated + " cartes mises à jour"
-        );
-    }
-
-    protected void showErrorReportNotification(){
-        NotificationsUtil.showErrorNotification(
-                "Importation du catalogue de cartes",
-                "Erreurs lors de l'importation",
-                "Il y a eu des erreurs lors de l'importation, veuillez consulter les logs pour plus de précisions"
-        );
-    }
 
 
     public ArrayList<JsonCard> parseCards(File jsonFile) throws IOException {
@@ -475,8 +438,6 @@ public class JSONCardImporter extends Task<ImportCardReport> implements ImportCa
             }
         }
     }
-
-
 
 
     public ImportCardReport getReport() {

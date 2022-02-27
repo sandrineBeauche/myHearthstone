@@ -2,6 +2,8 @@ package com.sbm4j.hearthstone.myhearthstone.views;
 
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.DataSetFormat;
+import com.github.database.rider.core.api.exporter.ExportDataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
 import com.github.database.rider.junit5.util.EntityManagerProvider;
 import com.google.inject.Guice;
@@ -62,7 +64,15 @@ public class MainViewDBTests extends AbstractUITest {
 
     @Test
     @DataSet("collectionWithDecks1.xml")
+    //@ExportDataSet(format = DataSetFormat.XML,outputName="target/exported/xml/allTables.xml")
     public void mainTest() throws TimeoutException {
+        this.setupAppTest();
+        WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
+    }
+
+    @Test
+    @DataSet("bigDataset.xml")
+    public void bigTest() throws TimeoutException {
         this.setupAppTest();
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
     }

@@ -36,6 +36,8 @@ public interface DBFacade {
 
     List<Hero> getHeros();
 
+    Hero getHero(int dbfId);
+
     Deck createDeck(String name, Hero hero);
 
     boolean deleteDeck(int id);
@@ -44,11 +46,15 @@ public interface DBFacade {
 
     boolean addCardToDeck(int dbfId, Deck deck);
 
+    boolean addCardToDeck(int dbfId, Deck deck, int count);
+
     boolean removeCardFromDeck(int dbfId, Deck deck, boolean all);
 
     List<DeckListItem> getDeckList();
 
     DeckListItem getDeckListItem(int deckId);
+
+    List<DeckCardListItem> getDeckCardList(int deckId);
 
     List<DeckCardListItem> getDeckCardList(Deck deck);
 

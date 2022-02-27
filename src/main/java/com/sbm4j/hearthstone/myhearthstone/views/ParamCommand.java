@@ -59,17 +59,29 @@ public class ParamCommand extends DelegateCommand {
         this.commandTitle = commandTitle;
     }
 
+
+    protected String getFinalMessage(){
+        if(this.notificationMessage != null){
+            return this.notificationMessage;
+        }
+        else{
+            return getMessage();
+        }
+    }
+
     @Override
     protected void succeeded() {
+        String content = this.getFinalMessage();
         NotificationsUtil.showInfoNotification(this.getCommandTitle(),
                 "Opération effectuée avec succès",
-                this.getNotificationMessage());
+                content);
     }
 
     @Override
     protected void failed() {
+        String content = this.getFinalMessage();
         NotificationsUtil.showErrorNotification(this.getCommandTitle(),
                 "Oups! Il y a des erreurs",
-                this.getNotificationMessage() + " Veuillez consulter les logs pour plus d'informations");
+                content + " Veuillez consulter les logs pour plus d'informations");
     }
 }

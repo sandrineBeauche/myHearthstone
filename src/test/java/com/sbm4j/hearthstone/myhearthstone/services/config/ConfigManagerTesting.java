@@ -11,6 +11,7 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
 
     @Override
     public String getConnectionUrl() {
+        //return "jdbc:hsqldb:file:~/progs/myHearthstone/myHearthstoneDB";
         return "jdbc:hsqldb:mem:db1";
     }
 

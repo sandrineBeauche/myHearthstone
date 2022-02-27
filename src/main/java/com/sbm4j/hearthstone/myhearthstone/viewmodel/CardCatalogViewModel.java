@@ -6,7 +6,10 @@ import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.db.CatalogCriteria;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCardImporter;
 import com.sbm4j.hearthstone.myhearthstone.views.ManaOption;
+import com.sbm4j.hearthstone.myhearthstone.views.ParamCommand;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
 import de.saxsys.mvvmfx.utils.commands.Command;
@@ -163,20 +166,17 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     }
 
 
-    protected Command importCatalogCommand = new DelegateCommand(() -> new Action(){
-        @Override
-        protected void action() throws Exception {
-            importCatalog();
-        }
-    });
+    protected ParamCommand importCatalogCommand = new ParamCommand(
+            "Importer le catalogue",
+            () -> (Action) this.injector.getInstance(ImportCatalogAction.class), true);
+    public ParamCommand getImportCatalogCommand(){ return this.importCatalogCommand;}
 
-    private void importCatalog(){
-        ImportCatalogAction action = this.injector.getInstance(ImportCatalogAction.class);
-        action.handle(null);
-        this.refreshCatalog();
-    }
 
-    public Command getImportCatalogCommand(){ return this.importCatalogCommand;}
+    protected ParamCommand importCollectionCommand = new ParamCommand(
+            "Importer la collection utilisateur",
+            () -> (Action) this.injector.getInstance(ImportCollectionAction.class), true);
+    public ParamCommand getImportCollectionCommand(){ return this.importCollectionCommand;}
+
 
     public void refreshCatalog(){
         CatalogCriteria criteria = new CatalogCriteria(

@@ -159,15 +159,15 @@
     {"code": "NEUTRAL", "name": "Neutre"}
   ],
   "heros": [
-    {"code": "ANDUIN_WRYNN", "name":  "Anduin Wrynn", "codeClass": "PRIEST"},
-    {"code": "GARROSH_HURLENFER", "name": "Garrosh Hurlenfer", "codeClass": "WARRIOR"},
-    {"code": "GULDAN", "name": "Guld'an", "codeClass": "WARLOCK"},
-    {"code": "ILLIDAN_HURLORAGE", "name": "Illidan Hurlorage", "codeClass": "DEMONHUNTER"},
-    {"code": "JAINA_PORTVAILLANT", "name": "Jaina Portvaillant", "codeClass": "MAGE"},
-    {"code": "MALFURION_HURLORAGE", "name": "Malfurion Hurlorage", "codeClass": "DRUID"},
-    {"code": "REXXAR", "name": "Rexxar", "codeClass": "HUNTER"},
-    {"code": "THRALL", "name": "Thrall", "codeClass": "SHAMAN"},
-    {"code": "UTHER", "name": "Uther le porteur de lumière", "codeClass": "PALADIN"},
-    {"code": "VALEERA_SANGUINAR", "name": "Valeera Sanguinar", "codeClass": "ROGUE"}
+    {"code": "ANDUIN_WRYNN", "name": "Anduin Wrynn", "codeClass": "PRIEST", "dbfId": 813},
+    {"code": "GARROSH_HURLENFER", "name": "Garrosh Hurlenfer", "codeClass": "WARRIOR", "dbfId": 7},
+    {"code": "GULDAN", "name": "Guld'an", "codeClass": "WARLOCK", "dbfId": 893},
+    {"code": "ILLIDAN_HURLORAGE", "name": "Illidan Hurlorage", "codeClass": "DEMONHUNTER", "dbfId": 56550},
+    {"code": "JAINA_PORTVAILLANT", "name": "Jaina Portvaillant", "codeClass": "MAGE", "dbfId": 637},
+    {"code": "MALFURION_HURLORAGE", "name": "Malfurion Hurlorage", "codeClass": "DRUID", "dbfId": 274},
+    {"code": "REXXAR", "name": "Rexxar", "codeClass": "HUNTER", "dbfId": 31},
+    {"code": "THRALL", "name": "Thrall", "codeClass": "SHAMAN", "dbfId":  1066},
+    {"code": "UTHER", "name": "Uther le porteur de lumière", "codeClass": "PALADIN", "dbfId": 671},
+    {"code": "VALEERA_SANGUINAR", "name": "Valeera Sanguinar", "codeClass": "ROGUE", "dbfId": 930}
   ]
 }

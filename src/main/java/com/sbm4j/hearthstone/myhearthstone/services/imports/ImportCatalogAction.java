@@ -10,7 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public interface ImportCatalogAction extends EventHandler<ActionEvent> {
+public interface ImportCatalogAction{
 
     enum CardStatus {
         NEW_CARD,

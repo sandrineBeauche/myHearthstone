@@ -74,4 +74,11 @@ public class DeckListViewDBTests extends AbstractUITest {
         this.setupAppTest();
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
     }
+
+    @Test
+    @DataSet("bigDataset.xml")
+    public void exportDeckTest() throws TimeoutException {
+        this.setupAppTest();
+        WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
+    }
 }

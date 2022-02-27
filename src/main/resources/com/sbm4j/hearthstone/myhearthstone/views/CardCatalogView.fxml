@@ -20,7 +20,7 @@
             <MenuButton contentDisplay="TOP" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="Menu">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#importCatalogCommand" text="Importer le catalogue" />
-                <MenuItem mnemonicParsing="false" text="Importer la collection" />
+                <MenuItem mnemonicParsing="false" onAction="#importCollectionCommand" text="Importer la collection" />
               </items>
             </MenuButton>
             <CheckComboBox fx:id="cmbTags" prefHeight="23.0" prefWidth="453.0" />

@@ -47,7 +47,7 @@ public abstract class AbstractUITest extends FxRobot {
         FxToolkit.setupApplication(() -> app);
     }
 
-    public abstract void startAppTest(Injector injector, Stage stage);
+    public abstract void startAppTest(Injector injector, Stage stage) throws Exception;
 
     public abstract List<Module> initModules();
 

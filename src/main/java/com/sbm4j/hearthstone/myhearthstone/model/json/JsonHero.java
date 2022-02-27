@@ -8,6 +8,8 @@ public class JsonHero {
 
     private String codeClass;
 
+    private int dbfId;
+
     public String getCode() {
         return code;
     }
@@ -30,5 +32,13 @@ public class JsonHero {
 
     public void setCodeClass(String codeClass) {
         this.codeClass = codeClass;
+    }
+
+    public int getDbfId() {
+        return dbfId;
+    }
+
+    public void setDbfId(int dbfId) {
+        this.dbfId = dbfId;
     }
 }

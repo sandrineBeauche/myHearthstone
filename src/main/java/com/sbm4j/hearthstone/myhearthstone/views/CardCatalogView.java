@@ -5,6 +5,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
+import com.sbm4j.hearthstone.myhearthstone.utils.NotificationsUtil;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
@@ -15,10 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -30,12 +28,14 @@ import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
 import org.controlsfx.control.IndexedCheckModel;
+import org.controlsfx.dialog.ProgressDialog;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initializable {
@@ -127,7 +127,6 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
                 return new CardCell();
             }
         });
-
     }
 
 
@@ -182,7 +181,15 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
     }
 
     public void importCatalogCommand(){
-        this.viewModel.getImportCatalogCommand().execute();
+        ParamCommand command = this.viewModel.getImportCatalogCommand();
+        Dialogs.showProgressDialog(command, "Importer le catalogue de cartes Hearthstone");
+        this.viewModel.refreshCatalog();
+    }
+
+    public void importCollectionCommand(){
+        ParamCommand command = this.viewModel.getImportCollectionCommand();
+        Dialogs.showProgressDialog(command, "Importer la collection de l'utilisateur");
+        this.viewModel.refreshCatalog();
     }
 
     public class CardCell extends GridCell<CardCatalogItem>{

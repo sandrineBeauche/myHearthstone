@@ -32,7 +32,6 @@ public class CardCatalogViewDBTests extends AbstractUITest{
 
     protected DBManager manager;
 
-    protected DBFacade dbFacade;
 
     protected Module hearthstoneModule;
 
@@ -47,7 +46,6 @@ public class CardCatalogViewDBTests extends AbstractUITest{
         this.hearthstoneModule = new HearthstoneModuleDBTesting(null);
         Injector injector = Guice.createInjector(this.hearthstoneModule);
         this.manager = injector.getInstance(DBManager.class);
-        this.dbFacade = injector.getInstance(DBFacade.class);
     }
 
     @Override
@@ -67,6 +65,13 @@ public class CardCatalogViewDBTests extends AbstractUITest{
     @Test
     @DataSet("importedCatalogWithCollectionDataset.xml")
     public void firstTest() throws TimeoutException {
+        this.setupAppTest();
+        WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
+    }
+
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void importCatalogTest() throws TimeoutException {
         this.setupAppTest();
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
     }

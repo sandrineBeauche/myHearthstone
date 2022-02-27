@@ -1,10 +1,14 @@
 package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.model.Deck;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.model.Hero;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.DeckStringExporter;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.DeckStringImporter;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.DeckStringImporterImpl;
 import com.sbm4j.hearthstone.myhearthstone.utils.NotificationsUtil;
 import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
 import com.sbm4j.hearthstone.myhearthstone.views.ParamCommand;
@@ -20,6 +24,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Pair;
@@ -39,6 +45,9 @@ public class DeckListViewModel implements ViewModel, Initializable {
 
     @Inject
     protected DBFacade dbFacade;
+
+    @Inject
+    protected Injector injector;
 
     protected Logger logger = LogManager.getLogger();
 
@@ -143,6 +152,51 @@ public class DeckListViewModel implements ViewModel, Initializable {
             }
         }
     });
+
+    public ParamCommand getImportDeckstringCommand(){return this.importDeckstringCommand;}
+    protected ParamCommand importDeckstringCommand = new ParamCommand("Importer un deck",
+            () -> new Action() {
+                @Override
+                protected void action() throws Exception {
+                    HashMap<String, Object> parameters = importDeckstringCommand.getParameters();
+                    String deckstring = (String) parameters.get("deckstring");
+                    String deckName = (String) parameters.get("deckName");
+
+                    DeckStringImporter importer = injector.getInstance(DeckStringImporter.class);
+                    try {
+                        DeckListItem newItem = importer.importDeckString(deckstring, deckName);
+                        getItems().add(newItem);
+                        importDeckstringCommand.setNotificationMessage("Le deck " + deckName + " a été importé avec succès");
+                    }
+                    catch(Exception ex){
+                        importDeckstringCommand.setNotificationMessage("Erreur lors de l'importation du deck " + deckName);
+                        throw ex;
+                    }
+                }
+            });
+
+    public ParamCommand getExportDeckstringCommand(){return this.exportDeckstringCommand;}
+    protected ParamCommand exportDeckstringCommand = new ParamCommand("Exporter un deck",
+            () -> new Action() {
+                @Override
+                protected void action() throws Exception {
+                    DeckListItem selected = getSelectionModel().getSelectedItem();
+
+                    DeckStringExporter exporter = injector.getInstance(DeckStringExporter.class);
+                    try {
+                        String deckstring = exporter.export(selected);
+                        Clipboard clipboard = Clipboard.getSystemClipboard();
+                        ClipboardContent content = new ClipboardContent();
+                        content.putString(deckstring);
+                        clipboard.setContent(content);
+                        exportDeckstringCommand.setNotificationMessage("Le deck " + selected.getName() + " a été exporté avec succès dans le press-papier");
+                    }
+                    catch(Exception ex){
+                        exportDeckstringCommand.setNotificationMessage("Erreur lors de l'exportation du deck " + selected.getName());
+                        throw ex;
+                    }
+                }
+            });
 
 
     public List<Hero> getAvailableHeros(){

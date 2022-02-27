@@ -85,6 +85,11 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public Hero getHero(int dbfId) {
+        return null;
+    }
+
+    @Override
     public Deck createDeck(String name, Hero hero) {
         return null;
     }
@@ -105,6 +110,11 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public boolean addCardToDeck(int dbfId, Deck deck, int count) {
+        return false;
+    }
+
+    @Override
     public boolean removeCardFromDeck(int dbfId, Deck deck, boolean all) {
         return false;
     }
@@ -116,6 +126,11 @@ public class DBFacadeTesting implements DBFacade{
 
     @Override
     public DeckListItem getDeckListItem(int deckId) {
+        return null;
+    }
+
+    @Override
+    public List<DeckCardListItem> getDeckCardList(int deckId) {
         return null;
     }
 

@@ -17,6 +17,7 @@
             <property name="hibernate.dialect" value="com.sbm4j.hearthstone.myhearthstone.services.db.CustomHSQLDBDialect" />
 
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:db1" />
+            <!--property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:file:~/progs/myHearthstone/myHearthstoneDB"/-->
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
             <property name="hibernate.hbm2ddl.auto" value="update" />

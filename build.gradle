@@ -153,7 +153,8 @@ test {
         addExports = [
                 'javafx.graphics/com.sun.javafx.application': 'org.testfx',
                 'org.junit.platform.commons/org.junit.platform.commons.util': 'com.github.database.rider.junit5',
-                'com.sbm4j.hearthstone.myhearthstone/com.sbm4j.hearthstone.myhearthstone.model': 'org.hamcrest'
+                'com.sbm4j.hearthstone.myhearthstone/com.sbm4j.hearthstone.myhearthstone.model': 'org.hamcrest',
+                'com.sbm4j.hearthstone.myhearthstone/com.sbm4j.hearthstone.myhearthstone.services.imports': 'org.hamcrest'
         ]
         addOpens = [
                 "com.sbm4j.hearthstone.myhearthstone/com.sbm4j.hearthstone.myhearthstone.services.imports": "com.github.database.rider.junit5",

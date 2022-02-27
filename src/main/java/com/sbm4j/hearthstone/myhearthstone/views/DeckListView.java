@@ -17,6 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Clipboard;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Pair;
@@ -150,6 +151,31 @@ public class DeckListView implements FxmlView<DeckListViewModel>, Initializable 
             command.putParameter("deckId", selected.getDeckId());
             command.execute();
         }
+    }
+
+    public void importDeckCallback(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Importer un deck");
+        dialog.setHeaderText("Importer un deck depuis le press-papier");
+        dialog.setContentText("Entrez le nom du nouveau deck: ");
+        dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            Clipboard clipboard = Clipboard.getSystemClipboard();
+            if(clipboard.hasString()){
+                String newDeckName = result.get();
+                ParamCommand command = this.viewModel.getImportDeckstringCommand();
+                command.putParameter("deckstring", clipboard.getString());
+                command.putParameter("deckName", newDeckName);
+                command.execute();
+            }
+        }
+    }
+
+    public void exportDeckCallback(){
+        ParamCommand command = this.viewModel.getExportDeckstringCommand();
+        command.execute();
     }
 
     public void deleteDeckCallback(){

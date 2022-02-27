@@ -11,6 +11,10 @@ import javax.persistence.*;
         @org.hibernate.annotations.NamedQuery(
                 name = "available_heros",
                 query = "select h from Hero h order by h.name"
+        ),
+        @org.hibernate.annotations.NamedQuery(
+                name = "hero_from_dbfId",
+                query = "select h from Hero h where h.dbfId = :dbfId"
         )
 })
 @Entity
@@ -27,6 +31,9 @@ public class Hero {
 
     @Column
     private String code;
+
+    @Column
+    private int dbfId;
 
     @ManyToOne
     @JoinColumn(name = "class_id", foreignKey = @ForeignKey(name = "CLASS_ID_HERO__FK"))
@@ -72,6 +79,13 @@ public class Hero {
         this.classe = classe;
     }
 
+    public int getDbfId() {
+        return dbfId;
+    }
+
+    public void setDbfId(int dbfId) {
+        this.dbfId = dbfId;
+    }
 
     @Override
     public String toString() {

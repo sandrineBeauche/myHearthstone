@@ -164,10 +164,19 @@ public class GameDataImporterTests {
 
 
     @Test
-    @ExportDataSet(format = DataSetFormat.XML,outputName="target/exported/xml/allTables.xml")
+    //@ExportDataSet(format = DataSetFormat.XML,outputName="target/exported/xml/allTables.xml")
     public void importNewCards() throws IOException {
         this.importer.importCards(this.jsonCardsFile);
         this.importer.importCards(this.jsonCardsFile);
     }
 
+    @Test
+    @DataSet("initDBDataset.xml")
+    public void performImport() throws Exception {
+        JSONCardImporter action = (JSONCardImporter) this.importer;
+        action.action();
+
+        assert(action.getReport().errors.isEmpty());
+        assert(action.getReport().globalErrors.isEmpty());
+    }
 }

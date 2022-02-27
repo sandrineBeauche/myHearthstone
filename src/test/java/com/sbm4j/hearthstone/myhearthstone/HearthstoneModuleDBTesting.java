@@ -8,10 +8,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManagerTesting;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.JSonCardImporterTesting;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.JsonCollectionImporterTesting;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.*;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.NotificatorTesting;
 
@@ -43,6 +40,8 @@ public class HearthstoneModuleDBTesting extends HearthstoneModule {
     protected void bindImports() {
         bind(ImportCatalogAction.class).to(JSonCardImporterTesting.class).in(Scopes.SINGLETON);
         bind(ImportCollectionAction.class).to(JsonCollectionImporterTesting.class).in(Scopes.SINGLETON);
+        bind(DeckStringImporter.class).to(DeckStringImporterImpl.class);
+        bind(DeckStringExporter.class).to(DeckStringExporterImpl.class);
     }
 
     @Override

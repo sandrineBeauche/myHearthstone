@@ -1,0 +1,442 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <CARDCLASS ID="6" CODE="DEATHKNIGHT" NAME="Chevalier de la mort"/>
+  <CARDCLASS ID="7" CODE="DRUID" NAME="Druide"/>
+  <CARDCLASS ID="8" CODE="HUNTER" NAME="Chasseur"/>
+  <CARDCLASS ID="9" CODE="MAGE" NAME="Mage"/>
+  <CARDCLASS ID="10" CODE="PALADIN" NAME="Paladin"/>
+  <CARDCLASS ID="11" CODE="PRIEST" NAME="Prêtre"/>
+  <CARDCLASS ID="12" CODE="ROGUE" NAME="Voleur"/>
+  <CARDCLASS ID="13" CODE="SHAMAN" NAME="Chaman"/>
+  <CARDCLASS ID="14" CODE="WARLOCK" NAME="Démoniste"/>
+  <CARDCLASS ID="15" CODE="WARRIOR" NAME="Guerrier"/>
+  <CARDCLASS ID="16" CODE="DREAM" NAME="Rêve"/>
+  <CARDCLASS ID="17" CODE="NEUTRAL" NAME="Neutre"/>
+  <CARDCLASS ID="18" CODE="WHIZBANG" NAME="Whizbang"/>
+  <CARDCLASS ID="19" CODE="DEMONHUNTER" NAME="Chasseur de démon"/>
+  <CARDDETAIL DBFID="922" ARTIST="Donato Giancola" ATTACK="1" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="Si Comté-de-l’Or n’était protégée que par des serviteurs 1/2, elle aurait dû être envahie il y a des années." HEALTH="2" ID="CS1_042" JSONDESC="2b888f87e116a4965f3f96b792398111" NAME="Soldat de Comté-de-l’Or" TEXT="&lt;b&gt;Provocation&lt;/b&gt;" CARDSET_ID="65" RARITY_ID="2"/>
+  <CARDDETAIL DBFID="2539" ARTIST="Nutthapon Petchthai" ATTACK="0" COLLECTIBLE="true" COST="5" DURABILITY="0" ELITE="false" FLAVOR="Elle est sur le râtelier près de la lance de glace, la lance d’acide et la lance à incendie." HEALTH="0" ID="AT_001" JSONDESC="80362e4e046d400aaca5253c78444f0c" NAME="Lance de flammes" TEXT="Inflige $8 points de dégâts à un serviteur." CARDSET_ID="35" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="2541" ARTIST="Tooth" ATTACK="0" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="false" FLAVOR="Un homme, une flamme… Un homme et une flamme !" HEALTH="0" ID="AT_002" JSONDESC="2f210782eb0b8c10a947f613918e1445" NAME="Effigie" TEXT="&lt;b&gt;Secret :&lt;/b&gt; quand un serviteur allié meurt, invoque un serviteur aléatoire de même coût." CARDSET_ID="35" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="2545" ARTIST="Arthur Bozonnet" ATTACK="3" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="« La mort fait partie de la vie… mais j’aurais préféré que non. » - Héros défunt" HEALTH="2" ID="AT_003" JSONDESC="e7ab8f7169b650993869db4b5f4381dd" NAME="Héros défunt" TEXT="Votre pouvoir héroïque inflige 1 point de dégâts supplémentaire." CARDSET_ID="35" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="2546" ARTIST="Zoltan &amp; Gabor" ATTACK="7" COLLECTIBLE="true" COST="8" DURABILITY="0" ELITE="true" FLAVOR="Un shamuraï shans maître." HEALTH="7" ID="AT_009" JSONDESC="53d5db57b19c869521b111f61bcee60d" NAME="Rhonin" TEXT="&lt;b&gt;Râle d’agonie :&lt;/b&gt; ajoute&#xA;3 copies de Projectiles des Arcanes dans votre main." CARDSET_ID="35" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="2617" ARTIST="Peet Cooper" ATTACK="2" COLLECTIBLE="true" COST="4" DURABILITY="4" ELITE="false" FLAVOR="Vous ne parviendrez à le soulever que si vous en êtes digne." HEALTH="0" ID="AT_050" JSONDESC="4320b83c846cb9afe1fb9e77a3bbff48" NAME="Marteau chargé" TEXT="&lt;b&gt;Râle d’agonie :&lt;/b&gt; votre pouvoir héroïque devient « Inflige 2 points de dégâts »." CARDSET_ID="35" RARITY_ID="4"/>
+  <CARDDETAIL DBFID="2796" ARTIST="Velvet Engine" ATTACK="5" COLLECTIBLE="true" COST="10" DURABILITY="0" ELITE="true" FLAVOR="C’est une femme ? C’est un oiseau ? Non, c’est Aviana !" HEALTH="5" ID="AT_045" JSONDESC="dbb441a40e3002d8b1d16a1f83fc89ed" NAME="Aviana" TEXT="Vos serviteurs coûtent&#xA;(1) cristaux." CARDSET_ID="35" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="40407" ARTIST="Mike Azevedo" ATTACK="3" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="Bien sûr, je peux vous avoir cette potion de métamorphose. Mais vous ne voulez pas plutôt essayer cette potion mystère_? Ça pourrait être n’importe quoi… Même une potion de métamorphose_!" HEALTH="3" ID="CFM_619" JSONDESC="cc0b30636621a65dc74d0f8da697e0db" NAME="Chimiste de la Kabale" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; ajoute une potion aléatoire dans votre main." CARDSET_ID="45" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="40409" ARTIST="Arthur Bozonnet" ATTACK="0" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="false" FLAVOR="Elle a un goût de bééé-tteraves_!" HEALTH="0" ID="CFM_620" JSONDESC="4e84b4a92eec1156a2da711a70a67e4e" NAME="Potion de métamorphose" TEXT="&lt;b&gt;Secret :&lt;/b&gt; une fois que votre adversaire a joué un serviteur, le transforme en mouton 1/1." CARDSET_ID="45" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="49819" ARTIST="Alex Horley Orlandelli" ATTACK="0" COLLECTIBLE="true" COST="10" DURABILITY="0" ELITE="true" FLAVOR="« Da Amani di chuka ! »" HEALTH="30" ID="TRL_065" JSONDESC="3bb952e857dd6cefc5a33e7775735bdd" NAME="Zul’jin" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; lance tous les sorts que vous avez joués pendant cette partie &lt;i&gt;(cibles choisies au hasard)&lt;/i&gt;." CARDSET_ID="52" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="49838" ARTIST="Patrik Bjorkstrom" ATTACK="1" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="Puis ils virent au loin&#xA;Approcher leur destin :&#xA;À bord d’un bateau pirate,&#xA;Un redoutable primate&#xA;Aiguisait son surin&#xA;Sous une voile écarlate…" HEALTH="1" ID="TRL_071" JSONDESC="287ae892a7520c86e5e691507626e91a" NAME="Crieur de la Voile sanglante" TEXT="&lt;b&gt;Ruée&lt;/b&gt;&#xA;&lt;b&gt;Cri de guerre :&lt;/b&gt; gagne +1/+1 pour chaque autre Pirate que vous contrôlez." CARDSET_ID="52" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="56973" ARTIST="Jaemin Kim" ATTACK="3" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="Sa cécité ne l’empêche en aucun cas de terrasser ses adversaires à tour de tentacule." HEALTH="2" ID="BT_323" JSONDESC="8f66d203691ee40afa82a91423e489a1" NAME="Guetteur aveugle" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; affiche 3 cartes de votre deck. Vous en choisissez une à placer sur le dessus de votre deck." CARDSET_ID="65" RARITY_ID="2"/>
+  <CARDDETAIL DBFID="58770" ARTIST="Jim Nelson" ATTACK="3" COLLECTIBLE="true" COST="5" DURABILITY="0" ELITE="true" FLAVOR="Traite ses étudiants comme ses collègues, c’est-à-dire qu’elle les bat tous en duel à longueur de journée." HEALTH="8" ID="SCH_400" JSONDESC="ed4b8b54e35f350ed979288040e3654f" NAME="Mozaki, duelliste experte" TEXT="Une fois que vous avez lancé un sort, gagne &lt;b&gt;+1 aux dégâts des sorts&lt;/b&gt;." CARDSET_ID="57" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="58976" ARTIST="Matt Dixon" ATTACK="0" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="La théorie de la dévolution des Murlocs est un débat incessant au sein de l’académie." HEALTH="0" ID="SCH_235" JSONDESC="69f8c479f3f13598402f1c8e1231b21b" NAME="Missiles dévolutifs" TEXT="Lance trois missiles sur des serviteurs adverses aléatoires qui les transforment en serviteurs coûtant (1) cristaux de moins." CARDSET_ID="57" RARITY_ID="4"/>
+  <CARDDETAIL DBFID="59000" ARTIST="Mike Sass" ATTACK="3" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="false" FLAVOR="Comme tous les mages de Brandefeu, il passe son temps à faire le show." HEALTH="4" ID="SCH_241" JSONDESC="51521b48804ef28d57eb94df13a2adaf" NAME="Brandefeu" TEXT="&lt;b&gt;Salve :&lt;/b&gt; inflige 4 points de dégâts répartis de façon aléatoire entre tous les serviteurs adverses." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59002" ARTIST="Bios Studio" ATTACK="3" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="A également pris tissage de la soie en option." HEALTH="5" ID="SCH_243" JSONDESC="d9e242274d3ca873ba070998bbfd8599" NAME="Tisse-wyrm" TEXT="&lt;b&gt;Salve :&lt;/b&gt; invoque deux wyrms de mana 1/2." CARDSET_ID="57" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="59029" ARTIST="Jim Nelson" ATTACK="1" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="Nom d’un Murloc, c’est un Stratocumulus 1000 !" HEALTH="1" ID="SCH_311" JSONDESC="849361f34d05276cde8a58c4cfe399f1" NAME="Balai animé" TEXT="&lt;b&gt;Ruée&lt;/b&gt;&#xA;&lt;b&gt;Cri de guerre :&lt;/b&gt; confère &lt;b&gt;Ruée&lt;/b&gt; à vos autres serviteurs." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59035" ARTIST="Matt Dixon" ATTACK="1" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="Voici le plan originel de l’académie ! Ne faites pas attention à ces soi-disant chambres noires… vous les verrez à la fin de la visite !" HEALTH="1" ID="SCH_312" JSONDESC="6f99979fd66af52c393d3385e39bbd09" NAME="Guide" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; votre prochain pouvoir héroïque coûte (0) cristaux." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59036" ARTIST="James Ryman" ATTACK="2" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="Si vous aimez mes cours, vous allez adorer ma grande sœur l’art-thérapeute, mon père le chauffeur et ma mère la gouvernante." HEALTH="5" ID="SCH_313" JSONDESC="4e78e910c2f29efa2258afc99a4bcf31" NAME="Terrible tutrice" TEXT="&lt;b&gt;Salve :&lt;/b&gt; inflige 2 points de dégâts à tous les autres serviteurs." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59213" ARTIST="Akkapoj T." ATTACK="0" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="Un livre antique dont la simple présence exsude de magie. 40 poussières arcaniques, d’occasion." HEALTH="0" ID="SCH_270" JSONDESC="920d69fdf0a0911b6f65af0bb51dca00" NAME="Études primordiales" TEXT="&lt;b&gt;Découvre&lt;/b&gt; un serviteur avec &lt;b&gt;Dégâts des sorts&lt;/b&gt;. Le prochain vous coûte (1) cristaux de moins." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59233" ARTIST="Kagi" ATTACK="1" COLLECTIBLE="true" COST="1" DURABILITY="4" ELITE="false" FLAVOR="Il pointe et je tire." HEALTH="0" ID="SCH_279" JSONDESC="8ff1d259fa4be1520f1b5c0654c05b42" NAME="Croissant du trait précis" TEXT="Une fois que votre héros a attaqué un serviteur, vos serviteurs l’attaquent également." CARDSET_ID="57" RARITY_ID="4"/>
+  <CARDDETAIL DBFID="59253" ARTIST="Paul Mafayon" ATTACK="1" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="true" FLAVOR="La professeure qui fait cours dans la forêt fait-elle du bruit si personne ne l’entend ?" HEALTH="4" ID="SCH_182" JSONDESC="398c5e9a5e7910d9233f388ac600181c" NAME="Oratrice Gidra" TEXT="&lt;b&gt;Ruée&lt;/b&gt;, &lt;b&gt;Furie des vents&lt;/b&gt;&#xA;&lt;b&gt;Salve :&lt;/b&gt; gagne un nombre de points d’ATQ et de Vie égal au coût du sort." CARDSET_ID="57" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="59259" ARTIST="Jakub Kasper" ATTACK="2" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="Se nourrit de mana, d’éclats de cristaux et de tout ce qu’a ingurgité le dernier aventurier qui a croisé sa route." HEALTH="3" ID="SCH_283" JSONDESC="b78156dec43fbe7e98e512a3c5e6b8bc" NAME="Panthara dévore-mana" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; si vous avez utilisé votre pouvoir héroïque pendant ce tour, vous piochez une carte." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59556" ARTIST="Arthur Bozonnet" ATTACK="1" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="J’ai le top de ce qui se fait en matière de baguette à prix réduit rien que pour vous !" HEALTH="2" ID="SCH_350" JSONDESC="7fcf2e4064f8144c8ae993a2c52e66d8" NAME="Voleuse de baguettes" TEXT="&lt;b&gt;Combo :&lt;/b&gt; &lt;b&gt;découvre&lt;/b&gt; un sort de mage." CARDSET_ID="57" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="59609" ARTIST="Arthur Gimaldinov" ATTACK="2" COLLECTIBLE="true" COST="6" DURABILITY="0" ELITE="true" FLAVOR="Ses parents possèdent la Scholomance. Évidemment qu’elle va s’en prendre aux autres étudiants !" HEALTH="1" ID="SCH_351" JSONDESC="0bdc11da4688ffb1a95bbd629e6128f1" NAME="Jandice Barov" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; invoque deux serviteurs aléatoires coûtant 5 cristaux. Choisissez-en un en secret qui mourra lorsqu’il subira des dégâts." CARDSET_ID="57" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="59621" ARTIST="Arthur Gimaldinov" ATTACK="0" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="Malheureusement, aucune potion ne pourra vous faire oublier les visages enfermés dans ce flacon." HEALTH="0" ID="SCH_352" JSONDESC="740d0d6099337eaca4b9494b49d634e0" NAME="Potion d’illusion" TEXT="Ajoute des copies 1/1 de vos serviteurs dans votre main. Elles coûtent (1) cristaux." CARDSET_ID="57" RARITY_ID="4"/>
+  <CARDDETAIL DBFID="59639" ARTIST="Arthur Gimaldinov" ATTACK="0" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="La source des Arcanes confère une puissance et une énergie quasi illimitées ! Mais elle ne vous aide pas à rester éveillé. Pour ça, rien ne remplace le café." HEALTH="0" ID="SCH_353" JSONDESC="52a3c3d18622bbf74de0edd022e842b5" NAME="Bachotage" TEXT="Vous piochez $1 cartes. &lt;i&gt;(Amélioré par les &lt;b&gt;dégâts des sorts&lt;/b&gt;.)&lt;/i&gt;" CARDSET_ID="57" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="60278" ARTIST="Hideaki Takamura" ATTACK="4" COLLECTIBLE="true" COST="5" DURABILITY="0" ELITE="true" FLAVOR="tri_rapide (T, x, xs)= si x &lt; xs, &#xA; alors pivot := choix_pivot (T, x, xs) &#xA; pivot := partitionner(T, x, xs, pivot) &#xA; tri_rapide(T, x, pivot-1) &#xA; tri_rapide(T, pivot+1, xs)" HEALTH="5" ID="SCH_428" JSONDESC="22e0b16c4ad02bb36eca7c5d4b46f4f1" NAME="Gardien du savoir Polkelt" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; Réorganise votre deck selon le coût de vos cartes, du plus élevé au plus bas." CARDSET_ID="57" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="62485" ARTIST="Yunle Tu" ATTACK="1" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="Le talent pur, ça ne suffit pas à devenir bon… mais ça y contribue grandement." HEALTH="3" ID="BAR_064" JSONDESC="e0c18481d31a37632948e3815f57586a" NAME="Arcaniste talentueux" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; votre prochain sort pendant ce tour a &lt;b&gt;+2 aux dégâts des sorts&lt;/b&gt;." CARDSET_ID="61" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="62548" ARTIST="Andrew Hou" ATTACK="5" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="Par monts et par vaux, il continuera d’avancer au galop." HEALTH="10" ID="BAR_069" JSONDESC="3c5e392c9a15c86b56fc11605144c08a" NAME="Maraudeur blessé" TEXT="&lt;b&gt;Provocation&lt;/b&gt;&#xA;&lt;b&gt;Cri de guerre :&lt;/b&gt; inflige 6 points de dégâts à ce serviteur." CARDSET_ID="61" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="62549" ARTIST="Ivan Fomin" ATTACK="3" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="Satisfait et renversé." HEALTH="3" ID="BAR_070" JSONDESC="cabbf09bda2697d10aa0eb29fd25911a" NAME="Client satisfait" TEXT="&lt;b&gt;Frénésie :&lt;/b&gt; invoque un autre client satisfait." CARDSET_ID="61" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="66848" ARTIST="Arthur Bozonnet" ATTACK="0" COLLECTIBLE="true" COST="8" DURABILITY="0" ELITE="true" FLAVOR="Magistère est un titre bien modeste pour quelqu’un qui a su unifier des factions rivales pour affronter la plus grande menace d’Azeroth." HEALTH="30" ID="AV_200" JSONDESC="58b669759b0a0febf62c53090bb74906" NAME="Magistère Aubétreinte" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; relance un sort de chaque école de magie dont vous avez lancé un sort pendant cette partie." CARDSET_ID="64" RARITY_ID="5"/>
+  <CARDDETAIL DBFID="66880" ARTIST="Zoltan Boros" ATTACK="3" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="« Je me fiche de savoir s’il fait chaud, je n’irai pas là-bas juste pour faire office de climatiseur. »" HEALTH="5" HOWTOEARN="S’obtient dans le parcours de récompenses de Divisés en Alterac." HOWTOEARNGOLDEN="S’obtient dans le parcours de récompenses de Divisés en Alterac." ID="AV_101" JSONDESC="6a1c924cfffa189c327a6e5b0996cbd8" NAME="Héraut de Lokholar" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; vous piochez un sort de Givre." CARDSET_ID="64" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="66887" ARTIST="Matt Dixon" ATTACK="3" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="false" FLAVOR="Ne fait que traverser Alterac pour aller postuler à un emploi au Palais de la glace." HEALTH="3" ID="AV_102" JSONDESC="a91652bda181569fdfbaa91a58d570a0" NAME="Congelotron" TEXT="&lt;b&gt;Râle d’agonie :&lt;/b&gt; &lt;b&gt;gèle&lt;/b&gt; deux serviteurs adverses aléatoires." CARDSET_ID="64" RARITY_ID="4"/>
+  <CARDDETAIL DBFID="67210" ARTIST="Anton Zemskov" ATTACK="0" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="Pourquoi utiliser mon mana alors que je peux prendre le vôtre ?" HEALTH="0" ID="AV_212" JSONDESC="04c5d781e4d02797f1f349d505634fae" NAME="Siphon de mana" TEXT="[x]Inflige $2 points de dégâts.&#xA;&lt;b&gt;Victoire honorable :&lt;/b&gt; réduit&#xA;de (1) cristal le coût des&#xA;sorts de votre main." CARDSET_ID="64" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="67871" ARTIST="Matt Dixon" ATTACK="2" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false" FLAVOR="Faites preuve de sagesse quand vous utilisez vos arrêts maladie." HEALTH="2" ID="AV_114" JSONDESC="939747598b9e6a50de427dfc179e21da" NAME="Ensorceleuse grelottante" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; réduit de (1) cristaux le coût du sort au coût le plus élevé de votre main." CARDSET_ID="64" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="67873" ARTIST="Junru Zhuo" ATTACK="2" COLLECTIBLE="true" COST="2" DURABILITY="0" ELITE="false" FLAVOR="Je parie que c’est une exagération." HEALTH="3" ID="AV_115" JSONDESC="dc38d463432e715efd7a9d9f55e5f1e9" NAME="Rafale de neige amplifiée" TEXT="&lt;b&gt;Cri de guerre :&lt;/b&gt; votre prochain pouvoir héroïque coûte (0) cristaux et &lt;b&gt;gèle&lt;/b&gt; la cible." CARDSET_ID="64" RARITY_ID="1"/>
+  <CARDDETAIL DBFID="67874" ARTIST="Aaron Su" ATTACK="0" COLLECTIBLE="true" COST="4" DURABILITY="0" ELITE="false" FLAVOR="Le truc, c’est de se mettre à couvert au bon moment." HEALTH="0" ID="AV_116" JSONDESC="ab3a4315d982e66da2e32ee99a78622b" NAME="Illumination des Arcanes" TEXT="Ajoute une copie d’un sort à 7, 8, 9 et 10 cristaux de votre deck dans votre main." CARDSET_ID="64" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="70005" ARTIST="Moon Colony" ATTACK="0" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="false" FLAVOR="C’est le plus cool des sorts, quand il commence à faire boule de neige." HEALTH="0" ID="AV_282" JSONDESC="23dd830eba8e2d9513bf0cceae81da82" NAME="Faire un bonhomme de neige" TEXT="Invoque un bonhomme de neige 3/3 qui &lt;b&gt;gèle&lt;/b&gt;. Ajoute « Faire une brute de neige » dans votre main." CARDSET_ID="64" RARITY_ID="3"/>
+  <CARDDETAIL DBFID="70107" ARTIST="Arthur Gimaldinov" ATTACK="0" COLLECTIBLE="true" COST="3" DURABILITY="0" ELITE="false" FLAVOR="Ce n’est pas un mal typique et ordinaire. Non, c’est un mal ALPHA." HEALTH="0" ID="AV_285" JSONDESC="850cc5a3c82bf67248ea6a4a68ba7137" NAME="Mal absolu" TEXT="Inflige $5 points de dégâts répartis de façon aléatoire entre tous les serviteurs adverses. Peut être relancé pendant ce tour." CARDSET_ID="64" RARITY_ID="3"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="922" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="2539" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="2541" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="2545" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="2546" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="2617" CARDCLASS_ID="13"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="2796" CARDCLASS_ID="7"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="40407" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="40407" CARDCLASS_ID="11"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="40407" CARDCLASS_ID="14"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="40409" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="49819" CARDCLASS_ID="8"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="49838" CARDCLASS_ID="12"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="56973" CARDCLASS_ID="19"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="58770" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="58976" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="58976" CARDCLASS_ID="13"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59000" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59002" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59029" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59035" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59036" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59213" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59213" CARDCLASS_ID="13"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59233" CARDCLASS_ID="8"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59233" CARDCLASS_ID="19"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59253" CARDCLASS_ID="7"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59253" CARDCLASS_ID="13"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59259" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59556" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59556" CARDCLASS_ID="12"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59609" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59609" CARDCLASS_ID="12"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59621" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59621" CARDCLASS_ID="12"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="59639" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="60278" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="62485" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="62548" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="62549" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="66848" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="66880" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="66887" CARDCLASS_ID="17"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="67210" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="67871" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="67873" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="67874" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="70005" CARDCLASS_ID="9"/>
+  <CARDDETAIL_CARDCLASS CARDDETAIL_DBFID="70107" CARDCLASS_ID="14"/>
+  <CARDSET ID="20" CODE="INVALID" ISSTANDARD="false" NAME="Invalide" ORDERCHRONO="0"/>
+  <CARDSET ID="21" CODE="TEST_TEMPORARY" ISSTANDARD="false" NAME="Test" ORDERCHRONO="0"/>
+  <CARDSET ID="22" CODE="BASIC" ISSTANDARD="false" NAME="Basic" ORDERCHRONO="0"/>
+  <CARDSET ID="23" CODE="EXPERT1" ISSTANDARD="false" NAME="Héritage" ORDERCHRONO="0"/>
+  <CARDSET ID="24" CODE="HOF" ISSTANDARD="false" NAME="Hof" ORDERCHRONO="0"/>
+  <CARDSET ID="25" CODE="MISSIONS" ISSTANDARD="false" NAME="Missions" ORDERCHRONO="0"/>
+  <CARDSET ID="26" CODE="DEMO" ISSTANDARD="false" NAME="Démo" ORDERCHRONO="0"/>
+  <CARDSET ID="27" CODE="NONE" ISSTANDARD="false" NAME="Aucune" ORDERCHRONO="0"/>
+  <CARDSET ID="28" CODE="CHEAT" ISSTANDARD="false" NAME="Triche" ORDERCHRONO="0"/>
+  <CARDSET ID="29" CODE="BLANK" ISSTANDARD="false" NAME="Blanc" ORDERCHRONO="0"/>
+  <CARDSET ID="30" CODE="DEBUG_SP" ISSTANDARD="false" NAME="Debug" ORDERCHRONO="0"/>
+  <CARDSET ID="31" CODE="PROMO" ISSTANDARD="false" NAME="Promo" ORDERCHRONO="0"/>
+  <CARDSET ID="32" CODE="NAXX" ISSTANDARD="false" NAME="La malédiction de Naxxramas" ORDERCHRONO="0"/>
+  <CARDSET ID="33" CODE="GVG" ISSTANDARD="false" NAME="Gobelins et gnomes" ORDERCHRONO="0"/>
+  <CARDSET ID="34" CODE="BRM" ISSTANDARD="false" NAME="Mont Rochenoire" ORDERCHRONO="0"/>
+  <CARDSET ID="35" CODE="TGT" ISSTANDARD="false" NAME="Le grand tournoi" ORDERCHRONO="0"/>
+  <CARDSET ID="36" CODE="CREDITS" ISSTANDARD="false" NAME="Credits" ORDERCHRONO="0"/>
+  <CARDSET ID="37" CODE="HERO_SKINS" ISSTANDARD="false" NAME="Héros skins" ORDERCHRONO="0"/>
+  <CARDSET ID="38" CODE="TB" ISSTANDARD="false" NAME="TB" ORDERCHRONO="0"/>
+  <CARDSET ID="39" CODE="SLUSH" ISSTANDARD="false" NAME="Slush" ORDERCHRONO="0"/>
+  <CARDSET ID="40" CODE="LOE" ISSTANDARD="false" NAME="Ligue des explorateurs" ORDERCHRONO="0"/>
+  <CARDSET ID="41" CODE="OG" ISSTANDARD="false" NAME="Les murmures des dieux très anciens" ORDERCHRONO="0"/>
+  <CARDSET ID="42" CODE="OG_RESERVE" ISSTANDARD="false" NAME="Les murmures des dieux très anciens - réserve" ORDERCHRONO="0"/>
+  <CARDSET ID="43" CODE="KARA" ISSTANDARD="false" NAME="Une nuit à Karazhan" ORDERCHRONO="0"/>
+  <CARDSET ID="44" CODE="KARA_RESERVE" ISSTANDARD="false" NAME="Une nuit à Karazhan - réserve" ORDERCHRONO="0"/>
+  <CARDSET ID="45" CODE="GANGS" ISSTANDARD="false" NAME="Main basse sur Gadgetzan" ORDERCHRONO="0"/>
+  <CARDSET ID="46" CODE="GANGS_RESERVE" ISSTANDARD="false" NAME="Main basse sur Gadgetzan - réserve" ORDERCHRONO="0"/>
+  <CARDSET ID="47" CODE="UNGORO" ISSTANDARD="false" NAME="Voyage au centre d&apos;Un&apos;Goro" ORDERCHRONO="0"/>
+  <CARDSET ID="48" CODE="ICECROWN" ISSTANDARD="false" NAME="Chevaliers du Trône de glace" ORDERCHRONO="0"/>
+  <CARDSET ID="49" CODE="LOOTAPALOOZA" ISSTANDARD="false" NAME="Kobolds et catacombes" ORDERCHRONO="0"/>
+  <CARDSET ID="50" CODE="GILNEAS" ISSTANDARD="false" NAME="Le bois maudit" ORDERCHRONO="0"/>
+  <CARDSET ID="51" CODE="BOOMSDAY" ISSTANDARD="false" NAME="Projet Armageboum" ORDERCHRONO="0"/>
+  <CARDSET ID="52" CODE="TROLL" ISSTANDARD="false" NAME="Les jeux de Rastakhan" ORDERCHRONO="0"/>
+  <CARDSET ID="53" CODE="DALARAN" ISSTANDARD="false" NAME="Éveil des ombres" ORDERCHRONO="0"/>
+  <CARDSET ID="54" CODE="DRAGONS" ISSTANDARD="false" NAME="L’Envol des Dragons" ORDERCHRONO="0"/>
+  <CARDSET ID="55" CODE="YEAR_OF_THE_DRAGON" ISSTANDARD="false" NAME="Le Réveil de Galakrond" ORDERCHRONO="0"/>
+  <CARDSET ID="56" CODE="BLACK_TEMPLE" ISSTANDARD="false" NAME="Les Cendres de l’Outreterre" ORDERCHRONO="0"/>
+  <CARDSET ID="57" CODE="SCHOLOMANCE" ISSTANDARD="true" NAME="L&apos;académie de Scholomance" ORDERCHRONO="0"/>
+  <CARDSET ID="58" CODE="BATTLEGROUNDS" ISSTANDARD="false" NAME="Les jeux de Rastakhan" ORDERCHRONO="0"/>
+  <CARDSET ID="59" CODE="DEMON_HUNTER_INITIATE" ISSTANDARD="false" NAME="Initié chasseur de démon" ORDERCHRONO="0"/>
+  <CARDSET ID="60" CODE="DARKMOON_FAIRE" ISSTANDARD="true" NAME="Folle journée à Sombrelune" ORDERCHRONO="0"/>
+  <CARDSET ID="61" CODE="THE_BARRENS" ISSTANDARD="true" NAME="Forgés dans les tarides" ORDERCHRONO="0"/>
+  <CARDSET ID="62" CODE="WAILING_CAVERNS" ISSTANDARD="false" NAME="Les cavernes" ORDERCHRONO="0"/>
+  <CARDSET ID="63" CODE="STORMWIND" ISSTANDARD="true" NAME="Unis à Hurlevent" ORDERCHRONO="0"/>
+  <CARDSET ID="64" CODE="ALTERAC_VALLEY" ISSTANDARD="true" NAME="Divisés dans la vallée d&apos;Alterac" ORDERCHRONO="0"/>
+  <CARDSET ID="65" CODE="LEGACY" ISSTANDARD="false" NAME="legacy" ORDERCHRONO="0"/>
+  <CARDSET ID="66" CODE="CORE" ISSTANDARD="false" NAME="Fondamental" ORDERCHRONO="0"/>
+  <CARDSET ID="67" CODE="VANILLA" ISSTANDARD="false" NAME="vanilla" ORDERCHRONO="0"/>
+  <CARDSET ID="68" CODE="ULDUM" ISSTANDARD="false" NAME="Les aventuriers d&apos;Uldum" ORDERCHRONO="0"/>
+  <CARDTAG ID="69" CODE="TAUNT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Provocation"/>
+  <CARDTAG ID="70" CODE="SPELLPOWER" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Dégâts des sorts"/>
+  <CARDTAG ID="71" CODE="DIVINE_SHIELD" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Bouclier divin"/>
+  <CARDTAG ID="72" CODE="CHARGE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Charge"/>
+  <CARDTAG ID="73" CODE="DEATHRATTLE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Râle d&apos;agonie"/>
+  <CARDTAG ID="74" CODE="BATTLECRY" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Cri de guerre"/>
+  <CARDTAG ID="75" CODE="SECRET" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Secret"/>
+  <CARDTAG ID="76" CODE="COMBO" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Combo"/>
+  <CARDTAG ID="77" CODE="SILENCE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Silence"/>
+  <CARDTAG ID="78" CODE="POISONOUS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Toxicité"/>
+  <CARDTAG ID="79" CODE="DISCOVER" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Découverte"/>
+  <CARDTAG ID="80" CODE="WINDFURY" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Furie des vents"/>
+  <CARDTAG ID="81" CODE="ADJACENT_BUFF" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Buff des serviteurs adjacents"/>
+  <CARDTAG ID="82" CODE="STEALTH" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Camouflage"/>
+  <CARDTAG ID="83" CODE="TRIGGER_VISUAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Déclenchement"/>
+  <CARDTAG ID="84" CODE="CHOOSE_ONE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Choix des armes"/>
+  <CARDTAG ID="85" CODE="RUSH" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Ruée"/>
+  <CARDTAG ID="86" CODE="LIFESTEAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Vol de vie"/>
+  <CARDTAG ID="87" CODE="IMMUNE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Insensible"/>
+  <CARDTAG ID="88" CODE="FREEZE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Gèle"/>
+  <CARDTAG ID="89" CODE="COUNTER" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Contrer"/>
+  <CARDTAG ID="90" CODE="ADAPT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Adaptation"/>
+  <CARDTAG ID="91" CODE="RECRUIT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Recruter"/>
+  <CARDTAG ID="92" CODE="OVERKILL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Brutalité"/>
+  <CARDTAG ID="93" CODE="SPARE_PART" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Pièce détachée"/>
+  <CARDTAG ID="94" CODE="OVERLOAD" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Surcharge"/>
+  <CARDTAG ID="95" CODE="INSPIRE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Exaltation"/>
+  <CARDTAG ID="96" CODE="RITUAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Rituel C&apos;Thun"/>
+  <CARDTAG ID="97" CODE="JADE_GOLEM" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Golem de jade"/>
+  <CARDTAG ID="98" CODE="QUEST" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Quête"/>
+  <CARDTAG ID="99" CODE="UNTOUCHABLE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="En sommeil"/>
+  <CARDTAG ID="100" CODE="CANT_BE_TARGETED_BY_SPELLS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Ne peut être la cible de sorts"/>
+  <CARDTAG ID="101" CODE="CANT_BE_TARGETED_BY_HERO_POWERS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Ne peut être la cible de pouvoirs héroïques"/>
+  <CARDTAG ID="102" CODE="ECHO" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Echo"/>
+  <CARDTAG ID="103" CODE="MODULAR" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Magnétisme"/>
+  <CARDTAG ID="104" CODE="TWINSPELL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Sort double"/>
+  <CARDTAG ID="105" CODE="AURA" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Méga furie des vents"/>
+  <CARDTAG ID="106" CODE="REBORN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Réincarnation"/>
+  <CARDTAG ID="107" CODE="HONORABLEKILL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Victoire honorable"/>
+  <CARDTAG ID="108" CODE="CORRUPT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Corruption"/>
+  <CARDTAG ID="109" CODE="FORGETFUL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="50% d&apos;erreur"/>
+  <CARDTAG ID="110" CODE="HEROPOWER_DAMAGE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Amélioration du pouvoir héroïque"/>
+  <CARDTAG ID="111" CODE="SPELLBURST" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Salve"/>
+  <CARDTAG ID="112" CODE="TRADEABLE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Echangeable"/>
+  <CARDTAG ID="113" CODE="JADE_LOTUS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Lotus de Jade"/>
+  <CARDTAG ID="114" CODE="START_OF_GAME" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Début de partie"/>
+  <CARDTAG ID="115" CODE="ALL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Tout"/>
+  <CARDTAG ID="116" CODE="AFFECTED_BY_SPELL_POWER" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Dégâts affcetés par un sort"/>
+  <CARDTAG ID="117" CODE="SIDEQUEST" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Quête annexe"/>
+  <CARDTAG ID="118" CODE="FRENZY" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Frénésie"/>
+  <CARDTAG ID="119" CODE="DEATH_KNIGHT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Chevalier de la mort"/>
+  <CARDTAG ID="120" CODE="ENRAGED" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Enragé"/>
+  <CARDTAG ID="121" CODE="MULTIPLY_BUFF_VALUE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Multiplie la valeur du Buff"/>
+  <CARDTAG ID="122" CODE="RECEIVES_DOUBLE_SPELLDAMAGE_BONUS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Bonus aux dégâts des sorts"/>
+  <CARDTAG ID="123" CODE="KABAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Cabale"/>
+  <CARDTAG ID="124" CODE="FINISH_ATTACK_SPELL_ON_DAMAGE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Après avoir attaqué"/>
+  <CARDTAG ID="125" CODE="GEARS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Mécanisme"/>
+  <CARDTAG ID="126" CODE="COLLECTIONMANAGER_FILTER_MANA_EVEN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Filtre cartes pair"/>
+  <CARDTAG ID="127" CODE="COLLECTIONMANAGER_FILTER_MANA_ODD" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Filtre cartes impair"/>
+  <CARDTAG ID="128" CODE="GRIMY_GOONS" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Grimy Goons"/>
+  <CARDTAG ID="129" CODE="InvisibleDeathrattle" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Râle d&apos;agonie invisible"/>
+  <CARDTAG ID="130" CODE="ImmuneToSpellpower" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Dégâts répartis aléatoirement"/>
+  <CARDTAG ID="131" CODE="OUTCAST" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Marginal"/>
+  <CARDTAG ID="132" CODE="CANT_ATTACK" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Ne peut pas attaquer"/>
+  <CARDTAG ID="133" CODE="TOPDECK" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Quand piochée"/>
+  <CARDTAG ID="134" CODE="HERO" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Héro"/>
+  <CARDTAG ID="135" CODE="MINION" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Serviteur"/>
+  <CARDTAG ID="136" CODE="SPELL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Sort"/>
+  <CARDTAG ID="137" CODE="WEAPON" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Arme"/>
+  <CARDTAG ID="138" CODE="ENCHANTMENT" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Enchantement"/>
+  <CARDTAG ID="139" CODE="BLOODELF" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Elfe de sang"/>
+  <CARDTAG ID="140" CODE="DRAENEI" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Draenei"/>
+  <CARDTAG ID="141" CODE="DWARF" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Nain"/>
+  <CARDTAG ID="142" CODE="GNOME" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Gnome"/>
+  <CARDTAG ID="143" CODE="GOBELIN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Gobelin"/>
+  <CARDTAG ID="144" CODE="HUMAN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Humain"/>
+  <CARDTAG ID="145" CODE="NIGHTELF" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Elfe de la nuit"/>
+  <CARDTAG ID="146" CODE="ORC" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Orc"/>
+  <CARDTAG ID="147" CODE="TAUREN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Tauren"/>
+  <CARDTAG ID="148" CODE="TROLL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Troll"/>
+  <CARDTAG ID="149" CODE="UNDEAD" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Zombie"/>
+  <CARDTAG ID="150" CODE="WORGEN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Worgen"/>
+  <CARDTAG ID="151" CODE="MURLOC" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Murloc"/>
+  <CARDTAG ID="152" CODE="DEMON" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Démon"/>
+  <CARDTAG ID="153" CODE="SOURGE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Sourge"/>
+  <CARDTAG ID="154" CODE="MECHANICAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Méca"/>
+  <CARDTAG ID="155" CODE="OGRE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Ogre"/>
+  <CARDTAG ID="156" CODE="BEAST" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Bête"/>
+  <CARDTAG ID="157" CODE="TOTEM" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Totem"/>
+  <CARDTAG ID="158" CODE="NERUBIAN" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Nérubien"/>
+  <CARDTAG ID="159" CODE="PIRATE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Pirate"/>
+  <CARDTAG ID="160" CODE="DRAGON" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Dragon"/>
+  <CARDTAG ID="161" CODE="QUILBOAR" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Huran"/>
+  <CARDTAG ID="162" CODE="ELEMENTAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Elémentaire"/>
+  <CARDTAG ID="163" CODE="ARCANE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Arcane"/>
+  <CARDTAG ID="164" CODE="FIRE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Feu"/>
+  <CARDTAG ID="165" CODE="FROST" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Givre"/>
+  <CARDTAG ID="166" CODE="NATURE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Nature"/>
+  <CARDTAG ID="167" CODE="HOLY" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Sacré"/>
+  <CARDTAG ID="168" CODE="SHADOW" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Ombre"/>
+  <CARDTAG ID="169" CODE="FEL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Fiel"/>
+  <CARDTAG ID="170" CODE="HORDE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Horde"/>
+  <CARDTAG ID="171" CODE="ALLIANCE" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Alliance"/>
+  <CARDTAG ID="172" CODE="NEUTRAL" EXCLUSIVEGROUP="0" ISUSER="false" NAME="Neutre"/>
+  <CARDUSERDATA DBFID="922" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="2539" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="2541" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="2545" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="2546" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="2617" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="2796" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="40407" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="40409" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="49819" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="49838" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="56973" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="58770" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="58976" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="59000" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="59002" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="59029" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="59035" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="59036" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="59213" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="59233" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="59253" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="59259" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="59556" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="59609" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="59621" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="59639" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="60278" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="62485" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="62548" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="62549" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="66848" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="66880" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="66887" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="67210" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="67871" NBCARDS="1" NBGOLDEN="0" NBTOTALCARDS="1"/>
+  <CARDUSERDATA DBFID="67873" NBCARDS="2" NBGOLDEN="2" NBTOTALCARDS="4"/>
+  <CARDUSERDATA DBFID="67874" NBCARDS="0" NBGOLDEN="0" NBTOTALCARDS="0"/>
+  <CARDUSERDATA DBFID="70005" NBCARDS="2" NBGOLDEN="0" NBTOTALCARDS="2"/>
+  <CARDUSERDATA DBFID="70107" NBCARDS="1" NBGOLDEN="1" NBTOTALCARDS="2"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="922" TAGS_ID="69"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="922" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2539" TAGS_ID="164"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2539" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2541" TAGS_ID="75"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2541" TAGS_ID="164"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2541" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2545" TAGS_ID="110"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2545" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2546" TAGS_ID="73"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2546" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2617" TAGS_ID="73"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2617" TAGS_ID="137"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2796" TAGS_ID="105"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="2796" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="40407" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="40407" TAGS_ID="123"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="40407" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="40409" TAGS_ID="75"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="40409" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="40409" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="49819" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="49819" TAGS_ID="134"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="49838" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="49838" TAGS_ID="85"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="49838" TAGS_ID="159"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="49838" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="56973" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="56973" TAGS_ID="152"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="56973" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="58770" TAGS_ID="83"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="58770" TAGS_ID="70"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="58770" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="58976" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="58976" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59000" TAGS_ID="111"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59000" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59002" TAGS_ID="111"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59002" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59029" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59029" TAGS_ID="85"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59029" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59035" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59035" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59036" TAGS_ID="111"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59036" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59213" TAGS_ID="79"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59213" TAGS_ID="70"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59213" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59213" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59233" TAGS_ID="83"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59233" TAGS_ID="137"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59253" TAGS_ID="85"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59253" TAGS_ID="111"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59253" TAGS_ID="80"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59253" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59259" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59259" TAGS_ID="156"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59259" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59556" TAGS_ID="76"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59556" TAGS_ID="79"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59556" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59609" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59609" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59621" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59621" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59639" TAGS_ID="70"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59639" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="59639" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="60278" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="60278" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62485" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62485" TAGS_ID="70"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62485" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62548" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62548" TAGS_ID="69"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62548" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62549" TAGS_ID="118"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="62549" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66848" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66848" TAGS_ID="134"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66880" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66880" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66887" TAGS_ID="73"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66887" TAGS_ID="88"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66887" TAGS_ID="154"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="66887" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67210" TAGS_ID="107"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67210" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67210" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67871" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67871" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67873" TAGS_ID="74"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67873" TAGS_ID="88"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67873" TAGS_ID="162"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67873" TAGS_ID="135"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67874" TAGS_ID="163"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="67874" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="70005" TAGS_ID="88"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="70005" TAGS_ID="165"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="70005" TAGS_ID="136"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="70107" TAGS_ID="130"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="70107" TAGS_ID="169"/>
+  <CARDUSERDATA_CARDTAG CARDUSERDATA_DBFID="70107" TAGS_ID="136"/>
+  <DECK ID="183" NAME="deck1" HERO_ID="177"/>
+  <DECK ID="203" NAME="deck2" HERO_ID="177"/>
+  <DECKASSOCIATION ID="184" NBCARDS="1" CARD_ID="67871" DECK_ID="183"/>
+  <DECKASSOCIATION ID="185" NBCARDS="2" CARD_ID="58976" DECK_ID="183"/>
+  <DECKASSOCIATION ID="186" NBCARDS="2" CARD_ID="59556" DECK_ID="183"/>
+  <DECKASSOCIATION ID="187" NBCARDS="2" CARD_ID="59213" DECK_ID="183"/>
+  <DECKASSOCIATION ID="188" NBCARDS="1" CARD_ID="59639" DECK_ID="183"/>
+  <DECKASSOCIATION ID="189" NBCARDS="2" CARD_ID="67873" DECK_ID="183"/>
+  <DECKASSOCIATION ID="190" NBCARDS="1" CARD_ID="59000" DECK_ID="183"/>
+  <DECKASSOCIATION ID="191" NBCARDS="2" CARD_ID="70005" DECK_ID="183"/>
+  <DECKASSOCIATION ID="192" NBCARDS="2" CARD_ID="58770" DECK_ID="183"/>
+  <DECKASSOCIATION ID="193" NBCARDS="1" CARD_ID="59609" DECK_ID="183"/>
+  <DECKASSOCIATION ID="194" NBCARDS="2" CARD_ID="66848" DECK_ID="183"/>
+  <DECKASSOCIATION ID="195" NBCARDS="1" CARD_ID="59029" DECK_ID="183"/>
+  <DECKASSOCIATION ID="196" NBCARDS="2" CARD_ID="59035" DECK_ID="183"/>
+  <DECKASSOCIATION ID="197" NBCARDS="2" CARD_ID="59259" DECK_ID="183"/>
+  <DECKASSOCIATION ID="198" NBCARDS="1" CARD_ID="66887" DECK_ID="183"/>
+  <DECKASSOCIATION ID="199" NBCARDS="2" CARD_ID="62549" DECK_ID="183"/>
+  <DECKASSOCIATION ID="200" NBCARDS="2" CARD_ID="66880" DECK_ID="183"/>
+  <DECKASSOCIATION ID="201" NBCARDS="1" CARD_ID="62548" DECK_ID="183"/>
+  <DECKASSOCIATION ID="202" NBCARDS="1" CARD_ID="60278" DECK_ID="183"/>
+  <DECKASSOCIATION ID="204" NBCARDS="1" CARD_ID="2539" DECK_ID="203"/>
+  <DECKASSOCIATION ID="205" NBCARDS="1" CARD_ID="40409" DECK_ID="203"/>
+  <DECKASSOCIATION ID="206" NBCARDS="1" CARD_ID="2541" DECK_ID="203"/>
+  <HERO ID="173" CODE="ANDUIN_WRYNN" NAME="Anduin Wrynn" CLASS_ID="11" DBFID="813"/>
+  <HERO ID="174" CODE="GARROSH_HURLENFER" NAME="Garrosh Hurlenfer" CLASS_ID="15" DBFID="7"/>
+  <HERO ID="175" CODE="GULDAN" NAME="Guld&apos;an" CLASS_ID="14" DBFID="893"/>
+  <HERO ID="176" CODE="ILLIDAN_HURLORAGE" NAME="Illidan Hurlorage" CLASS_ID="19" DBFID="56550"/>
+  <HERO ID="177" CODE="JAINA_PORTVAILLANT" NAME="Jaina Portvaillant" CLASS_ID="9" DBFID="637"/>
+  <HERO ID="178" CODE="MALFURION_HURLORAGE" NAME="Malfurion Hurlorage" CLASS_ID="7" DBFID="274"/>
+  <HERO ID="179" CODE="REXXAR" NAME="Rexxar" CLASS_ID="8" DBFID="31"/>
+  <HERO ID="180" CODE="THRALL" NAME="Thrall" CLASS_ID="13" DBFID="1066"/>
+  <HERO ID="181" CODE="UTHER" NAME="Uther le porteur de lumière" CLASS_ID="10" DBFID="671"/>
+  <HERO ID="182" CODE="VALEERA_SANGUINAR" NAME="Valeera Sanguinar" CLASS_ID="12" DBFID="930"/>
+  <RARITY ID="1" CODE="COMMON" COST="40" COSTGOLD="400" GAIN="5" GAINGOLD="50" NAME="Commune"/>
+  <RARITY ID="2" CODE="FREE" COST="0" COSTGOLD="0" GAIN="0" GAINGOLD="0" NAME="Gratuit"/>
+  <RARITY ID="3" CODE="RARE" COST="100" COSTGOLD="800" GAIN="20" GAINGOLD="100" NAME="Rare"/>
+  <RARITY ID="4" CODE="EPIC" COST="400" COSTGOLD="1600" GAIN="100" GAINGOLD="400" NAME="Epique"/>
+  <RARITY ID="5" CODE="LEGENDARY" COST="1600" COSTGOLD="3200" GAIN="400" GAINGOLD="1600" NAME="Légendaire"/>
+</dataset>

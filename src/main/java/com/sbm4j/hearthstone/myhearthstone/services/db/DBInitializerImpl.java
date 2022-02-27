@@ -98,6 +98,7 @@ public class DBInitializerImpl implements DBInitializer {
             catch(NoResultException ex){
                 CardClass classe = this.facade.getClasse(current.getCodeClass());
                 Hero newHero = new Hero(current.getName(), current.getCode(), classe);
+                newHero.setDbfId(current.getDbfId());
                 session.save(newHero);
             }
         }

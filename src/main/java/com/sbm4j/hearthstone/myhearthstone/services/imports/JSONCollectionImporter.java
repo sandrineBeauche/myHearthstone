@@ -7,6 +7,8 @@ import com.sbm4j.hearthstone.myhearthstone.model.json.JsonUserData;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
+import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
+import de.saxsys.mvvmfx.utils.commands.Action;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
@@ -22,7 +24,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.HashMap;
 
-public class JSONCollectionImporter extends Task<ImportCollectionReport> implements ImportCollectionAction{
+public class JSONCollectionImporter extends Action implements ImportCollectionAction{
 
     protected static Logger logger = LogManager.getLogger();
 
@@ -95,55 +97,22 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
 
 
     @Override
-    protected ImportCollectionReport call() throws Exception {
+    protected void action() throws Exception {
         File jsonFile = this.config.getCollectionJsonFile();
         if(jsonFile != null){
             this.importCollection(jsonFile);
         }
-        return this.report;
-    }
 
-    protected void showReportNotification(){
         if(this.report.errors.size() == 0){
-            this.showOkReportNotification();
+            this.updateMessage(this.report.nbUpdated + " cartes mises à jour");
         }
         else{
-            logger.error(this.report.toString());
-            this.showErrorReportNotification();
+            this.updateMessage(this.report.toString());
+            throw new Exception();
         }
     }
 
-    protected void showOkReportNotification(){
-        String title = "Importation de la collection utilisateur";
-        String text = this.report.nbUpdated + " cartes mises à jour";
-        try {
-            Notifications.create().title(title).text(text).showInformation();
-        }
-        catch(NullPointerException ex){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle(title);
-            alert.setHeaderText("Importation effectuée avec succès!");
-            alert.setContentText(text);
-            alert.showAndWait();
-        }
-    }
 
-    protected void showErrorReportNotification(){
-        String title = "Importation du catalogue de cartes";
-        String text = this.report.toString();
-        try {
-            Notifications.create().title(title).text(text).showError();
-        }
-        catch(NullPointerException ex){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(title);
-            alert.setHeaderText("Erreurs lors de l'importation");
-            alert.setContentText(text);
-            alert.setResizable(true);
-            alert.setWidth(500);
-            alert.showAndWait();
-        }
-    }
 
     @Override
     public void handle(ActionEvent event) {
@@ -152,10 +121,11 @@ public class JSONCollectionImporter extends Task<ImportCollectionReport> impleme
             dialog.setTitle("Importer la collection utilisateur");
             dialog.setHeaderText("Importation de la collection utilisateur");
             dialog.setWidth(600);
+            dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
 
             new Thread(this).start();
             dialog.showAndWait();
-            this.showReportNotification();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

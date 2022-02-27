@@ -151,6 +151,13 @@ public class DBFacadeImpl implements DBFacade {
         return results;
     }
 
+    @Override
+    public Hero getHero(int dbfId) {
+        Session session = this.db.getSession();
+        TypedQuery<Hero> typedQuery = session.createNamedQuery("hero_from_dbfId", Hero.class);
+        return typedQuery.setParameter("dbfId", dbfId).getSingleResult();
+    }
+
 
     @Override
     public Deck createDeck(String name, Hero hero) {
@@ -221,6 +228,11 @@ public class DBFacadeImpl implements DBFacade {
         }
     }
 
+    @Override
+    public boolean addCardToDeck(int dbfId, Deck deck) {
+        return addCardToDeck(dbfId, deck, 1);
+    }
+
 
     protected DeckAssociation getAssociationFromDeck(int dbfId, Deck deck){
         return deck.getCards().stream().filter(c -> c.getCard().getDbfId() == dbfId)
@@ -229,7 +241,7 @@ public class DBFacadeImpl implements DBFacade {
     }
 
     @Override
-    public boolean addCardToDeck(int dbfId, Deck deck) {
+    public boolean addCardToDeck(int dbfId, Deck deck, int count) {
         Session session = this.db.getSession();
 
         CardDetail card = session.get(CardDetail.class, dbfId);
@@ -239,14 +251,14 @@ public class DBFacadeImpl implements DBFacade {
             session.beginTransaction();
             if (ass == null) {
                 DeckAssociation newAss = new DeckAssociation();
-                newAss.setNbCards(1);
+                newAss.setNbCards(count);
                 newAss.setCard(card);
                 newAss.setDeck(deck);
                 session.save(newAss);
                 deck.getCards().add(newAss);
                 session.update(deck);
             } else {
-                ass.setNbCards(ass.getNbCards() + 1);
+                ass.setNbCards(ass.getNbCards() + count);
                 session.update(ass);
             }
             session.getTransaction().commit();
@@ -309,6 +321,12 @@ public class DBFacadeImpl implements DBFacade {
         query.setParameter("deckId", deckId);
         DeckListItem result =  query.getSingleResult();
         return result;
+    }
+
+    @Override
+    public List<DeckCardListItem> getDeckCardList(int deckId) {
+        Deck deck = this.db.getSession().get(Deck.class, deckId);
+        return getDeckCardList(deck);
     }
 
     @Override

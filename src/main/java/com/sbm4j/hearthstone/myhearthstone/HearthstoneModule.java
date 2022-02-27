@@ -11,10 +11,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManagerImpl;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCardImporter;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCollectionImporter;
+import com.sbm4j.hearthstone.myhearthstone.services.imports.*;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.NotificatorImpl;
 
@@ -52,6 +49,8 @@ public class HearthstoneModule extends AbstractModule{
     protected void bindImports(){
         bind(ImportCatalogAction.class).to(JSONCardImporter.class);
         bind(ImportCollectionAction.class).to(JSONCollectionImporter.class);
+        bind(DeckStringExporter.class).to(DeckStringExporterImpl.class);
+        bind(DeckStringImporter.class).to(DeckStringImporterImpl.class);
     }
 
     protected void bindNotifications(){

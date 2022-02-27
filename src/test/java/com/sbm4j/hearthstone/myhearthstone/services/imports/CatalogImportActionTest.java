@@ -12,6 +12,11 @@ import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDB2Testing;
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
+import com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView;
+import de.saxsys.mvvmfx.FluentViewLoader;
+import de.saxsys.mvvmfx.ViewTuple;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -25,7 +30,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-@Disabled
+//@Disabled
 @ExtendWith(DBUnitExtension.class)
 public class CatalogImportActionTest extends AbstractUITest {
 
@@ -39,6 +44,8 @@ public class CatalogImportActionTest extends AbstractUITest {
     private ConnectionHolder connectionHolder = () ->
             EntityManagerProvider.instance("pu-hearthstone").connection();
 
+    protected CardCatalogViewModel viewModel;
+
     @BeforeEach
     public void beforeEach() throws TimeoutException {
         this.hearthstoneModule = new HearthstoneModuleDB2Testing(tempDir);
@@ -47,9 +54,12 @@ public class CatalogImportActionTest extends AbstractUITest {
     }
 
 
-    public void startAppTest(Injector injector, Stage stage){
-        ImportCatalogAction action = injector.getInstance((ImportCatalogAction.class));
-        action.handle(null);
+    public void startAppTest(Injector injector, Stage stage) throws Exception {
+        ViewTuple<CardCatalogView, CardCatalogViewModel> catalog = FluentViewLoader.fxmlView(CardCatalogView.class).load();
+        this.viewModel = catalog.getViewModel();
+        Scene root = new Scene(catalog.getView());
+        stage.setScene(root);
+        stage.show();
     }
 
     @Override
