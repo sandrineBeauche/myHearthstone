@@ -109,7 +109,7 @@ extraJavaModuleInfo {
     }
     //automaticModule('hamcrest-core-1.3.jar', 'hamcrest.core')
     automaticModule('hamcrest-2.2.jar', 'hamcrest')
-    automaticModule('guice-5.0.1.jar', "com.google.guice")
+    //automaticModule('guice-5.0.1.jar', "com.google.guice")
     automaticModule('guava-30.2-jre.jar', 'com.google.common')
     automaticModule("jaxb-impl-2.3.0.jar", "com.sun.xml.bind")
     automaticModule("testfx-core-4.0.16-alpha.jar", "org.testfx")
@@ -131,6 +131,14 @@ extraJavaModuleInfo {
     automaticModule("junit-4.12.jar", "junit")
     automaticModule("byte-buddy-agent-1.6.2.jar", "net.bytebuddy.agent")
     automaticModule("objenesis-2.4.jar", "org.objenesis")*/
+}
+
+compileJava {
+    moduleOptions {
+        addExports = [
+                'de.saxsys.mvvmfx/de.saxsys.mvvmfx.utils.mapping.accessorfunctions':'com.sbm4j.hearthstone.myhearthstone'
+        ]
+    }
 }
 
 compileTestJava {

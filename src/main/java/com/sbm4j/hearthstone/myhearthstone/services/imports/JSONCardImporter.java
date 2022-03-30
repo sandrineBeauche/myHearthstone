@@ -3,7 +3,6 @@ package com.sbm4j.hearthstone.myhearthstone.services.imports;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
@@ -11,18 +10,10 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 
-import com.sbm4j.hearthstone.myhearthstone.utils.NotificationsUtil;
-import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
+
 import de.saxsys.mvvmfx.utils.commands.Action;
-import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.controlsfx.control.Notifications;
-import org.controlsfx.dialog.ProgressDialog;
 import org.hibernate.Session;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -35,7 +26,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 public class JSONCardImporter extends Action implements ImportCatalogAction {
 

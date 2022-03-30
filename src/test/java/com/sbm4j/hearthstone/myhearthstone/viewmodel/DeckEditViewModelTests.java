@@ -16,6 +16,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import javafx.scene.chart.XYChart;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -24,7 +25,7 @@ import static org.hamcrest.Matchers.*;
 
 import static org.hamcrest.Matchers.arrayContaining;
 
-
+@Disabled
 @ExtendWith(DBUnitExtension.class)
 public class DeckEditViewModelTests {
 

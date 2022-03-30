@@ -19,6 +19,7 @@ import de.saxsys.mvvmfx.ViewTuple;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.util.WaitForAsyncUtils;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+@Disabled
 @ExtendWith(DBUnitExtension.class)
 public class MainViewDBTests extends AbstractUITest {
 

@@ -9,15 +9,15 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.sbm4j.hearthstone.myhearthstone.AbstractUITest;
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneModuleDBTesting;
-import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
+import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
-import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
-import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardDetailsViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckListViewModel;
 import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
+import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -25,13 +25,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.util.WaitForAsyncUtils;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 @Disabled
 @ExtendWith(DBUnitExtension.class)
-public class CardDragDropTest extends AbstractUITest {
+public class CardDetailsViewDBTests extends AbstractUITest {
 
     protected DBManager manager;
 
@@ -39,9 +40,7 @@ public class CardDragDropTest extends AbstractUITest {
 
     protected Module hearthstoneModule;
 
-    protected CardCatalogViewModel catalogViewModel;
-
-    protected DeckEditViewModel deckEditViewModel;
+    protected CardDetailsViewModel viewModel;
 
     private ConnectionHolder connectionHolder = () ->
             EntityManagerProvider.instance("pu-hearthstone").connection();
@@ -56,17 +55,9 @@ public class CardDragDropTest extends AbstractUITest {
 
     @Override
     public void startAppTest(Injector injector, Stage stage) {
-        ViewTuple<CardCatalogView, CardCatalogViewModel> catalog = FluentViewLoader.fxmlView(CardCatalogView.class).load();
-        this.catalogViewModel = catalog.getViewModel();
-
-        ViewTuple<DeckEditView, DeckEditViewModel> deckEdit = FluentViewLoader.fxmlView(DeckEditView.class).load();
-        this.deckEditViewModel = deckEdit.getViewModel();
-
-        HBox box = new HBox();
-        box.getChildren().add(catalog.getView());
-        box.getChildren().add(deckEdit.getView());
-
-        Scene root = new Scene(box);
+        ViewTuple<CardDetailsView, CardDetailsViewModel> card = FluentViewLoader.fxmlView(CardDetailsView.class).load();
+        this.viewModel = card.getViewModel();
+        Scene root = new Scene(card.getView());
         stage.setScene(root);
         stage.show();
     }
@@ -77,12 +68,18 @@ public class CardDragDropTest extends AbstractUITest {
     }
 
     @Test
-    @DataSet("collectionWithDecks1.xml")
-    public void dragDropTest() throws TimeoutException {
+    @DataSet("importedCatalogWithCollectionDataset.xml")
+    public void showCardTest() throws TimeoutException {
         this.setupAppTest();
 
-        DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
-        this.deckEditViewModel.showDeck(deckItem);
+        Platform.runLater(() -> {
+            CardDetail card = this.dbFacade.getCardFromDbfId(66887);
+            try {
+                this.viewModel.showCard(card);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
 
         WaitForAsyncUtils.waitFor(1000, TimeUnit.MINUTES, () -> false);
     }

@@ -6,6 +6,7 @@ import com.sbm4j.hearthstone.myhearthstone.AbstractUITest;
 import com.sbm4j.hearthstone.myhearthstone.model.Hero;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testfx.util.WaitForAsyncUtils;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+@Disabled
 public class DialogTests extends AbstractUITest {
 
     protected Optional<Pair<String, Hero>> result;

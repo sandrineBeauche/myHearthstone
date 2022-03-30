@@ -28,6 +28,7 @@ module com.sbm4j.hearthstone.myhearthstone {
     opens com.sbm4j.hearthstone.myhearthstone.views to javafx.fxml, de.saxsys.mvvmfx, com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.viewmodel to
             com.google.guice,
+            javafx.base,
             de.saxsys.mvvmfx;
     //opens com.sbm4j.hearthstone.myhearthstone.services to com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.services.images to com.google.guice;

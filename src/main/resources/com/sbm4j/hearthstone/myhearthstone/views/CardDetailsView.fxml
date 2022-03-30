@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.ListSelectionView?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="774.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardDetailsView">
+  <tabs>
+    <Tab closable="false" text="Informations">
+      <content>
+          <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+               <rowConstraints>
+                  <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="54.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="156.0" vgrow="ALWAYS" />
+               </rowConstraints>
+               <columnConstraints>
+                  <ColumnConstraints maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="310.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="166.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="109.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="106.0" />
+                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="84.0" />
+               </columnConstraints>
+               <children>
+                  <ImageView fx:id="cardImage" fitHeight="356.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <GridPane.margin>
+                        <Insets left="15.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <ImageView fx:id="extensionImage" fitHeight="132.0" fitWidth="282.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                     <GridPane.margin>
+                        <Insets left="15.0" />
+                     </GridPane.margin>
+                  </ImageView>
+                  <Label fx:id="titleLabel" prefHeight="47.0" prefWidth="458.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="nbCardLabel" text="X 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Comfortaa Regular" size="53.0" />
+                     </font></Label>
+                  <ImageView fx:id="cardClassImage" fitHeight="65.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                  <ImageView fx:id="eliteImage" fitHeight="68.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets left="10.0" />
+                     </GridPane.margin>
+                     <image>
+                        <Image url="@gold_star-512.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="standardBadge" fitHeight="36.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                     <image>
+                        <Image url="@standard-badge.png" />
+                     </image>
+                  </ImageView>
+                  <TableView fx:id="infosTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1">
+                    <columns>
+                      <TableColumn fx:id="dataNameColumn" editable="false" prefWidth="134.0" sortable="false" />
+                      <TableColumn fx:id="dataValueColumn" editable="false" prefWidth="325.0" sortable="false" />
+                    </columns>
+                  </TableView>
+               </children></GridPane>
+      </content>
+    </Tab>
+      <Tab text="Tags utilisateurs">
+        <content>
+            <BorderPane>
+               <center>
+                  <ListSelectionView fx:id="tagSelectionView" BorderPane.alignment="CENTER" >
+                      <sourceHeader>
+                          <Label text="Tags disponibles"/>
+                      </sourceHeader>
+                      <targetHeader>
+                          <Label text="Tags associés"/>
+                      </targetHeader>
+                  </ListSelectionView>
+               </center>
+            </BorderPane>
+        </content>
+      </Tab>
+  </tabs>
+</TabPane>

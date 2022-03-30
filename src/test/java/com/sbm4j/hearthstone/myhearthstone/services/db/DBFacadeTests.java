@@ -188,6 +188,7 @@ public class DBFacadeTests {
     }
 
     @Test
+    @Disabled
     @DataSet("collectionWithDeck2.xml")
     public void createNewDeck2Test(){
         Session session = this.db.getSession();
@@ -306,6 +307,7 @@ public class DBFacadeTests {
     }
 
     @Test
+    @Disabled
     @DataSet("collectionWithDecks1.xml")
     public void getDecksList(){
         List<DeckListItem>  result = this.facade.getDeckList();
