@@ -1,14 +1,20 @@
 package com.sbm4j.hearthstone.myhearthstone.views;
 
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneApplication;
 import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
+import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
 import com.sbm4j.hearthstone.myhearthstone.model.CodedEntity;
 import com.sbm4j.hearthstone.myhearthstone.model.Hero;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardDetailsViewModel;
+import de.saxsys.mvvmfx.FluentViewLoader;
+import de.saxsys.mvvmfx.ViewTuple;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxListCell;
 import javafx.scene.image.Image;
@@ -16,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.util.Callback;
 import javafx.util.Pair;
@@ -36,6 +43,8 @@ public class Dialogs {
         // Set the button types.
         ButtonType createButtonType = new ButtonType("Créer", ButtonBar.ButtonData.OK_DONE);
         dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(getIcon());
 
         // Create the username and password labels and fields.
         GridPane grid = new GridPane();
@@ -123,6 +132,10 @@ public class Dialogs {
         return Dialogs.class.getResource("style.css").toExternalForm();
     }
 
+    public static Image getIcon() {
+        return new Image(HearthstoneApplication.class.getResourceAsStream("/classic.png"));
+    }
+
 
     public static void showProgressDialog(ParamCommand command, String headerText){
         try {
@@ -131,6 +144,9 @@ public class Dialogs {
             dialog.setHeaderText(headerText);
             dialog.setWidth(600);
             dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(getIcon());
 
             dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
 
@@ -142,5 +158,24 @@ public class Dialogs {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void showCardDetailDialog(CardDetail card) throws FileNotFoundException {
+        Dialog dialog = new Dialog();
+        dialog.setTitle("Details carte hearthstone");
+        dialog.setHeaderText("Carte " + card.getName());
+        
+        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+        dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(getIcon());
+
+        ViewTuple<CardDetailsView, CardDetailsViewModel> cardViewTuple = FluentViewLoader.fxmlView(CardDetailsView.class).load();
+        dialog.getDialogPane().setContent(cardViewTuple.getView());
+
+        cardViewTuple.getViewModel().showCard(card);
+        dialog.showAndWait();
     }
 }

@@ -34,6 +34,18 @@ public interface DBFacade {
 
     List<CardTag> getTags();
 
+    List<CardTag> getAvailableUserTags();
+
+    List<CardTag> getUserTags(CardDetail card);
+
+    CardTag createUserTag(String name);
+
+    boolean deleteUserTag(CardTag tag);
+
+    boolean addUserTagToCard(CardTag tag, CardDetail card);
+
+    boolean removeUserTagFromCard(CardTag tag, CardDetail card);
+
     List<Hero> getHeros();
 
     Hero getHero(int dbfId);

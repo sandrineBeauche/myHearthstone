@@ -387,4 +387,18 @@ public class DBFacadeTests {
         assertNotNull(result);
         assertEquals(3, result.size());
     }
+
+    @Test
+    @DataSet("miniCatalogWithCollectionDataset.xml")
+    public void deleteUserTag(){
+        Session session = this.db.getSession();
+        CardTag tag = session.get(CardTag.class, 170);
+
+        boolean result = this.facade.deleteUserTag(tag);
+
+        assertTrue(result);
+
+        CardDetail card = session.get(CardDetail.class, 66848);
+        assertEquals(2, card.getUserData().getTags().size());
+    }
 }

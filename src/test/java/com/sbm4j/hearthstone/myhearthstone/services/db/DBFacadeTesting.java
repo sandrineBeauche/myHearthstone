@@ -80,6 +80,36 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public List<CardTag> getAvailableUserTags() {
+        return null;
+    }
+
+    @Override
+    public List<CardTag> getUserTags(CardDetail card) {
+        return null;
+    }
+
+    @Override
+    public CardTag createUserTag(String name) {
+        return null;
+    }
+
+    @Override
+    public boolean deleteUserTag(CardTag tag) {
+        return false;
+    }
+
+    @Override
+    public boolean addUserTagToCard(CardTag tag, CardDetail card) {
+        return false;
+    }
+
+    @Override
+    public boolean removeUserTagFromCard(CardTag tag, CardDetail card) {
+        return false;
+    }
+
+    @Override
     public List<Hero> getHeros() {
         return null;
     }

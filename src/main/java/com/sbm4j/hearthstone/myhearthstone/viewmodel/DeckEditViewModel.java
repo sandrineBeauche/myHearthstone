@@ -7,6 +7,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.cardClasses.CardClassImageLoader;
 import com.sbm4j.hearthstone.myhearthstone.services.notifications.Notificator;
+import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.property.*;
@@ -423,5 +424,16 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
     public String getRarityTooltips(String code){
         return this.rarityTooltips.get(code);
+    }
+
+    public void showCardDetails(DeckCardListItem card){
+        CardDetail details = this.dbFacade.getCardFromDbfId(card.getDbfId());
+        if(details != null){
+            try {
+                Dialogs.showCardDetailDialog(details);
+            } catch (FileNotFoundException e) {
+                logger.error(e.getMessage(), e);
+            }
+        }
     }
 }

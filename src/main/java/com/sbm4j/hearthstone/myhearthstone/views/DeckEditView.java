@@ -2,6 +2,7 @@ package com.sbm4j.hearthstone.myhearthstone.views;
 
 
 import com.google.inject.Inject;
+import com.sbm4j.hearthstone.myhearthstone.model.CardCatalogItem;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.model.TagStat;
@@ -285,6 +286,23 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
     }
 
+    protected class CardListContextMenu extends ContextMenu {
+
+        protected DeckCardListItem card;
+
+        public CardListContextMenu(DeckCardListItem card){
+            this.card = card;
+
+            MenuItem menuItem1 = new MenuItem("Détails");
+            menuItem1.setOnAction(event -> {
+                viewModel.showCardDetails(this.card);
+            });
+
+            this.getItems().add(menuItem1);
+        }
+    }
+
+
     protected class StandardCardCell extends TableCell<DeckCardListItem, Boolean> {
 
         public StandardCardCell(){
@@ -353,6 +371,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
                 setGraphic(imgView);
                 this.setTooltip(new CardListImageTooltip(item));
+                this.setContextMenu(new CardListContextMenu(this.getTableRow().getItem()));
             }
             else{
                 this.setGraphic(null);

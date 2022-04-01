@@ -8,10 +8,7 @@ import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,6 +19,7 @@ import org.controlsfx.control.ListSelectionView;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initializable {
@@ -57,7 +55,11 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
     protected ImageView standardBadge;
 
     @FXML
-    protected ListSelectionView<CardTag> tagSelectionView;
+    protected ListView<CardTag> availableTagsList;
+
+    @FXML
+    protected ListView<CardTag> associatedTagsList;
+
 
     @InjectViewModel
     protected CardDetailsViewModel viewModel;
@@ -79,7 +81,8 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
         this.dataNameColumn.setCellFactory(param -> new InfosCell(true));
         this.dataValueColumn.setCellFactory(param -> new InfosCell(false));
 
-
+        this.availableTagsList.itemsProperty().bindBidirectional(this.viewModel.getAvailableTagsProperty());
+        this.associatedTagsList.itemsProperty().bindBidirectional(this.viewModel.getAssociatedTagsProperty());
     }
 
     public class InfosCell extends TableCell<CardDetailsViewModel.CardDetailData, String> {
@@ -107,5 +110,62 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
                 setGraphic(label);
             }
         }
+    }
+
+    public void createNewUserTagCallback(){
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Nouveau tag utilisateur");
+        dialog.setHeaderText("Créer un tag utilisateur");
+        dialog.setContentText("Entrez le nom du nouveau tag: ");
+        dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String tagName = result.get();
+            ParamCommand command = this.viewModel.getCreateNewUserTagCommand();
+            command.putParameter("name", tagName);
+            command.execute();
+        }
+    }
+
+    public void deleteUserTagCallback(){
+        CardTag selectedTag = this.availableTagsList.getSelectionModel().getSelectedItem();
+        if(selectedTag != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Supprimer un tag utilisateur");
+            alert.setHeaderText("");
+            alert.setContentText("Voulez-vous supprimer le tag " + selectedTag.getName() + "?");
+            alert.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK){
+                ParamCommand command = this.viewModel.getDeleteUserTagCommand();
+                command.putParameter("tag", selectedTag);
+                command.execute();
+            }
+        }
+    }
+
+    public void addTagCallback(){
+        CardTag selectedTag = this.availableTagsList.getSelectionModel().getSelectedItem();
+        if(selectedTag != null){
+            ParamCommand command = this.viewModel.getAddUserTagCommand();
+            command.putParameter("tag", selectedTag);
+            command.execute();
+        }
+    }
+
+    public void removeTagCallback(){
+        CardTag selectedTag = this.associatedTagsList.getSelectionModel().getSelectedItem();
+        if(selectedTag != null){
+            ParamCommand command = this.viewModel.getRemoveUserTagCommand();
+            command.putParameter("tag", selectedTag);
+            command.execute();
+        }
+    }
+
+    public void removeAllTagsCallback(){
+        ParamCommand command = this.viewModel.getRemoveAllUserTagCommand();
+        command.execute();
     }
 }

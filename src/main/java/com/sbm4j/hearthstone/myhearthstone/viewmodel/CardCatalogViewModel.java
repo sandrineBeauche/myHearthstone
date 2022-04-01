@@ -8,6 +8,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCardImporter;
+import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
 import com.sbm4j.hearthstone.myhearthstone.views.ManaOption;
 import com.sbm4j.hearthstone.myhearthstone.views.ParamCommand;
 import de.saxsys.mvvmfx.ViewModel;
@@ -18,8 +19,11 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.IndexedCheckModel;
 
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,6 +35,8 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
 
     @Inject
     protected Injector injector;
+
+    protected Logger logger = LogManager.getLogger();
 
     /* Collection property */
     private ObjectProperty<ObservableList<CardCatalogItem>> collection = new SimpleObjectProperty<ObservableList<CardCatalogItem>>();
@@ -176,6 +182,15 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
             "Importer la collection utilisateur",
             () -> (Action) this.injector.getInstance(ImportCollectionAction.class), true);
     public ParamCommand getImportCollectionCommand(){ return this.importCollectionCommand;}
+
+    public void showCardDetails(CardCatalogItem item){
+        CardDetail details = this.getDetails(item);
+        try {
+            Dialogs.showCardDetailDialog(details);
+        } catch (FileNotFoundException e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
 
 
     public void refreshCatalog(){

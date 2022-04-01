@@ -142,6 +142,101 @@ public class DBFacadeImpl implements DBFacade {
         return results;
     }
 
+    @Override
+    public List<CardTag> getAvailableUserTags() {
+        Session session = this.db.getSession();
+        TypedQuery<CardTag> typedQuery = session.createNamedQuery("available_user_tags", CardTag.class);
+        List<CardTag> results = typedQuery.getResultList();
+        return results;
+    }
+
+    @Override
+    public List<CardTag> getUserTags(CardDetail card) {
+        Session session = this.db.getSession();
+        TypedQuery<CardTag> typedQuery = session.createNamedQuery("associated_user_tags", CardTag.class);
+        List<CardTag> results = typedQuery.setParameter("card", card).getResultList();
+        return results;
+    }
+
+    @Override
+    public CardTag createUserTag(String name) {
+        CardTag newTag = new CardTag();
+        newTag.setName(name);
+        newTag.setUser(true);
+
+        try {
+            Session session = this.db.getSession();
+            session.beginTransaction();
+            session.save(newTag);
+            session.getTransaction().commit();
+
+            return newTag;
+        }
+        catch(Exception ex){
+            logger.error(ex.getMessage(), ex);
+            return null;
+        }
+    }
+
+    @Override
+    public boolean deleteUserTag(CardTag tag) {
+        try{
+            Session session = this.db.getSession();
+
+            session.beginTransaction();
+            session.createNamedQuery("delete_associations_user_tags")
+                    .setParameter("tagId", tag.getId())
+                    .executeUpdate();
+
+
+            session.delete(tag);
+            session.getTransaction().commit();
+
+            return true;
+        }
+        catch(Exception ex){
+            logger.error(ex.getMessage(), ex);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean addUserTagToCard(CardTag tag, CardDetail card) {
+        try{
+            Session session = this.db.getSession();
+            session.refresh(card);
+
+            session.beginTransaction();
+            card.getUserData().getTags().add(tag);
+            session.save(card);
+            session.getTransaction().commit();
+
+            return true;
+        }
+        catch (Exception ex){
+            logger.error(ex.getMessage(), ex);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeUserTagFromCard(CardTag tag, CardDetail card) {
+        try{
+            Session session = this.db.getSession();
+            session.refresh(card);
+            session.beginTransaction();
+            card.getUserData().getTags().remove(tag);
+            session.save(card.getUserData());
+            session.getTransaction().commit();
+
+            return true;
+        }
+        catch (Exception ex){
+            logger.error(ex.getMessage(), ex);
+            return false;
+        }
+    }
+
 
     @Override
     public List<Hero> getHeros() {

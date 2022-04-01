@@ -13,10 +13,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -166,6 +163,25 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
     }
 
 
+    protected class CardContextMenu extends ContextMenu {
+
+        protected CardCatalogItem cardCatalogItem;
+
+        public CardContextMenu(CardCatalogItem item){
+            this.cardCatalogItem = item;
+
+            MenuItem menuItem1 = new MenuItem("Détails");
+            menuItem1.setOnAction(event -> {
+                viewModel.showCardDetails(this.cardCatalogItem);
+            });
+
+            this.getItems().add(menuItem1);
+        }
+    }
+
+
+
+
     public void onCriteriaChange(){
         this.cardImageManager.clearThumbsCache();
         this.cardImageManager.clearBigsCache();
@@ -207,6 +223,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
                 }
                 setGraphic(imgView);
                 this.setTooltip(new CardToolTip(item));
+                this.setContextMenu(new CardContextMenu(item));
             }
         }
     }
@@ -251,6 +268,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
             }
         }
     };
+
 
 
 }

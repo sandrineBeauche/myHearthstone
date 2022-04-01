@@ -7,6 +7,7 @@ import de.saxsys.mvvmfx.FluentViewLoader;
 import de.saxsys.mvvmfx.ViewTuple;
 import de.saxsys.mvvmfx.guice.MvvmfxGuiceApplication;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class HearthstoneApplication extends MvvmfxGuiceApplication{
         ViewTuple<MainView, MainViewModel> main = FluentViewLoader.fxmlView(MainView.class).load();
         Scene root = new Scene(main.getView());
         stage.setScene(root);
+        Image icon = new Image(this.getClass().getResourceAsStream("/classic.png"));
+        stage.getIcons().add(icon);
         stage.show();
     }
 

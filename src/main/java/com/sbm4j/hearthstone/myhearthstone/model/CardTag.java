@@ -18,9 +18,23 @@ import javax.persistence.*;
                         "where a.deck = :deck " +
                         "group by t.name " +
                         "order by t.name"
+        ),
+        @NamedQuery(
+                name="available_user_tags",
+                query="select t from CardTag t where t.isUser = true order by t.name"
+        ),
+        @NamedQuery(
+                name="associated_user_tags",
+                query="select t " +
+                        "from CardDetail c join c.userData.tags t " +
+                        "where t.isUser = true and c = :card " +
+                        "order by t.name"
         )
-
 })
+@NamedNativeQuery(
+        name="delete_associations_user_tags",
+        query="DELETE FROM CARDUSERDATA_CARDTAG WHERE TAGS_ID = :tagId"
+)
 @Entity
 @Table(name = "cardTag")
 public class CardTag {
@@ -29,7 +43,7 @@ public class CardTag {
     @GeneratedValue
     private int id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String code;
 
     @Column(nullable = false)
