@@ -8,6 +8,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.json.JsonCard;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
+import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 
 
@@ -38,6 +39,9 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
     protected CardImageManager imageManager;
 
     @Inject
+    protected DownloadManager downloadManager;
+
+    @Inject
     protected ConfigManager configManager;
 
     @Inject
@@ -52,8 +56,10 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
 
     @Override
     public void action() throws Exception {
-        File jsonFile = this.configManager.getCatalogJsonFile();
+        File jsonFile = this.getJsonFile();
+
         if(jsonFile != null){
+            this.updateMessage("Parse the data file");
             ArrayList<JsonCard> cards = this.parseCards(jsonFile);
             HashSet<String> unknownTags = this.verifyTags(cards);
             HashSet<String> unknownSets = this.verifySets(cards);
@@ -76,6 +82,22 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
         }
     }
 
+    @Override
+    public File getJsonFile() throws IOException {
+        File jsonFile = this.configManager.getCatalogJsonFile();
+
+        if(this.configManager.getDownloadCardCatalog()) {
+            this.updateMessage("Download the data file");
+            String path = jsonFile.getAbsolutePath();
+            if(jsonFile.exists()){
+                jsonFile.delete();
+            }
+            return this.downloadManager.downloadFile(this.configManager.getCardCatalogUrl(), path);
+        }
+        else{
+            return jsonFile;
+        }
+    }
 
 
     public ArrayList<JsonCard> parseCards(File jsonFile) throws IOException {
@@ -101,7 +123,6 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
                     }
                     if(c == '}' && !inString){
                         String json = builder.toString();
-                        logger.info("parse from Json: " + json);
                         JsonCard card = gson.fromJson(json, JsonCard.class);
                         card.setJsonDesc(json);
                         result.add(card);

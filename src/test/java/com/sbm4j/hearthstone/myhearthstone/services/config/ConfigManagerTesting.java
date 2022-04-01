@@ -49,4 +49,14 @@ public class ConfigManagerTesting extends ConfigManagerImpl{
             return new File(res.getFile());
         }
     }
+
+    @Override
+    public Boolean getDownloadCardCatalog() {
+        return false;
+    }
+
+    @Override
+    public Boolean getDownloadCardCollection() {
+        return false;
+    }
 }

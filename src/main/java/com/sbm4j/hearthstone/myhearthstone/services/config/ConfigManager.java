@@ -29,4 +29,10 @@ public interface ConfigManager {
     Image getAlternateCardImage();
 
     Boolean getInitDB();
+
+    String getCardCatalogUrl();
+
+    Boolean getDownloadCardCatalog();
+
+    Boolean getDownloadCardCollection();
 }

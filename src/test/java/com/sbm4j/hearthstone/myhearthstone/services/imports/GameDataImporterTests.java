@@ -43,7 +43,7 @@ public class GameDataImporterTests {
     @BeforeEach
     public void beforeEach() throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
-        this.jsonCardsFile= new File(classLoader.getResource("cards.json").getFile());
+        this.jsonCardsFile = new File(classLoader.getResource("cards.json").getFile());
 
         Injector injector = Guice.createInjector(
                 new HearthstoneModuleDBTesting(this.tempDir));
@@ -55,6 +55,13 @@ public class GameDataImporterTests {
     @AfterEach
     public void afterEach(){
         this.dbManager.closeSession();
+    }
+
+
+    @Test
+    public void downloadJsonFile() throws IOException {
+        File jsonFile = this.importer.getJsonFile();
+        assertNotNull(jsonFile);
     }
 
     @Test

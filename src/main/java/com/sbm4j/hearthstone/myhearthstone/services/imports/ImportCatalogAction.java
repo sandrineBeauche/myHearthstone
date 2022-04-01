@@ -39,4 +39,6 @@ public interface ImportCatalogAction{
     CardStatus cardDetailStatus(JsonCard jsonCard);
 
     ImportCardReport getReport();
+
+    File getJsonFile() throws IOException;
 }

@@ -165,7 +165,7 @@ public class Dialogs {
         Dialog dialog = new Dialog();
         dialog.setTitle("Details carte hearthstone");
         dialog.setHeaderText("Carte " + card.getName());
-        
+
         dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
         dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
 

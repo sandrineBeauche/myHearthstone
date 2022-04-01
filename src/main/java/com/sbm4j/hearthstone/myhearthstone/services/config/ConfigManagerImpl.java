@@ -100,4 +100,19 @@ public class ConfigManagerImpl implements ConfigManager {
         return true;
     }
 
+    @Override
+    public String getCardCatalogUrl() {
+        return "https://api.hearthstonejson.com/v1/latest/frFR/cards.collectible.json";
+    }
+
+    @Override
+    public Boolean getDownloadCardCatalog() {
+        return true;
+    }
+
+    @Override
+    public Boolean getDownloadCardCollection() {
+        return true;
+    }
+
 }
