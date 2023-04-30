@@ -75,6 +75,9 @@ public class Deck {
     @JoinColumn(name = "hero_id", foreignKey = @ForeignKey(name = "HERO_ID_DECK_FK"))
     private Hero hero;
 
+    @Column(length = 5000)
+    private String notes;
+
     public Deck(){}
 
     public Deck(String name, Hero hero){
@@ -120,6 +123,14 @@ public class Deck {
 
     public void setHero(Hero hero) {
         this.hero = hero;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     @Override

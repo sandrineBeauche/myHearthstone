@@ -15,6 +15,7 @@ import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
 import de.saxsys.mvvmfx.utils.commands.Command;
 import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
+import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +38,10 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     protected Injector injector;
 
     protected Logger logger = LogManager.getLogger();
+
+    @Inject
+    private NotificationCenter notificationCenter;
+
 
     /* Collection property */
     private ObjectProperty<ObservableList<CardCatalogItem>> collection = new SimpleObjectProperty<ObservableList<CardCatalogItem>>();
@@ -169,7 +174,18 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
         List<CardCatalogItem> items = this.dbFacade.getCatalog(criteria);
         this.collection.set(FXCollections.observableArrayList(items));
         this.setNbCardsTxt(items.size() + " cartes");
+
+        notificationCenter.subscribe(CardDetailsViewModel.NEW_TAG_MESSAGE, (key, payload) -> {
+            CardTag tag = (CardTag) payload[0];
+            getAvailableTags().add(tag);
+        });
+
+        notificationCenter.subscribe(CardDetailsViewModel.DELETE_TAG_MESSAGE, (key, payload) -> {
+            CardTag tag = (CardTag) payload[0];
+            getAvailableTags().removeIf(cardTag -> cardTag.getName().equals(tag.getName()));
+        });
     }
+
 
 
     protected ParamCommand importCatalogCommand = new ParamCommand(
@@ -184,12 +200,7 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     public ParamCommand getImportCollectionCommand(){ return this.importCollectionCommand;}
 
     public void showCardDetails(CardCatalogItem item){
-        CardDetail details = this.getDetails(item);
-        try {
-            Dialogs.showCardDetailDialog(details);
-        } catch (FileNotFoundException e) {
-            logger.error(e.getMessage(), e);
-        }
+        this.notificationCenter.publish(CardDetailsViewModel.SHOW_CARD, item.dbfId());
     }
 
 

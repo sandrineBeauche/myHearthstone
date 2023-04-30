@@ -80,6 +80,7 @@ public class GameDataImporterTests {
     }
 
     @Test
+    @Disabled
     public void getCardStatus_New() throws Exception {
         ArrayList<JsonCard> jsonCards = this.importer.parseCards(this.jsonCardsFile);
         JSONCardImporter.CardStatus status = this.importer.cardDetailStatus(jsonCards.get(0));

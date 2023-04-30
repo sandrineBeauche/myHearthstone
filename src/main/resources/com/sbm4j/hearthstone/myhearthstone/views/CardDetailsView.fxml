@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,137 +19,168 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="774.0" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardDetailsView">
-  <tabs>
-    <Tab closable="false" text="Informations">
-      <content>
-          <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
-               <rowConstraints>
-                  <RowConstraints maxHeight="317.0" minHeight="10.0" prefHeight="54.0" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="330.0" vgrow="ALWAYS" />
-                  <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="156.0" vgrow="ALWAYS" />
-               </rowConstraints>
-               <columnConstraints>
-                  <ColumnConstraints maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="310.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="166.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="109.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="106.0" />
-                  <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="10.0" prefWidth="84.0" />
-               </columnConstraints>
-               <children>
-                  <ImageView fx:id="cardImage" fitHeight="356.0" fitWidth="278.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                     <GridPane.margin>
-                        <Insets left="15.0" />
-                     </GridPane.margin>
-                  </ImageView>
-                  <ImageView fx:id="extensionImage" fitHeight="132.0" fitWidth="282.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                     <GridPane.margin>
-                        <Insets left="15.0" />
-                     </GridPane.margin>
-                  </ImageView>
-                  <Label fx:id="titleLabel" prefHeight="47.0" prefWidth="458.0" text="Label" wrapText="true" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                     <font>
-                        <Font name="System Bold" size="24.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="nbCardLabel" text="X 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2">
-                     <font>
-                        <Font name="Comfortaa Regular" size="53.0" />
-                     </font></Label>
-                  <ImageView fx:id="cardClassImage" fitHeight="65.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <ImageView fx:id="eliteImage" fitHeight="68.0" fitWidth="76.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                     <image>
-                        <Image url="@gold_star-512.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="standardBadge" fitHeight="36.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
-                     <image>
-                        <Image url="@standard-badge.png" />
-                     </image>
-                  </ImageView>
-                  <TableView fx:id="infosTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.columnSpan="4" GridPane.rowIndex="1">
-                    <columns>
-                      <TableColumn fx:id="dataNameColumn" editable="false" prefWidth="91.0" sortable="false" />
-                      <TableColumn fx:id="dataValueColumn" editable="false" prefWidth="368.0" sortable="false" />
-                    </columns>
-                  </TableView>
-               </children></GridPane>
-      </content>
-    </Tab>
-      <Tab text="Tags utilisateurs">
-        <content>
-            <BorderPane>
-               <top>
-                  <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <items>
-                      <Button fx:id="cmdCreateTag" mnemonicParsing="false" onAction="#createNewUserTagCallback">
-                           <graphic>
-                              <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@createNew.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="cmdDeleteTag" mnemonicParsing="false" onAction="#deleteUserTagCallback">
-                           <graphic>
-                              <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@delete.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                    </items>
-                  </ToolBar>
-               </top>
-               <center>
-                  <GridPane BorderPane.alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="324.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="252.0" minWidth="10.0" prefWidth="129.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="321.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                        <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="36.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="192.0" minHeight="10.0" prefHeight="31.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="236.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="234.0" minHeight="10.0" prefHeight="54.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="62.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="224.0" minHeight="10.0" prefHeight="223.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
+<TitledPane fx:id="titledPane" animated="false" collapsible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="567.0" stylesheets="@style.css" text="Card" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardDetailsView">
+   <content>
+      <TabPane fx:id="tabPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="568.0" prefWidth="774.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Informations">
+            <content>
+                <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <rowConstraints>
+                        <RowConstraints fillHeight="false" maxHeight="48.0" minHeight="10.0" prefHeight="48.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="326.0" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="78.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="0.0" prefHeight="61.0" vgrow="NEVER" />
+                     </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="262.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="757.0" minWidth="10.0" prefWidth="67.0" />
+                        <ColumnConstraints hgrow="ALWAYS" maxWidth="757.0" minWidth="9.0" prefWidth="41.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="757.0" minWidth="10.0" prefWidth="53.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="757.0" minWidth="10.0" prefWidth="99.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="757.0" minWidth="10.0" prefWidth="43.0" />
+                     </columnConstraints>
                      <children>
-                        <Label text="Tags disponibles" GridPane.valignment="BOTTOM">
+                        <ImageView fx:id="cardImage" fitHeight="460.0" fitWidth="339.0" pickOnBounds="true" preserveRatio="true" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                            <GridPane.margin>
-                              <Insets left="10.0" />
+                              <Insets left="5.0" />
                            </GridPane.margin>
+                        </ImageView>
+                        <ImageView fx:id="extensionImage" fitHeight="195.0" fitWidth="306.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </ImageView>
+                        <Label fx:id="titleLabel" prefHeight="47.0" prefWidth="458.0" text="Label" wrapText="true" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
                         </Label>
-                        <Label text="Tags associés" GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
-                           <GridPane.margin>
-                              <Insets left="10.0" />
-                           </GridPane.margin>
+                        <Label fx:id="nbCardLabel" prefHeight="48.0" prefWidth="71.0" text="X 2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <font>
+                              <Font name="Comfortaa Regular" size="38.0" />
+                           </font>
                         </Label>
-                        <ListView fx:id="availableTagsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+                        <ImageView fx:id="cardClassImage" fitHeight="65.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <ImageView fx:id="eliteImage" fitHeight="44.0" fitWidth="47.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="3" GridPane.vgrow="SOMETIMES">
                            <GridPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets />
                            </GridPane.margin>
-                        </ListView>
-                        <ListView fx:id="associatedTagsList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647">
+                           <image>
+                              <Image url="@gold_star-512.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="standardBadge" fitHeight="36.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                           <image>
+                              <Image url="@standard-badge.png" />
+                           </image>
+                        </ImageView>
+                        <TableView fx:id="infosTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="4" GridPane.rowIndex="1" GridPane.rowSpan="2" GridPane.vgrow="ALWAYS">
+                          <columns>
+                            <TableColumn fx:id="dataNameColumn" editable="false" prefWidth="91.0" sortable="false" />
+                            <TableColumn fx:id="dataValueColumn" editable="false" prefWidth="368.0" sortable="false" />
+                          </columns>
                            <GridPane.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets right="10.0" />
                            </GridPane.margin>
-                        </ListView>
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeTagCallback" prefHeight="36.0" text="&lt; Enlever" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeAllTagsCallback" prefHeight="36.0" prefWidth="129.0" text="&lt;&lt; Tout enlever" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
-                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addTagCallback" prefHeight="36.0" prefWidth="106.0" text="Ajouter &gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        </TableView>
                      </children>
                   </GridPane>
-               </center>
-            </BorderPane>
-        </content>
-      </Tab>
-  </tabs>
-</TabPane>
+            </content>
+          </Tab>
+            <Tab text="Tags utilisateurs">
+              <content>
+                  <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <top>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                          <items>
+                            <Button fx:id="cmdCreateTag" mnemonicParsing="false" onAction="#createNewUserTagCallback" text="Nouveau">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@createNew.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="cmdDeleteTag" mnemonicParsing="false" onAction="#deleteUserTagCallback" text="Supprimer">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@delete.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                          </items>
+                        </ToolBar>
+                     </top>
+                     <center>
+                        <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="324.0" />
+                            <ColumnConstraints hgrow="NEVER" maxWidth="252.0" minWidth="10.0" prefWidth="129.0" />
+                              <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="321.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="133.0" minHeight="10.0" prefHeight="36.0" vgrow="NEVER" />
+                              <RowConstraints maxHeight="192.0" minHeight="10.0" prefHeight="31.0" vgrow="NEVER" />
+                              <RowConstraints maxHeight="236.0" minHeight="10.0" prefHeight="54.0" vgrow="NEVER" />
+                            <RowConstraints maxHeight="234.0" minHeight="10.0" prefHeight="54.0" vgrow="NEVER" />
+                            <RowConstraints maxHeight="230.0" minHeight="10.0" prefHeight="62.0" vgrow="NEVER" />
+                            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="223.0" vgrow="ALWAYS" />
+                          </rowConstraints>
+                           <children>
+                              <Label text="Tags disponibles" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label text="Tags associés" GridPane.columnIndex="2" GridPane.valignment="BOTTOM">
+                                 <GridPane.margin>
+                                    <Insets left="10.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <ListView fx:id="availableTagsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.vgrow="SOMETIMES">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </ListView>
+                              <ListView fx:id="associatedTagsList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.vgrow="SOMETIMES">
+                                 <GridPane.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </GridPane.margin>
+                              </ListView>
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeTagCallback" prefHeight="36.0" text="&lt; Enlever" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeAllTagsCallback" prefHeight="36.0" prefWidth="129.0" text="&lt;&lt; Tout enlever" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                              <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addTagCallback" prefHeight="36.0" prefWidth="106.0" text="Ajouter &gt;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                           </children>
+                        </GridPane>
+                     </center>
+                  </BorderPane>
+              </content>
+            </Tab>
+            <Tab text="notes">
+              <content>
+                  <BorderPane>
+                     <center>
+                        <TextArea fx:id="notesTextArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </content>
+   <graphic>
+      <Button mnemonicParsing="false" onAction="#backCallback" text="Retour">
+         <graphic>
+            <ImageView pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@left.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </graphic>
+</TitledPane>

@@ -129,7 +129,6 @@ public class DeckListView implements FxmlView<DeckListViewModel>, Initializable 
     }
 
     public void editDeckCallback(){
-        this.titledPane.toBack();
         DeckListItem deck = this.viewModel.getSelectionModel().getSelectedItem();
         this.notificationCenter.publish(DeckEditViewModel.SHOW_DECK, deck);
     }

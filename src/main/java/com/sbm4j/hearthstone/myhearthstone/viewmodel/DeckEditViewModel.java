@@ -102,6 +102,12 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     public Boolean getIsValid(){return this.isValid.get();}
     public void setIsValid(Boolean value){this.isValid.set(value);}
 
+    /* notes property */
+    private StringProperty notes = new SimpleStringProperty();
+    public StringProperty getNotesProperty(){return this.notes;}
+    public String getNotes(){return this.notes.get();}
+    public void setNotes(String value){this.notes.set(value);}
+
     @Inject
     protected DBFacade dbFacade;
 
@@ -135,7 +141,7 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.cardsList.set(FXCollections.observableArrayList());
         this.statsTagsList.set(FXCollections.observableArrayList());
-        this.refreshed = new Boolean[]{false, false, false};
+        this.refreshed = new Boolean[]{false, false, false, false};
 
         this.setCurveManaData(FXCollections.observableArrayList());
         for (int i = 0; i < 7; i++) {
@@ -167,6 +173,7 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             this.refreshed[0] = false;
             this.refreshed[1] = false;
             this.refreshed[2] = false;
+            this.refreshed[3] = false;
 
             String title = "Deck " + this.currentDeck.getName();
             this.setTitle(title);
@@ -230,6 +237,15 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             this.getStatsTagsList().clear();
             List<TagStat> stats = this.dbFacade.getTagsStats(this.currentDeck);
             this.getStatsTagsList().addAll(stats);
+        }
+    }
+
+    public void refreshNotesTab(){
+        if(!this.refreshed[3]){
+            this.refreshed[3] = true;
+
+            String notesValue = this.currentDeck.getNotes();
+            this.setNotes(notesValue);
         }
     }
 
@@ -404,6 +420,18 @@ public class DeckEditViewModel implements ViewModel, Initializable {
             }
         }
 
+        if(this.currentDeck.getNotes() == null){
+            if(this.getNotes() != null){
+                this.currentDeck.setNotes(this.getNotes());
+            }
+        }
+        else{
+            if(!this.getNotes().equals(this.currentDeck.getNotes())){
+                this.currentDeck.setNotes(this.getNotes());
+                isDirty = true;
+            }
+        }
+
         if(isDirty){
             Session session = this.dbManager.getSession();
             session.beginTransaction();
@@ -427,13 +455,6 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     }
 
     public void showCardDetails(DeckCardListItem card){
-        CardDetail details = this.dbFacade.getCardFromDbfId(card.getDbfId());
-        if(details != null){
-            try {
-                Dialogs.showCardDetailDialog(details);
-            } catch (FileNotFoundException e) {
-                logger.error(e.getMessage(), e);
-            }
-        }
+        this.notificationCenter.publish(CardDetailsViewModel.SHOW_CARD, card.getDbfId());
     }
 }

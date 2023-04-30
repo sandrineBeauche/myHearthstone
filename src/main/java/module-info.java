@@ -19,6 +19,8 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires com.fasterxml.classmate;
     requires com.google.guice;
     requires java.sql;
+    //requires com.microsoft.playwright;
+    //requires markdown.editor.control.fx;
 
     exports com.sbm4j.hearthstone.myhearthstone;
     exports com.sbm4j.hearthstone.myhearthstone.services.db to org.hibernate.orm.core;

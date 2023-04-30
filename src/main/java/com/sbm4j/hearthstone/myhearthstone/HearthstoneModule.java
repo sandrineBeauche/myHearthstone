@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManagerImpl;
+import com.sbm4j.hearthstone.myhearthstone.services.config.FileConfigManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.services.db.*;
 import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManager;
 import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManagerImpl;
@@ -28,7 +29,7 @@ public class HearthstoneModule extends AbstractModule{
     }
 
     protected void bindConfig(){
-        bind(ConfigManager.class).to(ConfigManagerImpl.class).in(Scopes.SINGLETON);
+        bind(ConfigManager.class).to(FileConfigManagerImpl.class).in(Scopes.SINGLETON);
     }
 
     protected void bindDB(){
@@ -38,6 +39,7 @@ public class HearthstoneModule extends AbstractModule{
     }
 
     protected void bindDownload(){
+
         bind(DownloadManager.class).to(DownloadManagerImpl.class).in(Scopes.SINGLETON);
     }
 

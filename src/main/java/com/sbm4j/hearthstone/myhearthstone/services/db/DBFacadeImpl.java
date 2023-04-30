@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class DBFacadeImpl implements DBFacade {
     protected static Logger logger = LogManager.getLogger();
 
     @Inject
-    public void init() throws FileNotFoundException {
+    public void init() throws IOException {
         if(this.config.getInitDB()){
             DBInitializer initializer = this.injector.getInstance(DBInitializer.class);
             initializer.initDB();
@@ -163,12 +164,14 @@ public class DBFacadeImpl implements DBFacade {
         CardTag newTag = new CardTag();
         newTag.setName(name);
         newTag.setUser(true);
+        newTag.setCode("");
 
         try {
             Session session = this.db.getSession();
             session.beginTransaction();
             session.save(newTag);
             session.getTransaction().commit();
+            this.db.closeSession();
 
             return newTag;
         }
@@ -191,6 +194,7 @@ public class DBFacadeImpl implements DBFacade {
 
             session.delete(tag);
             session.getTransaction().commit();
+            this.db.closeSession();
 
             return true;
         }
@@ -210,6 +214,7 @@ public class DBFacadeImpl implements DBFacade {
             card.getUserData().getTags().add(tag);
             session.save(card);
             session.getTransaction().commit();
+            this.db.closeSession();
 
             return true;
         }
@@ -228,7 +233,7 @@ public class DBFacadeImpl implements DBFacade {
             card.getUserData().getTags().remove(tag);
             session.save(card.getUserData());
             session.getTransaction().commit();
-
+            this.db.closeSession();
             return true;
         }
         catch (Exception ex){

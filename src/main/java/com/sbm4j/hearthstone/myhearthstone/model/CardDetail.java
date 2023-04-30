@@ -36,7 +36,7 @@ public class CardDetail {
     @Column
     private int cost;
 
-    @Column
+    @Column(length = 1000)
     private String flavor;
 
     @Column

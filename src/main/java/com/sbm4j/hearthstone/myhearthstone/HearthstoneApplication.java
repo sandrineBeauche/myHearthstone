@@ -37,6 +37,9 @@ public class HearthstoneApplication extends MvvmfxGuiceApplication{
         stage.setScene(root);
         Image icon = new Image(this.getClass().getResourceAsStream("/classic.png"));
         stage.getIcons().add(icon);
+        stage.setTitle("myHearthstone");
+        stage.setMinHeight(768);
+        stage.setMinWidth(1024);
         stage.show();
     }
 

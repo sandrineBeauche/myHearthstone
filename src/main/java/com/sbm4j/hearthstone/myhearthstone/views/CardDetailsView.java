@@ -4,6 +4,7 @@ package com.sbm4j.hearthstone.myhearthstone.views;
 import com.sbm4j.hearthstone.myhearthstone.model.CardTag;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardDetailsViewModel;
+import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
@@ -23,6 +24,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initializable {
+
+    @FXML
+    protected TitledPane titledPane;
 
     @FXML
     protected ImageView cardImage;
@@ -60,6 +64,12 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
     @FXML
     protected ListView<CardTag> associatedTagsList;
 
+    @FXML
+    protected TextArea notesTextArea;
+
+    @FXML
+    protected TabPane tabPane;
+
 
     @InjectViewModel
     protected CardDetailsViewModel viewModel;
@@ -67,6 +77,13 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.viewModel.initialize(location, resources);
+
+        this.installBindings();
+        this.installHandlers();
+    }
+
+    protected void installBindings(){
+        this.titledPane.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
         this.titleLabel.textProperty().bindBidirectional(this.viewModel.getCardNameProperty());
         this.cardImage.imageProperty().bindBidirectional(this.viewModel.getCardImageProperty());
         this.extensionImage.imageProperty().bindBidirectional(this.viewModel.getExtensionImageProperty());
@@ -74,6 +91,7 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
         this.eliteImage.visibleProperty().bindBidirectional(this.viewModel.getEliteProperty());
         this.standardBadge.visibleProperty().bindBidirectional(this.viewModel.getStandardProperty());
         this.infosTable.itemsProperty().bindBidirectional(this.viewModel.getInfosProperty());
+        this.nbCardLabel.textProperty().bindBidirectional(this.viewModel.getNbCardsProperty());
 
         this.dataNameColumn.setCellValueFactory(new PropertyValueFactory("dataName"));
         this.dataValueColumn.setCellValueFactory(new PropertyValueFactory("dataValue"));
@@ -83,7 +101,42 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
 
         this.availableTagsList.itemsProperty().bindBidirectional(this.viewModel.getAvailableTagsProperty());
         this.associatedTagsList.itemsProperty().bindBidirectional(this.viewModel.getAssociatedTagsProperty());
+
+        this.notesTextArea.textProperty().bindBidirectional(this.viewModel.getNotesProperty());
     }
+
+    protected void installHandlers(){
+        this.tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            refreshCurrentTab(newValue.intValue());
+        });
+
+        viewModel.subscribe(CardDetailsViewModel.SHOW_CARD, (key, payload) -> {
+            String cardName = (String) payload[0];
+            this.titledPane.setText(cardName);
+            if(this.tabPane.getSelectionModel().getSelectedIndex() == 0){
+                this.viewModel.refreshInformationsTab();
+            }
+            else {
+                this.tabPane.getSelectionModel().select(0);
+            }
+            this.titledPane.toFront();
+            System.gc();
+        });
+
+        viewModel.subscribe(CardDetailsViewModel.BACK, (key, payload) -> {
+            titledPane.toBack();
+        });
+    }
+
+    protected void refreshCurrentTab(int index){
+        switch(index){
+            case 0 -> this.viewModel.refreshInformationsTab();
+            case 1 -> this.viewModel.refreshUserTagsTab();
+            case 2 -> this.viewModel.refreshNotesTab();
+        }
+    }
+
+
 
     public class InfosCell extends TableCell<CardDetailsViewModel.CardDetailData, String> {
 
@@ -108,6 +161,9 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
                     label.setPrefHeight(50);
                 }
                 setGraphic(label);
+            }
+            else{
+                setGraphic(null);
             }
         }
     }
@@ -167,5 +223,10 @@ public class CardDetailsView implements FxmlView<CardDetailsViewModel>, Initiali
     public void removeAllTagsCallback(){
         ParamCommand command = this.viewModel.getRemoveAllUserTagCommand();
         command.execute();
+    }
+
+
+    public void backCallback(){
+        this.viewModel.backCallback();
     }
 }

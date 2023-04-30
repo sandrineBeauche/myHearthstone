@@ -112,7 +112,7 @@ public class ConfigManagerImpl implements ConfigManager {
 
     @Override
     public Boolean getDownloadCardCollection() {
-        return true;
+        return false;
     }
 
 }

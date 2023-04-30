@@ -43,7 +43,7 @@ public class CardTag {
     @GeneratedValue
     private int id;
 
-    @Column(unique = true)
+    @Column
     private String code;
 
     @Column(nullable = false)

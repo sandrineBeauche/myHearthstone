@@ -107,6 +107,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     @FXML
     protected ImageView deckClassIcon;
 
+    @FXML
+    protected TextArea notesTextArea;
+
 
     @InjectViewModel
     protected DeckEditViewModel viewModel;
@@ -151,6 +154,8 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
         this.smallStandardBadge.visibleProperty().bindBidirectional(this.viewModel.getIsStandardProperty());
         this.smallValidIcon.visibleProperty().bindBidirectional(this.viewModel.getIsValidProperty());
+
+        this.notesTextArea.textProperty().bindBidirectional(this.viewModel.getNotesProperty());
     }
 
     protected void initCardListColumns(){
@@ -200,6 +205,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
             else {
                 this.tabPane.getSelectionModel().select(0);
             }
+            this.titledPane.toFront();
         });
 
         viewModel.subscribe(DeckEditViewModel.BACK, (key, payload) -> {
@@ -212,6 +218,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
             case 0 -> refreshGeneralTab();
             case 1 -> refreshCardsListTab();
             case 2 -> refreshStatsTab();
+            case 3 -> refreshNotesTab();
         }
     }
 
@@ -239,6 +246,12 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         }
         else{
             this.viewModel.refreshStatsTab();
+        }
+    }
+
+    protected void refreshNotesTab(){
+        if(!this.viewModel.getRefreshed()[3]){
+            this.viewModel.refreshNotesTab();
         }
     }
 
@@ -299,6 +312,10 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
             });
 
             this.getItems().add(menuItem1);
+        }
+
+        public void setCard(DeckCardListItem card) {
+            this.card = card;
         }
     }
 

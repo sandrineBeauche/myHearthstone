@@ -7,6 +7,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.json.JsonUserData;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
+import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManager;
 import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
 import de.saxsys.mvvmfx.utils.commands.Action;
 import javafx.concurrent.Task;
@@ -33,6 +34,9 @@ public class JSONCollectionImporter extends Action implements ImportCollectionAc
 
     @Inject
     protected ConfigManager config;
+
+    @Inject
+    protected DownloadManager downloadManager;
 
     protected long totalWork;
 
@@ -80,15 +84,7 @@ public class JSONCollectionImporter extends Action implements ImportCollectionAc
             session.getTransaction().commit();
         }
         else{
-            CardUserData newData = new CardUserData();
-            newData.setDbfId(key);
-            newData.setNbCards(values[0]);
-            newData.setNbGolden(values[1]);
-            newData.setNbTotalCards(values[0] + values[1]);
-
-            session.beginTransaction();
-            session.update(newData);
-            session.getTransaction().commit();
+            logger.warn("The item with dbfId " + key + " does not exists in the database");
         }
         this.dbManager.closeSession();
         this.workDone++;
@@ -98,6 +94,8 @@ public class JSONCollectionImporter extends Action implements ImportCollectionAc
 
     @Override
     protected void action() throws Exception {
+        File json = this.downloadManager.downloadCollectionFile("sandrine.beauche@gmail.com", "password");
+
         File jsonFile = this.config.getCollectionJsonFile();
         if(jsonFile != null){
             this.importCollection(jsonFile);

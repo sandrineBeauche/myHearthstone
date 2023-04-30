@@ -16,5 +16,5 @@ public interface DownloadManager {
 
     File downloadFile(String url, String filename) throws IOException;
 
-
+    File downloadCollectionFile(String userId, String password);
 }

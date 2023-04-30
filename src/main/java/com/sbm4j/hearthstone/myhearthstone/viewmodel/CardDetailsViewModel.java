@@ -3,6 +3,7 @@ package com.sbm4j.hearthstone.myhearthstone.viewmodel;
 import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.cardClasses.CardClassImageLoader;
@@ -11,6 +12,7 @@ import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
 import de.saxsys.mvvmfx.utils.mapping.ModelWrapper;
 import de.saxsys.mvvmfx.utils.mapping.accessorfunctions.ObjectPropertyAccessor;
+import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -37,6 +40,28 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
     @Inject
     protected DBFacade dbFacade;
 
+    @Inject
+    protected DBManager dbManager;
+
+    @Inject
+    private NotificationCenter notificationCenter;
+
+    public static final String NEW_TAG_MESSAGE = "NEW_TAG";
+
+    public static final String DELETE_TAG_MESSAGE = "DELETE_TAG";
+
+    public final static String SHOW_CARD = "SHOW_CARD";
+
+    public final static String BACK = "BACK";
+
+    protected Boolean [] refreshed;
+    public Boolean [] getRefreshed(){ return this.refreshed;}
+
+    /* title property */
+    private StringProperty title = new SimpleStringProperty();
+    public StringProperty getTitleProperty(){return this.title;}
+    public String getTitle(){return this.title.get();}
+    public void setTitle(String value){this.title.set(value);}
 
     protected ModelWrapper<CardDetail> modelWrapper = new ModelWrapper<>();
 
@@ -76,6 +101,13 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
     public ObservableList<CardDetailData> getInfos(){return this.infos.get();}
     public void setInfos(ObservableList<CardDetailData> value){this.infos.set(value);}
 
+    /* nbCards property */
+    private StringProperty nbCards = new SimpleStringProperty();
+    public StringProperty getNbCardsProperty(){return this.nbCards;}
+    public String getNbCards(){return this.nbCards.get();}
+    public void setNbCards(String value){this.nbCards.set(value);}
+
+
     /* availableTags property */
     private ObjectProperty<ObservableList<CardTag>> availableTags = new SimpleObjectProperty<ObservableList<CardTag>>();
     public ObjectProperty<ObservableList<CardTag>> getAvailableTagsProperty(){return this.availableTags;}
@@ -87,6 +119,12 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
     public ObjectProperty<ObservableList<CardTag>> getAssociatedTagsProperty(){return this.associatedTags;}
     public ObservableList<CardTag> getAssociatedTags(){return this.associatedTags.get();}
     public void setAssociatedTags(ObservableList<CardTag> value){this.associatedTags.set(value);}
+
+    /* notes property */
+    private StringProperty notes = new SimpleStringProperty();
+    public StringProperty getNotesProperty(){return this.notes;}
+    public String getNotes(){return this.notes.get();}
+    public void setNotes(String value){this.notes.set(value);}
 
 
     protected List<CardTag> availableTagsDB;
@@ -100,50 +138,108 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
         this.setAssociatedTags(FXCollections.observableArrayList());
 
         this.availableTagsDB = this.dbFacade.getAvailableUserTags();
+
+        this.refreshed = new Boolean[]{false, false, false, false};
+
+        this.notificationCenter.subscribe(SHOW_CARD, (key, payload) -> {
+            Object[] params = payload.clone();
+            int cardId = (int) params[0];
+            try {
+                showCard(cardId);
+            } catch (FileNotFoundException e) {
+                logger.error(e.getMessage(), e);
+            }
+        });
     }
 
+    public void showCard(int dbfId) throws FileNotFoundException{
+        CardDetail card = this.dbFacade.getCardFromDbfId(dbfId);
+        if(card != null) {
+            this.showCard(card);
+        }
+    }
 
     public void showCard(CardDetail card) throws FileNotFoundException {
         this.modelWrapper.set(card);
-        this.setCardImage(this.cardImageManager.getBigCardImage(card.getId(), false));
-        this.setExtensionImage(this.imageManager.getCardSetLogo(card.getCardSet().getCode()));
-        this.setCardClassImage(CardClassImageLoader.getImage(card.getCardClass().get(0).getCode()));
-        this.setStandard(card.getCardSet().isStandard());
+        this.setTitle("Card " + card.getName());
 
-        this.getInfos().clear();
-        this.getInfos().add(new CardDetailData("Artiste", card.getArtist()));
-        this.getInfos().add(new CardDetailData("Flavor", card.getFlavor()));
+        this.refreshed[0] = false;
+        this.refreshed[1] = false;
+        this.refreshed[2] = false;
+        this.refreshed[3] = false;
 
-        String text = card.getText();
-        if(text != null && text != "") {
-            this.getInfos().add(new CardDetailData("Texte", text));
-        }
+        this.publish(SHOW_CARD, getTitle());
+    }
 
-        String howToEarn = card.getHowToEarn();
-        if(howToEarn != null && howToEarn != ""){
-            this.getInfos().add(new CardDetailData("Obtenir", howToEarn));
-        }
+    public void refreshInformationsTab(){
+        if(!this.refreshed[0]){
+            this.refreshed[0] = true;
+            CardDetail card = this.modelWrapper.get();
+            this.setCardImage(this.cardImageManager.getBigCardImage(card.getId(), false));
 
-        String howToEarnGolden = card.getHowToEarnGolden();
-        if(howToEarnGolden != null && howToEarnGolden != null){
-            this.getInfos().add(new CardDetailData("Obtenir dorée", howToEarnGolden));
-        }
+            try {
+                this.setExtensionImage(this.imageManager.getCardSetLogo(card.getCardSet().getCode()));
+            } catch (FileNotFoundException e) {
+                logger.error(e.getMessage(), e);
+            }
 
-        String questReward = card.getQuestReward();
-        if(questReward != null && questReward != ""){
-            this.getInfos().add(new CardDetailData("Récompense quête", questReward));
-        }
+            this.setCardClassImage(CardClassImageLoader.getImage(card.getCardClass().get(0).getCode()));
+            this.setStandard(card.getCardSet().isStandard());
+            this.setNbCards("X " + card.getUserData().getNbTotalCards());
 
-        this.getAssociatedTags().clear();
-        List<CardTag> tags = card.getUserData().getTags().stream().filter(cardTag -> cardTag.getUser()).toList();
-        this.getAssociatedTags().addAll(tags);
+            this.getInfos().clear();
+            this.getInfos().add(new CardDetailData("Artiste", card.getArtist()));
+            this.getInfos().add(new CardDetailData("Flavor", card.getFlavor()));
 
-        this.getAssociatedTags().clear();
-        this.getAssociatedTags().addAll(this.availableTagsDB);
-        for(CardTag current: tags){
-            this.getAssociatedTags().removeIf(cardTag -> cardTag.getName().equals(current.getName()));
+            String text = card.getText();
+            if(text != null && text != "") {
+                this.getInfos().add(new CardDetailData("Texte", text));
+            }
+
+            String howToEarn = card.getHowToEarn();
+            if(howToEarn != null && howToEarn != ""){
+                this.getInfos().add(new CardDetailData("Obtenir", howToEarn));
+            }
+
+            String howToEarnGolden = card.getHowToEarnGolden();
+            if(howToEarnGolden != null && howToEarnGolden != null){
+                this.getInfos().add(new CardDetailData("Obtenir dorée", howToEarnGolden));
+            }
+
+            String questReward = card.getQuestReward();
+            if(questReward != null && questReward != ""){
+                this.getInfos().add(new CardDetailData("Récompense quête", questReward));
+            }
         }
     }
+
+    public void refreshUserTagsTab(){
+        if(!this.refreshed[1]){
+            this.refreshed[1] = true;
+            CardDetail card = this.modelWrapper.get();
+            this.getAssociatedTags().clear();
+            List<CardTag> tags = card.getUserData().getTags().stream().filter(cardTag -> cardTag.getUser()).toList();
+            this.getAssociatedTags().addAll(tags);
+
+            this.getAvailableTags().clear();
+            this.getAvailableTags().addAll(this.availableTagsDB);
+            for(CardTag current: tags){
+                this.getAvailableTags().removeIf(cardTag -> cardTag.getName().equals(current.getName()));
+            }
+        }
+    }
+
+    public void refreshNotesTab(){
+        if(!this.refreshed[2]){
+            this.refreshed[2] = true;
+            CardDetail card = this.modelWrapper.get();
+            String notesValue = card.getUserData().getNotes();
+            if(notesValue != null){
+                this.setNotes(notesValue);
+            }
+        }
+    }
+
 
     public ParamCommand getCreateNewUserTagCommand(){return this.createNewUserTagCommand;}
     protected ParamCommand createNewUserTagCommand = new ParamCommand("Créer un tag utilisateur", () -> new Action(){
@@ -155,6 +251,7 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
             CardTag newTag = dbFacade.createUserTag(name);
             if(newTag != null) {
                 getAvailableTags().add(newTag);
+                notificationCenter.publish(NEW_TAG_MESSAGE, newTag);
                 createNewUserTagCommand.setNotificationMessage("Le tag " + name + " crée avec succès");
             }
             else{
@@ -175,6 +272,7 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
             boolean result = dbFacade.deleteUserTag(tag);
             if(result) {
                 getAvailableTags().remove(tag);
+                notificationCenter.publish(DELETE_TAG_MESSAGE, tag);
                 deleteUserTagCommand.setNotificationMessage("Le tag " + tagName + " est supprimé avec succès");
             }
             else{
@@ -254,6 +352,27 @@ public class CardDetailsViewModel implements ViewModel, Initializable {
             }
         }
     });
+
+
+
+    protected void saveCardNotes(){
+        CardDetail card = modelWrapper.get();
+        String cardName = card.getName();
+
+        logger.info("Save notes for card " + cardName);
+        card.getUserData().setNotes(getNotes());
+
+        Session session = dbManager.getSession();
+        session.beginTransaction();
+        session.update(card);
+        session.getTransaction().commit();
+        dbManager.closeSession();
+    }
+
+    public void backCallback(){
+        this.saveCardNotes();
+        this.publish(BACK);
+    }
 
 
     public class CardDetailData {

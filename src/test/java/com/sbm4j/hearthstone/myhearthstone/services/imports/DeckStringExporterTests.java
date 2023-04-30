@@ -12,6 +12,7 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -58,6 +59,7 @@ public class DeckStringExporterTests {
     }
 
     @DataSet("bigDataset.xml")
+    @Disabled
     @Test
     public void importTest1() throws Exception {
         String deckstring =

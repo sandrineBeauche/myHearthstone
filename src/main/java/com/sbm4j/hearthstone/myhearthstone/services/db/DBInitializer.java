@@ -4,7 +4,8 @@ import org.hibernate.Session;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface DBInitializer {
-    void initDB() throws FileNotFoundException;
+    void initDB() throws IOException;
 }

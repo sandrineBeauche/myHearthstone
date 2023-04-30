@@ -25,6 +25,9 @@ public class CardUserData {
     @ManyToMany
     private List<CardTag> tags = new ArrayList<CardTag>();
 
+    @Column(length = 5000)
+    private String notes;
+
     public int getDbfId() {
         return dbfId;
     }
@@ -63,5 +66,13 @@ public class CardUserData {
 
     public void setTags(List<CardTag> tags) {
         this.tags = tags;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

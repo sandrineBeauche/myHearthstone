@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -71,6 +72,7 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
                 this.importCards(jsonFile);
             }
 
+            logger.info(this.report.nbCreated + " cards created, " + this.report.nbUpdated + " cards updated and " + this.report.nbUpToDate + " cards up to date");
             if(this.report.errors.size() == 0 && this.report.globalErrors.size() == 0){
                 this.updateMessage(this.report.nbCreated + " cartes ajoutées, " + this.report.nbUpdated + " cartes mises à jour");
             }
@@ -101,7 +103,7 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
 
 
     public ArrayList<JsonCard> parseCards(File jsonFile) throws IOException {
-        FileReader reader = new FileReader(jsonFile);
+        FileReader reader = new FileReader(jsonFile, StandardCharsets.UTF_8);
         return this.parseCards(reader, true);
     }
 
@@ -175,8 +177,11 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
 
         this.updateMessage("Vérification des extensions");
         for(JsonCard current: cards){
+            String cardSet = current.getSet();
             try{
-                this.dbFacade.getSet(current.getSet());
+                if(cardSet != null) {
+                    this.dbFacade.getSet(current.getSet());
+                }
             }
             catch(NoResultException ex){
                 unknownSets.add(current.getSet());
@@ -307,7 +312,12 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
         card.setAttack(json.getAttack());
         card.setArtist(json.getArtist());
         card.setCollectible(json.getCollectible());
-        card.setFlavor(json.getFlavor());
+
+        String flavor = json.getFlavor();
+        if(flavor != null && flavor.length() > 1000){
+            flavor = flavor.substring(0, 1000);
+        }
+        card.setFlavor(flavor);
         card.setElite(json.getElite());
         card.setHealth(json.getHealth());
         card.setHowToEarn(json.getHowToEarn());
@@ -320,7 +330,11 @@ public class JSONCardImporter extends Action implements ImportCatalogAction {
         Rarity rarity = this.dbFacade.getRarity(json.getRarity());
         card.setRarity(rarity);
 
-        CardSet cardSet = this.dbFacade.getSet(json.getSet());
+        String cardSetName = json.getSet();
+        if(cardSetName == null){
+            cardSetName = "DEFAULT";
+        }
+        CardSet cardSet = this.dbFacade.getSet(cardSetName);
         card.setCardSet(cardSet);
 
         card.getCardClass().clear();

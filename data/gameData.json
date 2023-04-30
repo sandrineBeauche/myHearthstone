@@ -18,7 +18,8 @@
     {"code": "WARRIOR", "name": "Guerrier"},
     {"code": "DREAM", "name": "Rêve"},
     {"code": "NEUTRAL", "name": "Neutre"},
-    {"code": "DEMONHUNTER", "name": "Chasseur de démon"}
+    {"code": "DEMONHUNTER", "name": "Chasseur de démon"},
+	{"code": "DEATHKNIGHT", "name": "Chevalier de la mort"}
   ],
   "extensions": [
     {"code": "HERO_SKINS", "name": "Portrait de héro", "isStandard": false, "orderChrono": 0},
@@ -48,9 +49,16 @@
     {"code": "THE_BARRENS", "name": "Forgés dans les tarides", "isStandard": true, "orderChrono": 23},
     {"code": "STORMWIND", "name": "Unis à Hurlevent", "isStandard": true, "orderChrono": 24},
     {"code": "ALTERAC_VALLEY", "name": "Divisés dans la vallée d'Alterac", "isStandard": true, "orderChrono": 25},
+    {"code": "THE_SUNKEN_CITY", "name": "Au coeur de la cité engloutie", "isStandard": true, "orderChrono": 26},
+	{"code": "REVENDRETH", "name": "Meurtre au chateau Nathria", "isStandard": true, "orderChrono": 27},
     {"code": "LEGACY", "name": "legacy", "isStandard": false, "orderChrono": 0},
     {"code": "CORE", "name": "Basic", "isStandard": true, "orderChrono": 0},
-    {"code": "VANILLA", "name": "Fondamental", "isStandard": true, "orderChrono": 0}
+    {"code": "VANILLA", "name": "Fondamental", "isStandard": true, "orderChrono": 0},
+	{"code": "PLACEHOLDER_202204", "name": "Jokers", "isStandard": false, "orderChrono": 0},
+	{"code": "DEFAULT", "name": "Défaut", "isStandard": false, "orderChrono": 0},
+	{"code": "PATH_OF_ARTHAS", "name": "Le chemin de Arthas", "isStandard": false, "orderChrono": 0},
+	{"code": "RETURN_OF_THE_LICH_KING", "name": "La marche du roi Liche", "isStandard": true, "orderChrono": 28},
+	{"code": "BATTLE_OF_THE_BANDS", "name": "La fête des légendes", "isStandard": true, "orderChrono": 29}
   ],
   "tags": [
     {"code": "TAUNT", "name": "Provocation"},
@@ -156,7 +164,14 @@
     {"code": "FEL", "name": "Fiel"},
     {"code": "HORDE", "name": "Horde"},
     {"code": "ALLIANCE", "name": "Alliance"},
-    {"code": "NEUTRAL", "name": "Neutre"}
+    {"code": "NEUTRAL", "name": "Neutre"},
+	{"code": "NAGA", "name":"Naga"},
+	{"code": "DREDGE", "name": "Dragage"},
+	{"code": "COLOSSAL", "name":"Colossal"},
+	{"code": "LOCATION", "name": "Lieu"},
+	{"code": "INFUSE", "name":"Imprégner"},
+	{"code": "MANATHIRST", "name":"Soif de mana"},
+	{"code": "OVERHEAL", "name":"Surplus de soin"}
   ],
   "heros": [
     {"code": "ANDUIN_WRYNN", "name": "Anduin Wrynn", "codeClass": "PRIEST", "dbfId": 813},
@@ -168,6 +183,7 @@
     {"code": "REXXAR", "name": "Rexxar", "codeClass": "HUNTER", "dbfId": 31},
     {"code": "THRALL", "name": "Thrall", "codeClass": "SHAMAN", "dbfId":  1066},
     {"code": "UTHER", "name": "Uther le porteur de lumière", "codeClass": "PALADIN", "dbfId": 671},
-    {"code": "VALEERA_SANGUINAR", "name": "Valeera Sanguinar", "codeClass": "ROGUE", "dbfId": 930}
+    {"code": "VALEERA_SANGUINAR", "name": "Valeera Sanguinar", "codeClass": "ROGUE", "dbfId": 930},
+	{"code": "LICH_KING", "name": "Le roi Liche", "codeClass": "DEATHKNIGHT", "dbfId": 78065}
   ]
 }

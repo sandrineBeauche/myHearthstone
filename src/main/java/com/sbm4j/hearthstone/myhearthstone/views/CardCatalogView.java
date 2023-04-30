@@ -19,6 +19,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.CheckComboBox;
 import org.controlsfx.control.GridCell;
 import org.controlsfx.control.GridView;
@@ -69,6 +71,10 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
     @Inject
     protected ConfigManager configManager;
+
+    protected CardContextMenu cardContextMenu = new CardContextMenu();
+
+    protected Logger logger = LogManager.getLogger();
 
 
     @Override
@@ -127,39 +133,33 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
         protected CardCatalogItem item;
 
-        protected GridPane grid;
-
         public CardToolTip(CardCatalogItem item){
             this.item = item;
             this.setOnShowing(param -> onShowingHandler());
         }
 
         protected void onShowingHandler(){
-            if(this.grid == null) {
-                try {
-                    File fCard = cardImageManager.getBigCardImageAsFile(this.item.id());
-                    ImageView imageCard = new ImageView(new Image(new FileInputStream(fCard)));
-                    imageCard.setFitHeight(500);
-                    imageCard.setPreserveRatio(true);
+            try {
+                ImageView imageCard = new ImageView(cardImageManager.getBigCardImage(this.item.id(), true));
+                imageCard.setFitHeight(500);
+                imageCard.setPreserveRatio(true);
 
-                    CardDetail details = viewModel.getDetails(item);
+                CardDetail details = viewModel.getDetails(item);
+                Image setImg = imageManager.getCardSetLogo(details.getCardSet().getCode());
+                ImageView imageSet = new ImageView(setImg);
+                imageSet.setFitWidth(250);
+                imageSet.setPreserveRatio(true);
 
-                    Image setImg = imageManager.getCardSetLogo(details.getCardSet().getCode());
-                    ImageView setImgView = new ImageView(setImg);
-                    setImgView.setFitWidth(250);
-                    setImgView.setPreserveRatio(true);
+                GridPane grid = new GridPane();
+                grid.add(imageCard, 0, 0, 1, 2);
+                grid.add(imageSet, 1, 0);
 
-
-                    this.grid = new GridPane();
-                    this.grid.add(imageCard, 0, 0, 1, 2);
-                    this.grid.add(setImgView, 1, 0);
-                    setGraphic(this.grid);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                this.setGraphic(grid);
+            } catch (FileNotFoundException e) {
+                logger.error(e.getMessage(),e);
             }
-        }
 
+        }
     }
 
 
@@ -167,15 +167,17 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
         protected CardCatalogItem cardCatalogItem;
 
-        public CardContextMenu(CardCatalogItem item){
-            this.cardCatalogItem = item;
-
-            MenuItem menuItem1 = new MenuItem("Détails");
-            menuItem1.setOnAction(event -> {
+        public CardContextMenu(){
+            MenuItem detailsMenuItem = new MenuItem("Détails");
+            detailsMenuItem.setOnAction(event -> {
                 viewModel.showCardDetails(this.cardCatalogItem);
             });
 
-            this.getItems().add(menuItem1);
+            this.getItems().add(detailsMenuItem);
+        }
+
+        public void setCardCatalogItem(CardCatalogItem cardCatalogItem) {
+            this.cardCatalogItem = cardCatalogItem;
         }
     }
 
@@ -223,7 +225,6 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
                 }
                 setGraphic(imgView);
                 this.setTooltip(new CardToolTip(item));
-                this.setContextMenu(new CardContextMenu(item));
             }
         }
     }
@@ -232,7 +233,6 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
         @Override
         public void handle(MouseEvent event) {
             CardCell source = (CardCell) event.getSource();
-            System.out.println("drag handled from " + source.getItem().name());
             Dragboard db = source.startDragAndDrop(TransferMode.ANY);
             Image img = cardImageManager.getTileCardImage(source.getItem().id(), false);
             db.setDragView(img);
@@ -245,26 +245,18 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
         }
     };
 
-    protected EventHandler<Event> contextMenuEventHandler = new EventHandler<Event>() {
-        @Override
-        public void handle(Event event) {
-            CardCell source = (CardCell) event.getSource();
-            System.out.println("context menu handled from " + source.getItem().name());
-        }
-    };
 
-    protected EventHandler<MouseEvent> mouseClickedEventHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            if(event.getClickCount() == 2) {
-                CardCell source = (CardCell) event.getSource();
-                System.out.println("mouse double-clicked handled from " + source.getItem().name());
-            }
-            else{
-                if(event.getButton() == MouseButton.SECONDARY){
-                    CardCell source = (CardCell) event.getSource();
-                    System.out.println("context menu handled from " + source.getItem().name());
-                }
+
+    protected EventHandler<MouseEvent> mouseClickedEventHandler = event -> {
+        CardCell source = (CardCell) event.getSource();
+        CardCatalogItem card = source.getItem();
+        if(event.getClickCount() == 2) {
+            viewModel.showCardDetails(card);
+        }
+        else{
+            if(event.getButton() == MouseButton.SECONDARY){
+                this.cardContextMenu.setCardCatalogItem(card);
+                this.cardContextMenu.show(source, event.getScreenX(), event.getScreenY());
             }
         }
     };

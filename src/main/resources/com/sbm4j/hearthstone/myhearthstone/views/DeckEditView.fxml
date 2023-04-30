@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="810.0" stylesheets="@style.css" text="Deck" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckEditView">
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="454.0" stylesheets="@style.css" text="Deck" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckEditView">
    <content>
       <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -30,16 +30,16 @@
                <content>
                   <GridPane>
                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="200.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="76.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="145.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="457.0" minWidth="10.0" prefWidth="456.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="349.0" minWidth="10.0" prefWidth="70.0" />
+                        <ColumnConstraints hgrow="NEVER" maxWidth="349.0" minWidth="0.0" prefWidth="103.0" />
+                      <ColumnConstraints hgrow="NEVER" maxWidth="293.0" minWidth="-Infinity" prefWidth="63.0" />
+                      <ColumnConstraints hgrow="ALWAYS" maxWidth="457.0" minWidth="10.0" prefWidth="221.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints maxHeight="246.0" minHeight="0.0" prefHeight="40.0" vgrow="NEVER" />
-                      <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="173.0" vgrow="NEVER" />
-                        <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="239.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="170.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="246.0" minHeight="0.0" prefHeight="47.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="292.0" minHeight="10.0" prefHeight="248.0" vgrow="ALWAYS" />
+                        <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="55.0" vgrow="NEVER" />
+                      <RowConstraints maxHeight="426.0" minHeight="10.0" prefHeight="49.0" vgrow="NEVER" />
                     </rowConstraints>
                      <children>
                         <TextField fx:id="nameField" prefHeight="23.0" prefWidth="335.0" GridPane.columnIndex="3">
@@ -57,7 +57,7 @@
                               <Insets top="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <TextArea fx:id="summaryField" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                        <TextArea fx:id="summaryField" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                            <GridPane.margin>
                               <Insets right="10.0" top="10.0" />
                            </GridPane.margin>
@@ -174,8 +174,8 @@
                      <children>
                         <TableView fx:id="statsTagsList" prefHeight="145.0" prefWidth="148.0" GridPane.rowSpan="2">
                           <columns>
-                            <TableColumn fx:id="tagNameCol" prefWidth="211.0" text="Tag" />
-                            <TableColumn fx:id="nbTagCardCol" prefWidth="133.0" text="Nombre de cartes" />
+                            <TableColumn fx:id="tagNameCol" prefWidth="172.0" text="Tag" />
+                            <TableColumn fx:id="nbTagCardCol" prefWidth="172.0" text="Nombre de cartes" />
                           </columns>
                         </TableView>
                         <BarChart fx:id="manaCurveChart" title="Mana" GridPane.columnIndex="1">
@@ -193,6 +193,18 @@
                         </PieChart>
                      </children></GridPane>
                 </content>
+            </Tab>
+            <Tab text="Notes">
+              <content>
+                  <BorderPane>
+                      <center>
+
+                      </center>
+                     <center>
+                        <TextArea fx:id="notesTextArea" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+              </content>
             </Tab>
         </tabs>
       </TabPane>

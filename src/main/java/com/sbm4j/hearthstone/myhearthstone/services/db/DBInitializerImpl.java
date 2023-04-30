@@ -14,6 +14,8 @@ import javax.persistence.NoResultException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class DBInitializerImpl implements DBInitializer {
@@ -30,13 +32,13 @@ public class DBInitializerImpl implements DBInitializer {
     protected DBFacade facade;
 
     @Override
-    public void initDB() throws FileNotFoundException {
+    public void initDB() throws IOException {
         logger.info("Initialize database...");
         File file = this.config.getJsonGameData();
 
         if(file.exists()) {
             logger.info("... with file " + file.getAbsolutePath());
-            FileReader reader = new FileReader(file);
+            FileReader reader = new FileReader(file, StandardCharsets.UTF_8);
 
             Gson gson = new Gson();
             DBInitiator initiator = gson.fromJson(reader, DBInitiator.class);

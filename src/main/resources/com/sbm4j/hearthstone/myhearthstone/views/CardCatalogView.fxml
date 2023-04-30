@@ -13,9 +13,9 @@
 <?import org.controlsfx.control.CheckComboBox?>
 <?import org.controlsfx.control.GridView?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="689.0" prefWidth="738.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="412.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView">
    <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <ToolBar maxWidth="1.7976931348623157E308" prefHeight="40.0" BorderPane.alignment="CENTER">
         <items>
             <MenuButton contentDisplay="TOP" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="Menu">
               <items>
@@ -23,7 +23,7 @@
                 <MenuItem mnemonicParsing="false" onAction="#importCollectionCommand" text="Importer la collection" />
               </items>
             </MenuButton>
-            <CheckComboBox fx:id="cmbTags" prefHeight="23.0" prefWidth="453.0" />
+            <CheckComboBox fx:id="cmbTags" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="247.0" />
             <Button mnemonicParsing="false" onAction="#onCriteriaChange" text="Filtrer" />
             <Button mnemonicParsing="false" onAction="#resetTagsFilter" text="Reinitialiser" />
         </items>

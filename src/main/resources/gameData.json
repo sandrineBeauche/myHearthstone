@@ -18,7 +18,8 @@
     {"code": "WARRIOR", "name": "Guerrier"},
     {"code": "DREAM", "name": "Rêve"},
     {"code": "NEUTRAL", "name": "Neutre"},
-    {"code": "DEMONHUNTER", "name": "Chasseur de démon"}
+    {"code": "DEMONHUNTER", "name": "Chasseur de démon"},
+    {"code": "DEATHKNIGHT", "name": "Chevalier de la mort"}
   ],
   "extensions": [
     {"code": "HERO_SKINS", "name": "Portrait de héro", "isStandard": false, "orderChrono": 0},

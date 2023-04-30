@@ -29,7 +29,11 @@ public class DeckStringImporterImpl extends Action implements DeckStringImporter
         Optional<String> opt = Arrays.stream(lines).filter(l -> !l.startsWith("#")).findFirst();
 
         if(opt.isPresent()) {
-            Deckstrings.DeckStringDeck decoded = Deckstrings.decode(opt.get());
+            String encoded = opt.get();
+            if(encoded.endsWith("\r")){
+                encoded = encoded.substring(0, encoded.length() - 1);
+            }
+            Deckstrings.DeckStringDeck decoded = Deckstrings.decode(encoded);
             Hero hero = this.dbFacade.getHero(decoded.heroes.get(0));
             this.deck = this.dbFacade.createDeck(this.newName, hero);
 

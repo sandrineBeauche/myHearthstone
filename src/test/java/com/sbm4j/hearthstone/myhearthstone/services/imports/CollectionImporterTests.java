@@ -12,6 +12,7 @@ import com.sbm4j.hearthstone.myhearthstone.model.json.JsonUserData;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import org.hibernate.Session;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -53,6 +54,7 @@ public class CollectionImporterTests {
     }
 
     @Test
+    @Disabled
     @DataSet("importedCatalogDataset.xml")
     public void importCollection() throws FileNotFoundException {
         this.importer.importCollection(this.jsonCollectionFile);

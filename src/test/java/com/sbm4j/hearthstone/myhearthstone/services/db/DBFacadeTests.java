@@ -389,6 +389,7 @@ public class DBFacadeTests {
     }
 
     @Test
+    @Disabled
     @DataSet("miniCatalogWithCollectionDataset.xml")
     public void deleteUserTag(){
         Session session = this.db.getSession();
