@@ -254,6 +254,7 @@ distZip {
         from '.'
         include 'data/**'
         include 'config.properties'
+        include 'bin/dbManager.bat'
     }
 }
 
@@ -262,5 +263,6 @@ distTar {
         from '.'
         include 'data/**'
         include 'config.properties'
+        include 'bin/dbManager.bat'
     }
 }
