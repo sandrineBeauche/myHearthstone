@@ -88,4 +88,11 @@ public class CardSet implements CodedEntity{
     public String toString() {
         return this.name + "(" + this.code + ")";
     }
+
+    public void updateFromJson(CardSet cardSet){
+        this.setCode(cardSet.getCode());
+        this.setName(cardSet.getName());
+        this.setStandard(cardSet.isStandard());
+        this.setOrderChrono(cardSet.getOrderChrono());
+    }
 }

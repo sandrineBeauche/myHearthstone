@@ -6,6 +6,7 @@ import javafx.util.Pair;
 
 import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
@@ -75,4 +76,6 @@ public interface DBFacade {
     Integer[] getManaCurveStats(Deck deck);
 
     List<TagStat> getTagsStats(Deck deck);
+
+    void updateDB() throws IOException;
 }

@@ -107,4 +107,12 @@ public class Rarity implements CodedEntity{
     public String toString() {
         return this.name + "(" + this.code + ")";
     }
+
+    public void updateFromJson(Rarity rarity){
+        this.setCode(rarity.getCode());
+        this.setCost(rarity.getCost());
+        this.setGain(rarity.getGain());
+        this.setCostGold(rarity.getCostGold());
+        this.setGainGold(rarity.getGainGold());
+    }
 }

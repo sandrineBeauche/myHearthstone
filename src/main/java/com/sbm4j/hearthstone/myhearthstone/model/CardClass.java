@@ -65,4 +65,9 @@ public class CardClass implements CodedEntity{
     public String toString() {
         return this.name + "(" + this.code + ")";
     }
+
+    public void updateFromJson(CardClass cardClass){
+        this.setCode(cardClass.getCode());
+        this.setName(cardClass.getName());
+    }
 }

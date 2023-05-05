@@ -62,6 +62,7 @@ dependencies {
     implementation("org.glassfish.jaxb:jaxb-runtime:2.3.1")
     //implementation('com.mycila.guice.extensions:mycila-guice-jsr250:5.0')
     implementation('org.slf4j:slf4j-api:1.7.25')
+    implementation 'org.jetbrains:annotations:20.1.0'
     //implementation('com.microsoft.playwright:playwright:1.20.1')
     //implementation 'com.github.Dansoftowner:MarkdownEditorControlFX:0.6.3'
 

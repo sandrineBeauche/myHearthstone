@@ -5,6 +5,7 @@ import javafx.util.Pair;
 
 import javax.persistence.NoResultException;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -182,6 +183,11 @@ public class DBFacadeTesting implements DBFacade{
     @Override
     public List<TagStat> getTagsStats(Deck deck) {
         return null;
+    }
+
+    @Override
+    public void updateDB() throws IOException {
+
     }
 
     @Override

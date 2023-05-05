@@ -110,4 +110,11 @@ public class CardTag {
     public String toString() {
         return this.name;
     }
+
+    public void updateFromJson(CardTag tag){
+        this.setCode(tag.getCode());
+        this.setName(tag.getName());
+        this.setUser(tag.getUser());
+        this.setExclusiveGroup((tag.getExclusiveGroup()));
+    }
 }

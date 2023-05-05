@@ -38,8 +38,14 @@ public class DBFacadeImpl implements DBFacade {
     public void init() throws IOException {
         if(this.config.getInitDB()){
             DBInitializer initializer = this.injector.getInstance(DBInitializer.class);
-            initializer.initDB();
+            initializer.updateDB();
         }
+    }
+
+    @Override
+    public void updateDB() throws  IOException{
+        DBInitializer initializer = this.injector.getInstance(DBInitializer.class);
+        initializer.updateDB();
     }
 
 
@@ -487,6 +493,5 @@ public class DBFacadeImpl implements DBFacade {
         List<TagStat> result =  query.getResultList();
         return result;
     }
-
 
 }

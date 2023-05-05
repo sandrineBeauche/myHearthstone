@@ -1,5 +1,8 @@
 package com.sbm4j.hearthstone.myhearthstone.model;
 
+import com.sbm4j.hearthstone.myhearthstone.model.json.JsonHero;
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
+
 import javax.persistence.*;
 
 
@@ -90,5 +93,12 @@ public class Hero {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public void updateFromJson(JsonHero hero, DBFacade facade){
+        this.setCode(hero.getCode());
+        this.setName(hero.getName());
+        this.setClasse(facade.getClasse(hero.getCodeClass()));
+        this.setDbfId(hero.getDbfId());
     }
 }

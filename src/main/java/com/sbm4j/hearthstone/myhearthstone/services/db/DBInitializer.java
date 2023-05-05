@@ -8,4 +8,6 @@ import java.io.IOException;
 
 public interface DBInitializer {
     void initDB() throws IOException;
+
+    void updateDB() throws IOException;
 }
