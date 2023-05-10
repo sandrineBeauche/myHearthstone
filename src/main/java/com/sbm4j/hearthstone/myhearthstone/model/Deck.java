@@ -22,7 +22,7 @@ import java.util.List;
                                     "), " +
                                     "(select group_concat_distinct(t.name)" +
                                         "from DeckAssociation a join a.card.userData.tags t " +
-                                        "where a.deck = d)" +
+                                        "where a.deck = d and (t.exclusiveGroup = 0 or mod(t.exclusiveGroup, 100) > 0))" +
                         ") " +
                         "from Deck d join d.cards a " +
                         "group by d.id, d.name, d.summary, d.hero.code " +
@@ -38,7 +38,7 @@ import java.util.List;
                             "), " +
                             "(select group_concat_distinct(t.name)" +
                                 "from DeckAssociation a join a.card.userData.tags t " +
-                                "where a.deck = d)" +
+                                "where a.deck = d and (t.exclusiveGroup = 0 or mod(t.exclusiveGroup, 100) > 0))" +
                             ") " +
                         "from Deck d join d.cards a " +
                         "where d.id = :deckId " +

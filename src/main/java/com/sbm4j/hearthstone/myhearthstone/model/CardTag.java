@@ -15,7 +15,7 @@ import javax.persistence.*;
                 name = "tags_stats_from_deck",
                 query = "select new com.sbm4j.hearthstone.myhearthstone.model.TagStat(t.name, sum(a.nbCards)) " +
                         "from DeckAssociation a join a.card.userData.tags t " +
-                        "where a.deck = :deck " +
+                        "where a.deck = :deck and t.exclusiveGroup = 0 " +
                         "group by t.name " +
                         "order by t.name"
         ),

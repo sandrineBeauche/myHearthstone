@@ -8,12 +8,15 @@ import javax.persistence.*;
                 query = "select new com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem(" +
                             "ca.dbfId, ca.id, ca.name, a.nbCards, ca.userData.nbTotalCards," +
                             "ca.cardSet.code, cl.code, ca.rarity.code, ca.cost, ca.cardSet.isStandard, " +
-                            "group_concat(t.name)" +
+                            "(select group_concat(t1.name) " +
+                                "from ca.userData.tags t1 " +
+                                "where t1.exclusiveGroup > 0 )," +
+                            "(select group_concat(t2.name) " +
+                                "from ca.userData.tags t2 " +
+                                "where t2.exclusiveGroup = 0) " +
                         ") " +
-                        "from DeckAssociation a join a.card ca join ca.cardClass cl join ca.userData.tags t " +
+                        "from DeckAssociation a join a.card ca join ca.cardClass cl " +
                         "where a.deck = :deck and (cl.code = a.deck.hero.classe.code or cl.code = 'NEUTRAL') " +
-                        "group by ca.dbfId, ca.id, ca.name, a.nbCards, ca.userData.nbTotalCards, " +
-                                "ca.cardSet.code, cl.code, ca.rarity.code, ca.cost, ca.cardSet.isStandard " +
                         "order by ca.cost, ca.name"
         ),
         @NamedQuery(
@@ -21,14 +24,17 @@ import javax.persistence.*;
                 query = "select new com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem(" +
                             "ca.dbfId, ca.id, ca.name, a.nbCards, ca.userData.nbTotalCards," +
                             "ca.cardSet.code, cl.code, ca.rarity.code, ca.cost, ca.cardSet.isStandard, " +
-                            "group_concat(t.name)" +
+                            "(select group_concat(t1.name) " +
+                                "from ca.userData.tags t1 " +
+                                "where t1.exclusiveGroup > 0 )," +
+                            "(select group_concat(t2.name) " +
+                                "from ca.userData.tags t2 " +
+                                "where t2.exclusiveGroup = 0) " +
                         ") " +
-                        "from DeckAssociation a join a.card ca join ca.cardClass cl join ca.userData.tags t " +
+                        "from DeckAssociation a join a.card ca join ca.cardClass cl " +
                         "where a.deck = :deck " +
                             "and (cl.code = a.deck.hero.classe.code or cl.code = 'NEUTRAL') " +
-                            "and ca.dbfId = :dbfId " +
-                        "group by ca.dbfId, ca.id, ca.name, a.nbCards, ca.userData.nbTotalCards, " +
-                            "ca.cardSet.code, cl.code, ca.rarity.code, ca.cost, ca.cardSet.isStandard"
+                            "and ca.dbfId = :dbfId"
 
         ),
         @NamedQuery(

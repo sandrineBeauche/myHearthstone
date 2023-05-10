@@ -24,9 +24,11 @@ public class DeckCardListItem {
 
     private String tags;
 
+    private String typeTags;
+
     public DeckCardListItem(int dbfId, String id, String name, int nbCards, int nbCardsInCollection,
                             String setCode, String classCode, String rarityCode, int mana, boolean standard,
-                            String tags){
+                            String typeTags, String tags){
         this.dbfId = dbfId;
         this.id = id;
         this.name = name;
@@ -37,6 +39,7 @@ public class DeckCardListItem {
         this.rarityCode = rarityCode;
         this.mana = mana;
         this.standard = standard;
+        this.typeTags = typeTags;
         this.tags = tags;
     }
 
@@ -126,5 +129,13 @@ public class DeckCardListItem {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getTypeTags() {
+        return typeTags;
+    }
+
+    public void setTypeTags(String typeTags) {
+        this.typeTags = typeTags;
     }
 }

@@ -22,7 +22,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="454.0" stylesheets="@style.css" text="Deck" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckEditView">
+<TitledPane fx:id="titledPane" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="469.0" prefWidth="454.0" stylesheets="@style.css" text="Deck" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.DeckEditView">
    <content>
       <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -128,6 +128,7 @@
                               <TableColumn fx:id="cardList_nbCollectionCol" editable="false" prefWidth="45.0" text="col." />
                               <TableColumn fx:id="cardList_standardCol" editable="false" prefWidth="88.0" text="stand." />
                               <TableColumn fx:id="cardList_extCol" minWidth="9.0" prefWidth="37.0" resizable="false" text="Ext." />
+                              <TableColumn fx:id="cardList_typeTagsCol" editable="false" prefWidth="222.0" text="Type" />
                               <TableColumn fx:id="cardList_tagsCol" editable="false" prefWidth="222.0" text="Tags" />
                           </columns>
                         </TableView>

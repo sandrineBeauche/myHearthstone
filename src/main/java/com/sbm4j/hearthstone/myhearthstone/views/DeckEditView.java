@@ -75,6 +75,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     protected TableColumn<DeckCardListItem, Boolean> cardList_standardCol;
 
     @FXML
+    protected TableColumn<DeckCardListItem, String> cardList_typeTagsCol;
+
+    @FXML
     protected TableColumn<DeckCardListItem, String> cardList_tagsCol;
 
     @FXML
@@ -166,6 +169,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.cardList_nbCardsCol.setCellValueFactory(new PropertyValueFactory("nbCards"));
         this.cardList_nbCollectionCol.setCellValueFactory(new PropertyValueFactory("nbCardsInCollection"));
         this.cardList_standardCol.setCellValueFactory(new PropertyValueFactory("standard"));
+        this.cardList_typeTagsCol.setCellValueFactory(new PropertyValueFactory("typeTags"));
         this.cardList_tagsCol.setCellValueFactory(new PropertyValueFactory("tags"));
         this.cardList_extCol.setCellValueFactory(new PropertyValueFactory("setCode"));
 
@@ -177,6 +181,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.cardList_nbCollectionCol.setCellFactory(param -> new CollectionCardCell());
         this.cardList_standardCol.setCellFactory(param -> new StandardCardCell());
         this.cardList_tagsCol.setCellFactory(param -> CellBuilder.buildStringCell());
+        this.cardList_typeTagsCol.setCellFactory(param -> CellBuilder.buildStringCell());
         this.cardList_extCol.setCellFactory(param -> new SetIconCell());
     }
 
