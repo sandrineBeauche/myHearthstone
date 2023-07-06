@@ -39,90 +39,37 @@ public class DeckEditViewModel implements ViewModel, Initializable {
     public String getTitle(){return this.title.get();}
     public void setTitle(String value){this.title.set(value);}
 
-    /* name property */
-    private StringProperty name = new SimpleStringProperty();
-    public StringProperty getNameProperty(){return this.name;}
-    public String getName(){return this.name.get();}
-    public void setName(String value){this.name.set(value);}
-
-
-    /* summary property */
-    private StringProperty summary = new SimpleStringProperty();
-    public StringProperty getSummaryProperty(){return this.summary;}
-    public String getSummary(){return this.summary.get();}
-    public void setSummary(String value){this.summary.set(value);}
-
-    /* heroImg property */
-    private ObjectProperty<Image> heroImg = new SimpleObjectProperty<Image>();
-    public ObjectProperty<Image> getHeroImgProperty(){return this.heroImg;}
-    public Image getHeroImg(){return this.heroImg.get();}
-    public void setHeroImg(Image value){this.heroImg.set(value);}
-    
-    /* deckClassIcon property */
-    private ObjectProperty<Image> deckClassIcon = new SimpleObjectProperty<Image>();
-    public ObjectProperty<Image> getDeckClassIconProperty(){return this.deckClassIcon;}
-    public Image getDeckClassIcon(){return this.deckClassIcon.get();}
-    public void setDeckClassIcon(Image value){this.deckClassIcon.set(value);}
-
-
-    /* cardsList property */
-    private ObjectProperty<ObservableList<DeckCardListItem>> cardsList = new SimpleObjectProperty<ObservableList<DeckCardListItem>>();
-    public ObjectProperty<ObservableList<DeckCardListItem>> getCardsListProperty(){return this.cardsList;}
-    public ObservableList<DeckCardListItem> getCardsList(){return this.cardsList.get();}
-    public void setCardsList(ObservableList<DeckCardListItem> value){this.cardsList.set(value);}
-
-    /* nbCardsTotal property */
-    private StringProperty nbCardsTotal = new SimpleStringProperty();
-    public StringProperty getNbCardsTotalProperty(){return this.nbCardsTotal;}
-    public String getNbCardsTotal(){return this.nbCardsTotal.get();}
-    public void setNbCardsTotal(String value){this.nbCardsTotal.set(value);}
-
-
-    /* curveManaData property */
-    private ObjectProperty<ObservableList<XYChart.Data<String, Number>>> curveManaData = new SimpleObjectProperty<ObservableList<XYChart.Data<String, Number>>>();
-    public ObjectProperty<ObservableList<XYChart.Data<String, Number>>> getCurveManaDataProperty(){return this.curveManaData;}
-    public ObservableList<XYChart.Data<String, Number>> getCurveManaData(){return this.curveManaData.get();}
-    public void setCurveManaData(ObservableList<XYChart.Data<String, Number>> value){this.curveManaData.set(value);}
-
-    /* statsTagsList property */
-    private ObjectProperty<ObservableList<TagStat>> statsTagsList = new SimpleObjectProperty<ObservableList<TagStat>>();
-    public ObjectProperty<ObservableList<TagStat>> getStatsTagsListProperty(){return this.statsTagsList;}
-    public ObservableList<TagStat> getStatsTagsList(){return this.statsTagsList.get();}
-    public void setStatsTagsList(ObservableList<TagStat> value){this.statsTagsList.set(value);}
-
-    /* isStandard property */
-    private BooleanProperty isStandard = new SimpleBooleanProperty();
-    public BooleanProperty getIsStandardProperty(){return this.isStandard;}
-    public Boolean getIsStandard(){return this.isStandard.get();}
-    public void setIsStandard(Boolean value){this.isStandard.set(value);}
-
-    /* isValid property */
-    private BooleanProperty isValid = new SimpleBooleanProperty();
-    public BooleanProperty getIsValidProperty(){return this.isValid;}
-    public Boolean getIsValid(){return this.isValid.get();}
-    public void setIsValid(Boolean value){this.isValid.set(value);}
-
-    /* notes property */
-    private StringProperty notes = new SimpleStringProperty();
-    public StringProperty getNotesProperty(){return this.notes;}
-    public String getNotes(){return this.notes.get();}
-    public void setNotes(String value){this.notes.set(value);}
 
     @Inject
     protected DBFacade dbFacade;
+    public DBFacade getDbFacade(){return this.dbFacade;}
 
     @Inject
     protected DBManager dbManager;
+    public DBManager getDbManager(){return this.dbManager;}
 
     @Inject
     protected ImageManager imageManager;
+    public ImageManager getImageManager(){return this.imageManager;}
 
     @Inject
     protected Notificator notificator;
+    public Notificator getNotificator(){return this.notificator;}
 
     @Inject
     private NotificationCenter notificationCenter;
 
+    protected DeckEditGeneraltabViewModel generalTab;
+    public DeckEditGeneraltabViewModel getGeneralTab(){return this.generalTab;}
+
+    protected DeckEditCardsListTabViewModel cardsListTab;
+    public DeckEditCardsListTabViewModel getCardsListTab(){return this.cardsListTab;}
+
+    protected DeckEditStatsTabViewModel statsTab;
+    public DeckEditStatsTabViewModel getStatsTab(){ return this.statsTab;}
+
+    protected DeckEditNotesTabViewModel notesTab;
+    public DeckEditNotesTabViewModel getNotesTab(){return this.notesTab;}
 
     protected Deck currentDeck;
 
@@ -130,33 +77,13 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
     protected static Logger logger = LogManager.getLogger();
 
-    protected Boolean [] refreshed;
-    public Boolean [] getRefreshed(){ return this.refreshed;}
-
-    protected HashMap<String, String> extensionTooltips = new HashMap<>();
-
-    protected HashMap<String, String> rarityTooltips = new HashMap<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.cardsList.set(FXCollections.observableArrayList());
-        this.statsTagsList.set(FXCollections.observableArrayList());
-        this.refreshed = new Boolean[]{false, false, false, false};
-
-        this.setCurveManaData(FXCollections.observableArrayList());
-        for (int i = 0; i < 7; i++) {
-            XYChart.Data<String, Number> data = new XYChart.Data<String, Number>(Integer.toString(i), 0);
-            this.getCurveManaData().add(data);
-        }
-        this.getCurveManaData().add(new XYChart.Data<String, Number>("7+", 0));
-
-        for(CardSet current: this.dbFacade.getSets(false)){
-            this.extensionTooltips.put(current.getCode(), current.getName());
-        }
-
-        for(Rarity current: this.dbFacade.getRarities(false)){
-            this.rarityTooltips.put(current.getCode(), current.getName());
-        }
+        this.generalTab = new DeckEditGeneraltabViewModel(this);
+        this.cardsListTab = new DeckEditCardsListTabViewModel(this);
+        this.statsTab = new DeckEditStatsTabViewModel(this);
+        this.notesTab = new DeckEditNotesTabViewModel(this);
 
         this.notificationCenter.subscribe(SHOW_DECK, (key, payload) -> {
             Object[] params = payload.clone();
@@ -170,229 +97,19 @@ public class DeckEditViewModel implements ViewModel, Initializable {
         this.currentDeck = session.get(Deck.class, deckItem.getDeckId());
         this.currentDeckItem = deckItem;
         if(this.currentDeck != null){
-            this.refreshed[0] = false;
-            this.refreshed[1] = false;
-            this.refreshed[2] = false;
-            this.refreshed[3] = false;
+            this.generalTab.setDeck(this.currentDeck, this.currentDeckItem);
+            this.cardsListTab.setDeck(this.currentDeck, this.currentDeckItem);
+            this.statsTab.setDeck(this.currentDeck, this.currentDeckItem);
+            this.notesTab.setDeck(this.currentDeck, this.currentDeckItem);
 
             String title = "Deck " + this.currentDeck.getName();
             this.setTitle(title);
-            this.setIsStandard(deckItem.getNbCards() == deckItem.getNbStandardCards());
-            this.setIsValid(deckItem.getNbCards() == 30 && deckItem.getNbCardsInCollection() == 30);
+
             this.publish(SHOW_DECK, title);
         }
     }
 
 
-    public void refreshGeneralTab() {
-        if(!refreshed[0]) {
-            this.refreshed[0] = true;
-            this.setName(this.currentDeck.getName());
-            this.setSummary(this.currentDeck.getSummary());
-
-            String heroCode = this.currentDeck.getHero().getCode();
-            try {
-                Image heroImg = this.imageManager.getHeroPortrait(heroCode);
-                this.setHeroImg(heroImg);
-                Image classeImg = CardClassImageLoader.getImage(this.currentDeck.getHero().getClasse().getCode());
-                this.setDeckClassIcon(classeImg);
-            } catch (FileNotFoundException e) {
-                logger.error("Image file not found for hero " + heroCode);
-            }
-        }
-    }
-
-    public void refreshCardListTab(){
-        if(!refreshed[1]) {
-            this.refreshed[1] = true;
-            List<DeckCardListItem> items = this.dbFacade.getDeckCardList(this.currentDeck);
-
-            this.getCardsList().clear();
-            this.getCardsList().addAll(items);
-            this.refreshNbcards();
-
-            this.refreshStatsTab();
-        }
-    }
-
-    protected void refreshNbcards(){
-        int nbCards = this.currentDeckItem.getNbCards();
-        if(nbCards > 1){
-            this.setNbCardsTotal(nbCards + " cartes");
-        }
-        else{
-            this.setNbCardsTotal(nbCards + " carte");
-        }
-    }
-
-    public void refreshStatsTab(){
-        if(!this.refreshed[2]) {
-            this.refreshed[2] = true;
-            Integer[] curveData = this.dbFacade.getManaCurveStats(this.currentDeck);
-
-            for (int i = 0; i < curveData.length; i++) {
-                this.getCurveManaData().get(i).setYValue(curveData[i]);
-            }
-
-            this.getStatsTagsList().clear();
-            List<TagStat> stats = this.dbFacade.getTagsStats(this.currentDeck);
-            this.getStatsTagsList().addAll(stats);
-        }
-    }
-
-    public void refreshNotesTab(){
-        if(!this.refreshed[3]){
-            this.refreshed[3] = true;
-
-            String notesValue = this.currentDeck.getNotes();
-            this.setNotes(notesValue);
-        }
-    }
-
-    protected DeckCardListItem getItemFromCardList(int dbfId){
-        return this.getCardsList().stream().filter(item -> item.getDbfId() == dbfId)
-                .findAny().orElse(null);
-    }
-
-    protected DeckCardListItem updateCardListItem(DeckCardListItem oldItem, int dbfId, int deltaValue) {
-        if(oldItem != null){
-            int currentValue = oldItem.getNbCards();
-            int newValue = currentValue + deltaValue;
-            if(newValue <= 0){
-                this.getCardsList().remove(oldItem);
-                return null;
-            }
-            else{
-                oldItem.setNbCards(currentValue + deltaValue);
-                return oldItem;
-            }
-        }
-        else{
-            try{
-                DeckCardListItem newCardItem = this.dbFacade.getDeckCardListItem(this.currentDeck, dbfId);
-                this.getCardsList().add(newCardItem);
-                return newCardItem;
-            }
-            catch(NoResultException ex){
-                return null;
-            }
-        }
-    }
-
-    protected void updateManaCurve(DeckCardListItem item, int nbDelta){
-        int index = item.getMana();
-        if(index > 7){
-            index = 7;
-        }
-
-        XYChart.Data<String, Number> data = this.getCurveManaData().get(index);
-        int newValue = data.getYValue().intValue() + nbDelta;
-        if(newValue < 0){
-            newValue = 0;
-        }
-        data.setYValue(newValue);
-    }
-
-    protected void updateTagsStats(DeckCardListItem item, int nbDelta){
-        String tagsString = item.getTags();
-        if(tagsString != ""){
-            String [] tags = tagsString.split(",");
-            for(String currentTag: tags){
-                TagStat stat = this.getStatsTagsList().stream().filter(t -> t.getTag().equals(currentTag)).findAny().orElse(null);
-                if(stat == null){
-                    TagStat newTagStat = new TagStat(currentTag, nbDelta);
-                    this.getStatsTagsList().add(newTagStat);
-                }
-                else{
-                    int newValue = stat.getValue() + nbDelta;
-                    if(newValue > 0){
-                        stat.setValue(newValue);
-                    }
-                    else{
-                        this.getStatsTagsList().remove(stat);
-                    }
-                }
-            }
-        }
-    }
-
-
-    protected void updateDeckListItem(DeckCardListItem item, int nbDelta){
-        this.currentDeckItem.setNbCards(this.currentDeckItem.getNbCards() + nbDelta);
-        this.refreshNbcards();
-        if(item.getNbCardsInCollection() >= item.getNbCards()){
-            this.currentDeckItem.setNbCardsInCollection(this.currentDeckItem.getNbCardsInCollection() + nbDelta);
-        }
-        if(item.isStandard()){
-            this.currentDeckItem.setNbStandardCards(this.currentDeckItem.getNbStandardCards() + nbDelta);
-        }
-    }
-
-
-    public void addCardFromDbfId(int dbfId){
-        logger.info("Add card with dbfId " + dbfId + " to deck " + this.currentDeck.getName() + "(" + this.currentDeck.getId() + ")");
-        DeckCardListItem oldItem = this.getItemFromCardList(dbfId);
-
-        boolean result = this.dbFacade.addCardToDeck(dbfId, this.currentDeck);
-        if(result){
-            DeckCardListItem newCardItem = this.updateCardListItem(oldItem, dbfId,1);
-            this.updateManaCurve(newCardItem, 1);
-            this.updateTagsStats(newCardItem, 1);
-            this.updateDeckListItem(newCardItem,1);
-            this.setIsStandard(this.currentDeckItem.isStandard());
-            this.notificator.notifyAddCardToDeckSuccess(newCardItem.getName(), this.currentDeck.getName());
-        }
-        else{
-            this.notificator.notifyAddCardToDeckError(dbfId, this.currentDeck.getName());
-        }
-    }
-
-    public void removeCardFromDbfId(int dbfId, boolean all){
-        logger.info("Remove card with dbfId " + dbfId + " from deck " + this.currentDeck.getName() + "(" + this.currentDeck.getId() + ")");
-        DeckCardListItem oldItem = this.getItemFromCardList(dbfId);
-
-        boolean result = this.dbFacade.removeCardFromDeck(dbfId, this.currentDeck, all);
-        if(result){
-            int delta = 0;
-            if(all){
-                delta = -oldItem.getNbCards();
-            }
-            else{
-                delta = -1;
-            }
-            DeckCardListItem newCardItem = this.updateCardListItem(oldItem, dbfId, delta);
-            String cardName = oldItem.getName();
-            this.updateManaCurve(oldItem, delta);
-            this.updateTagsStats(oldItem, delta);
-            this.updateDeckListItem(oldItem, delta);
-            this.setIsStandard(this.currentDeckItem.isStandard());
-            this.notificator.notifyRemoveCardFromDeckSuccess(cardName, this.currentDeck.getName());
-        }
-        else{
-            this.notificator.notifyRemoveCardFromDeckError(Integer.toString(dbfId), this.currentDeck.getName());
-        }
-    }
-
-    public void incrSelectedCard(DeckCardListItem selected){
-        if(selected != null) {
-            int dbfId = selected.getDbfId();
-            this.addCardFromDbfId(dbfId);
-        }
-    }
-
-    public void decrSelectedCard(DeckCardListItem selected){
-        if(selected != null){
-            int dbfId = selected.getDbfId();
-            this.removeCardFromDbfId(dbfId, false);
-        }
-    }
-
-    public void deleteSelectedCard(DeckCardListItem selected){
-        if(selected != null){
-            int dbfId = selected.getDbfId();
-            this.removeCardFromDbfId(dbfId, true);
-        }
-    }
 
     public void backHandler(){
         this.saveDeck();
@@ -402,35 +119,9 @@ public class DeckEditViewModel implements ViewModel, Initializable {
 
     protected void saveDeck(){
         boolean isDirty = false;
-        if(!this.getName().equals(this.currentDeckItem.getName())){
-            this.currentDeck.setName(this.getName());
-            isDirty = true;
-        }
+        isDirty = isDirty || this.generalTab.saveDeck();
+        isDirty = isDirty || this.notesTab.saveDeck();
 
-        if(this.getSummary() == null){
-            if(this.currentDeckItem.getSummary() != this.getSummary()){
-                this.currentDeck.setSummary(this.getSummary());
-                isDirty = true;
-            }
-        }
-        else{
-            if(!this.getSummary().equals(this.currentDeckItem.getSummary())){
-                this.currentDeck.setSummary(this.getSummary());
-                isDirty = true;
-            }
-        }
-
-        if(this.currentDeck.getNotes() == null){
-            if(this.getNotes() != null){
-                this.currentDeck.setNotes(this.getNotes());
-            }
-        }
-        else{
-            if(!this.getNotes().equals(this.currentDeck.getNotes())){
-                this.currentDeck.setNotes(this.getNotes());
-                isDirty = true;
-            }
-        }
 
         if(isDirty){
             Session session = this.dbManager.getSession();
@@ -441,18 +132,12 @@ public class DeckEditViewModel implements ViewModel, Initializable {
         this.currentDeckItem.setName(this.currentDeck.getName());
         this.currentDeckItem.setSummary(this.currentDeck.getSummary());
 
-        List<String> tags = this.getStatsTagsList().stream().map(t -> t.getTag()).toList();
+        List<String> tags = this.statsTab.getTagList();
         String tagsString = String.join(",", tags);
         this.currentDeckItem.setTags(tagsString);
     }
 
-    public String getExtensionTooltips(String code){
-        return this.extensionTooltips.get(code);
-    }
 
-    public String getRarityTooltips(String code){
-        return this.rarityTooltips.get(code);
-    }
 
     public void showCardDetails(DeckCardListItem card){
         this.notificationCenter.publish(CardDetailsViewModel.SHOW_CARD, card.getDbfId());

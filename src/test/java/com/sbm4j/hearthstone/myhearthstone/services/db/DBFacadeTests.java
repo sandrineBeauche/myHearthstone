@@ -385,7 +385,7 @@ public class DBFacadeTests {
         List<TagStat> result = this.facade.getTagsStats(deck);
 
         assertNotNull(result);
-        assertEquals(3, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test

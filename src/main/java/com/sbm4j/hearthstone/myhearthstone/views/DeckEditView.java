@@ -2,14 +2,13 @@ package com.sbm4j.hearthstone.myhearthstone.views;
 
 
 import com.google.inject.Inject;
-import com.sbm4j.hearthstone.myhearthstone.model.CardCatalogItem;
 import com.sbm4j.hearthstone.myhearthstone.model.DeckCardListItem;
-import com.sbm4j.hearthstone.myhearthstone.model.DeckListItem;
 import com.sbm4j.hearthstone.myhearthstone.model.TagStat;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManagerImpl;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.DeckEditViewModel;
+import com.sbm4j.hearthstone.myhearthstone.views.sunburstChart.SunburstChart;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.fxml.FXML;
@@ -33,7 +32,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable {
@@ -102,6 +100,9 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     protected TableColumn<Pair<String, Integer>, Integer> nbTagCardCol;
 
     @FXML
+    protected SunburstChart typeTagsStatChart;
+
+    @FXML
     protected ImageView smallStandardBadge;
 
     @FXML
@@ -132,6 +133,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         this.installBindings();
         this.initCardListColumns();
         this.initTagStatsListColumns();
+        this.typeTagsStatChart.setTree(this.viewModel.getStatsTab().getSunburstChartTree());
 
         TableView.TableViewSelectionModel<DeckCardListItem> selectionModel = this.cardList.getSelectionModel();
         selectionModel.setSelectionMode(SelectionMode.SINGLE);
@@ -142,23 +144,23 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
     protected void installBindings(){
         this.titledPane.textProperty().bindBidirectional(this.viewModel.getTitleProperty());
-        this.nameField.textProperty().bindBidirectional(this.viewModel.getNameProperty());
-        this.summaryField.textProperty().bindBidirectional(this.viewModel.getSummaryProperty());
-        this.heroImage.imageProperty().bindBidirectional(this.viewModel.getHeroImgProperty());
-        this.deckClassIcon.imageProperty().bindBidirectional(this.viewModel.getDeckClassIconProperty());
-        this.cardList.itemsProperty().bindBidirectional(this.viewModel.getCardsListProperty());
-        this.statsTagsList.itemsProperty().bindBidirectional(this.viewModel.getStatsTagsListProperty());
-        this.nbCardsLabel.textProperty().bindBidirectional(this.viewModel.getNbCardsTotalProperty());
+        this.nameField.textProperty().bindBidirectional(this.viewModel.getGeneralTab().getNameProperty());
+        this.summaryField.textProperty().bindBidirectional(this.viewModel.getGeneralTab().getSummaryProperty());
+        this.heroImage.imageProperty().bindBidirectional(this.viewModel.getGeneralTab().getHeroImgProperty());
+        this.deckClassIcon.imageProperty().bindBidirectional(this.viewModel.getGeneralTab().getDeckClassIconProperty());
+        this.cardList.itemsProperty().bindBidirectional(this.viewModel.getCardsListTab().getCardsListProperty());
+        this.statsTagsList.itemsProperty().bindBidirectional(this.viewModel.getStatsTab().getStatsTagsListProperty());
+        this.nbCardsLabel.textProperty().bindBidirectional(this.viewModel.getCardsListTab().getNbCardsTotalProperty());
 
         XYChart.Series<String, Number> manaCurveSeries = new XYChart.Series<>();
         manaCurveSeries.setName("mana");
-        manaCurveSeries.dataProperty().bindBidirectional(this.viewModel.getCurveManaDataProperty());
+        manaCurveSeries.dataProperty().bindBidirectional(this.viewModel.getStatsTab().getCurveManaDataProperty());
         manaCurveChart.getData().add(manaCurveSeries);
 
-        this.smallStandardBadge.visibleProperty().bindBidirectional(this.viewModel.getIsStandardProperty());
-        this.smallValidIcon.visibleProperty().bindBidirectional(this.viewModel.getIsValidProperty());
+        this.smallStandardBadge.visibleProperty().bindBidirectional(this.viewModel.getCardsListTab().getIsStandardProperty());
+        this.smallValidIcon.visibleProperty().bindBidirectional(this.viewModel.getCardsListTab().getIsValidProperty());
 
-        this.notesTextArea.textProperty().bindBidirectional(this.viewModel.getNotesProperty());
+        this.notesTextArea.textProperty().bindBidirectional(this.viewModel.getNotesTab().getNotesProperty());
     }
 
     protected void initCardListColumns(){
@@ -228,35 +230,33 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
     }
 
     protected void refreshGeneralTab(){
-        if(!this.viewModel.getRefreshed()[0]) {
-            this.viewModel.refreshGeneralTab();
+        if(!this.viewModel.getGeneralTab().isRefreshed()) {
+            this.viewModel.getGeneralTab().refresh();
         }
     }
 
     protected void refreshCardsListTab(){
-        if(this.viewModel.getRefreshed()[1]){
+        if(this.viewModel.getCardsListTab().isRefreshed()){
             this.cardList.refresh();
         }
         else{
-            this.viewModel.refreshCardListTab();
+            this.viewModel.getCardsListTab().refresh();
         }
     }
 
     protected void refreshStatsTab(){
-        if(this.viewModel.getRefreshed()[2]){
+        if(this.viewModel.getStatsTab().isRefreshed()){
             this.statsTagsList.refresh();
-            List<XYChart.Data<String, Number>> data = this.viewModel.getCurveManaData().stream().toList();
-            this.viewModel.getCurveManaData().clear();
-            this.viewModel.getCurveManaData().addAll(data);
+            this.viewModel.getStatsTab().refreshToRedraw();
         }
         else{
-            this.viewModel.refreshStatsTab();
+            this.viewModel.getStatsTab().refresh();
         }
     }
 
     protected void refreshNotesTab(){
-        if(!this.viewModel.getRefreshed()[3]){
-            this.viewModel.refreshNotesTab();
+        if(!this.viewModel.getNotesTab().isRefreshed()){
+            this.viewModel.getNotesTab().refresh();
         }
     }
 
@@ -270,7 +270,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         if(event.getGestureSource().getClass() == CardCatalogView.CardCell.class) {
             Dragboard db = event.getDragboard();
             int dbfId = Integer.valueOf(db.getString());
-            this.viewModel.addCardFromDbfId(dbfId);
+            this.viewModel.getCardsListTab().addCardFromDbfId(dbfId);
             this.cardList.refresh();
         }
     }
@@ -415,7 +415,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                 try {
                     Image img = imageManager.getCardSetIcon(item);
                     ImageView imgView = new ImageView(img);
-                    String tooltipString = viewModel.getExtensionTooltips(item);
+                    String tooltipString = viewModel.getCardsListTab().getExtensionTooltips(item);
                     Tooltip tooltip = new Tooltip(tooltipString);
                     this.setTooltip(tooltip);
                     setGraphic(imgView);
@@ -447,7 +447,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
                     case "LEGENDARY" -> rect.setFill(Color.ORANGE);
                 }
                 setGraphic(rect);
-                this.setTooltip(new Tooltip(viewModel.getRarityTooltips(item)));
+                this.setTooltip(new Tooltip(viewModel.getCardsListTab().getRarityTooltips(item)));
             }
             else{
                 setGraphic(null);
@@ -458,19 +458,19 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
 
     public void incrSelectedCard(){
         DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
-        this.viewModel.incrSelectedCard(selected);
+        this.viewModel.getCardsListTab().incrSelectedCard(selected);
         this.cardList.refresh();
     }
 
     public void decrSelectedCard(){
         DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
-        this.viewModel.decrSelectedCard(selected);
+        this.viewModel.getCardsListTab().decrSelectedCard(selected);
         this.cardList.refresh();
     }
 
     public void deleteSelectedCard(){
         DeckCardListItem selected = this.cardList.getSelectionModel().getSelectedItem();
-        this.viewModel.deleteSelectedCard(selected);
+        this.viewModel.getCardsListTab().deleteSelectedCard(selected);
     }
 
     public void backAction(){

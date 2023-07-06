@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.sbm4j.hearthstone.myhearthstone.views.sunburstChart.SunburstChart?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -187,11 +187,7 @@
                             <NumberAxis minorTickVisible="false" side="LEFT" tickUnit="2.0" upperBound="10.0" />
                           </yAxis>
                         </BarChart>
-                        <PieChart GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <GridPane.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </GridPane.margin>
-                        </PieChart>
+                        <SunburstChart fx:id="typeTagsStatChart" decimals="1" interactive="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children></GridPane>
                 </content>
             </Tab>

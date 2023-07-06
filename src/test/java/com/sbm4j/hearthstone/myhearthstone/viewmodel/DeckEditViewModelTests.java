@@ -97,11 +97,11 @@ public class DeckEditViewModelTests {
     public void testAddNewCard(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        this.viewModel.addCardFromDbfId(70005);
+        this.viewModel.getCardsListTab().addCardFromDbfId(70005);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 1),
                         isCardListItem(66848, 2),
@@ -109,10 +109,10 @@ public class DeckEditViewModelTests {
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,1,1,0,0,2}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Gèle", 1),
                         isTagStats("Sort", 1),
@@ -131,11 +131,11 @@ public class DeckEditViewModelTests {
     public void testAddNewCardNotInCollection(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        this.viewModel.addCardFromDbfId(67210);
+        this.viewModel.getCardsListTab().addCardFromDbfId(67210);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 1),
                         isCardListItem(66848, 2),
@@ -143,11 +143,11 @@ public class DeckEditViewModelTests {
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,1,0,1,0,0,2}));
 
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Victoire honorable", 1),
                         isTagStats("Sort", 1),
@@ -167,21 +167,21 @@ public class DeckEditViewModelTests {
     public void testAddCard(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        this.viewModel.addCardFromDbfId(66880);
+        this.viewModel.getCardsListTab().addCardFromDbfId(66880);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 2),
                         isCardListItem(66848, 2)
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,0,2,0,0,2}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Cri de guerre", 4),
                         isTagStats("Serviteur", 2)
@@ -200,22 +200,22 @@ public class DeckEditViewModelTests {
     public void testIncrCard(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        DeckCardListItem cardItem = this.viewModel.getCardsList().get(0);
-        this.viewModel.incrSelectedCard(cardItem); /* dbfId 66880 */
+        DeckCardListItem cardItem = this.viewModel.getCardsListTab().getCardsList().get(0);
+        this.viewModel.getCardsListTab().incrSelectedCard(cardItem); /* dbfId 66880 */
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 2),
                         isCardListItem(66848, 2)
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,0,2,0,0,2}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Cri de guerre", 4),
                         isTagStats("Serviteur", 2)
@@ -233,23 +233,23 @@ public class DeckEditViewModelTests {
     public void testIncrCard2(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        DeckCardListItem cardItem = this.viewModel.getCardsList().get(0);
-        this.viewModel.incrSelectedCard(cardItem); /* dbfId 66880 */
-        this.viewModel.incrSelectedCard(cardItem);
+        DeckCardListItem cardItem = this.viewModel.getCardsListTab().getCardsList().get(0);
+        this.viewModel.getCardsListTab().incrSelectedCard(cardItem); /* dbfId 66880 */
+        this.viewModel.getCardsListTab().incrSelectedCard(cardItem);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 3),
                         isCardListItem(66848, 2)
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,0,3,0,0,2}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Cri de guerre", 5),
                         isTagStats("Serviteur", 3)
@@ -267,22 +267,22 @@ public class DeckEditViewModelTests {
     public void testDecrCard(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        DeckCardListItem cardItem = this.viewModel.getCardsList().get(1);
-        this.viewModel.decrSelectedCard(cardItem);
+        DeckCardListItem cardItem = this.viewModel.getCardsListTab().getCardsList().get(1);
+        this.viewModel.getCardsListTab().decrSelectedCard(cardItem);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 1),
                         isCardListItem(66848, 1)
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,0,1,0,0,1}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Cri de guerre", 2),
                         isTagStats("Serviteur", 1)
@@ -300,29 +300,29 @@ public class DeckEditViewModelTests {
     public void testDecrRemoveCard(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        DeckCardListItem cardItem = this.viewModel.getCardsList().get(0);
-        this.viewModel.decrSelectedCard(cardItem);
+        DeckCardListItem cardItem = this.viewModel.getCardsListTab().getCardsList().get(0);
+        this.viewModel.getCardsListTab().decrSelectedCard(cardItem);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66848, 2)
                 )
         );
-        assertThat(this.viewModel.getCardsList(), hasSize(1));
+        assertThat(this.viewModel.getCardsListTab().getCardsList(), hasSize(1));
 
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,0,0,0,0,2}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Cri de guerre", 2),
                         isTagStats("Héro", 2)
                 )
         );
-        assertThat(this.viewModel.getStatsTagsList(), hasSize(2));
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(), hasSize(2));
 
         assertThat(this.viewModel.currentDeckItem,
                 isDeckListItem(2, 2, 2, 2));
@@ -336,21 +336,21 @@ public class DeckEditViewModelTests {
     public void testRemoveCard(){
         DeckListItem deckItem = this.dbFacade.getDeckListItem(2);
         this.viewModel.showDeck(deckItem);
-        this.viewModel.refreshCardListTab();
+        this.viewModel.getCardsListTab().refresh();
 
-        DeckCardListItem cardItem = this.viewModel.getCardsList().get(1);
-        this.viewModel.deleteSelectedCard(cardItem);
+        DeckCardListItem cardItem = this.viewModel.getCardsListTab().getCardsList().get(1);
+        this.viewModel.getCardsListTab().deleteSelectedCard(cardItem);
 
-        assertThat(this.viewModel.getCardsList(),
+        assertThat(this.viewModel.getCardsListTab().getCardsList(),
                 hasItems(
                         isCardListItem(66880, 1)
                 )
         );
 
-        assertThat(this.viewModel.getCurveManaData().toArray(new XYChart.Data[0]),
+        assertThat(this.viewModel.getStatsTab().getCurveManaData().toArray(new XYChart.Data[0]),
                 isManaCurve(new int[]{0,0,0,0,1,0,0,0}));
 
-        assertThat(this.viewModel.getStatsTagsList(),
+        assertThat(this.viewModel.getStatsTab().getStatsTagsList(),
                 hasItems(
                         isTagStats("Cri de guerre", 1),
                         isTagStats("Serviteur", 1)

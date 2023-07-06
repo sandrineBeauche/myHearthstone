@@ -494,4 +494,23 @@ public class DBFacadeImpl implements DBFacade {
         return result;
     }
 
+    @Override
+    public List<TypeTagStat> getTypeTagsStats(Deck deck) {
+        Session session = this.db.getSession();
+        TypedQuery query = session.createNamedQuery("type_tags_stats_from_deck", TypeTagStat.class);
+        query.setHint( "org.hibernate.readOnly", true );
+        query.setParameter("deck", deck);
+        List<TypeTagStat> result =  query.getResultList();
+        return result;
+    }
+
+    @Override
+    public List<CardTag> getTypeTagsfromCard(int dbfId) {
+        Session session = this.db.getSession();
+        TypedQuery query = session.createNamedQuery("type_tags_from_card", CardTag.class);
+        query.setHint( "org.hibernate.readOnly", true );
+        query.setParameter("dbfId", dbfId);
+        List<CardTag> result =  query.getResultList();
+        return result;
+    }
 }

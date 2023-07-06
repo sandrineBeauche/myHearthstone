@@ -186,6 +186,16 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public List<TypeTagStat> getTypeTagsStats(Deck deck) {
+        return null;
+    }
+
+    @Override
+    public List<CardTag> getTypeTagsfromCard(int dbfId) {
+        return null;
+    }
+
+    @Override
     public void updateDB() throws IOException {
 
     }

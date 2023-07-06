@@ -21,6 +21,7 @@ repositories {
     // For some of it's dependencies
     maven { url "https://sandec.jfrog.io/artifactory/repo" }
     maven { url "https://dl.bintray.com/dukke/maven" }
+    maven { url "https://repo1.maven.org/maven2" }
 }
 
 ext {
@@ -41,7 +42,7 @@ application {
 
 javafx {
     version = '16'
-    modules = ['javafx.controls', 'javafx.fxml']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.swing']
 }
 
 dependencies {
@@ -65,6 +66,7 @@ dependencies {
     implementation 'org.jetbrains:annotations:20.1.0'
     //implementation('com.microsoft.playwright:playwright:1.20.1')
     //implementation 'com.github.Dansoftowner:MarkdownEditorControlFX:0.6.3'
+    implementation('eu.hansolo.fx:charts:16.0.16')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testImplementation("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
@@ -85,6 +87,7 @@ dependencies {
 
 
 extraJavaModuleInfo {
+    automaticModule('eu.hansolo.fx:charts:17.1.35', 'eu.hansolo.fx.charts')
     automaticModule("thumbnailator-0.4.15.jar", "thumbnailator")
     automaticModule("antlr-2.7.7.jar", "antlr")
     automaticModule("slf4j-api-1.7.25.jar", "slf4j")

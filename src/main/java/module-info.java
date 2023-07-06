@@ -19,6 +19,7 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires com.fasterxml.classmate;
     requires com.google.guice;
     requires java.sql;
+    requires eu.hansolo.fx.charts;
     //requires com.microsoft.playwright;
     //requires markdown.editor.control.fx;
 
@@ -46,5 +47,6 @@ module com.sbm4j.hearthstone.myhearthstone {
             javafx.fxml,
             org.hibernate.orm.core,
             javafx.base;
+    opens com.sbm4j.hearthstone.myhearthstone.views.sunburstChart to com.google.guice, de.saxsys.mvvmfx, javafx.fxml;
 
 }

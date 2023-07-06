@@ -1,5 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.model;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 @NamedQueries({
@@ -20,6 +22,15 @@ import javax.persistence.*;
                         "order by t.name"
         ),
         @NamedQuery(
+                name = "type_tags_stats_from_deck",
+                query = "select new com.sbm4j.hearthstone.myhearthstone.model.TypeTagStat(" +
+                            "t.name, sum(a.nbCards), t.exclusiveGroup, group_concat_distinct(t.color)) " +
+                        "from DeckAssociation a join a.card.userData.tags t " +
+                        "where a.deck = :deck and t.exclusiveGroup != 0 " +
+                        "group by t.name, t.exclusiveGroup " +
+                        "order by t.exclusiveGroup"
+        ),
+        @NamedQuery(
                 name="available_user_tags",
                 query="select t from CardTag t where t.isUser = true order by t.name"
         ),
@@ -29,6 +40,12 @@ import javax.persistence.*;
                         "from CardDetail c join c.userData.tags t " +
                         "where t.isUser = true and c = :card " +
                         "order by t.name"
+        ),
+        @NamedQuery(
+                name="type_tags_from_card",
+                query="select t " +
+                        "from CardUserData c join c.tags t " +
+                        "where c.dbfId = :dbfId and t.exclusiveGroup != 0"
         )
 })
 @NamedNativeQuery(
@@ -54,6 +71,9 @@ public class CardTag {
 
     @Column
     private int exclusiveGroup;
+
+    @Column
+    private String color;
 
     public CardTag(){}
 
@@ -106,6 +126,14 @@ public class CardTag {
         this.exclusiveGroup = exclusiveGroup;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
     @Override
     public String toString() {
         return this.name;
@@ -116,5 +144,6 @@ public class CardTag {
         this.setName(tag.getName());
         this.setUser(tag.getUser());
         this.setExclusiveGroup((tag.getExclusiveGroup()));
+        this.setColor(tag.getColor());
     }
 }

@@ -1,5 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.model;
 
+import eu.hansolo.fx.charts.data.ChartItem;
+
 public class TagStat {
 
     protected String tag;
@@ -19,7 +21,7 @@ public class TagStat {
         this.tag = tag;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 

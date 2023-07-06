@@ -77,5 +77,9 @@ public interface DBFacade {
 
     List<TagStat> getTagsStats(Deck deck);
 
+    List<TypeTagStat> getTypeTagsStats(Deck deck);
+
+    List<CardTag> getTypeTagsfromCard(int dbfId);
+
     void updateDB() throws IOException;
 }
