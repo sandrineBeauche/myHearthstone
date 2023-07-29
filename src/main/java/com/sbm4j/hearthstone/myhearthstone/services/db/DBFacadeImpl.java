@@ -17,6 +17,7 @@ import javax.persistence.criteria.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class DBFacadeImpl implements DBFacade {
@@ -511,6 +512,39 @@ public class DBFacadeImpl implements DBFacade {
         query.setHint( "org.hibernate.readOnly", true );
         query.setParameter("dbfId", dbfId);
         List<CardTag> result =  query.getResultList();
+        return result;
+    }
+
+
+    @Override
+    public List<CardSetDetail> getCardSetDetailList() {
+        Session session = this.db.getSession();
+        TypedQuery query = session.createNamedQuery("details_sets_list", CardSetRarityCountStat.class);
+        query.setHint( "org.hibernate.readOnly", true );
+        List<CardSetRarityCountStat> queryResult = query.getResultList();
+
+        List<CardSetDetail> result = new ArrayList<>();
+        CardSet currentCardSet = null;
+        if(queryResult.size() > 0){
+            currentCardSet = queryResult.get(0).getCardSet();
+        }
+        CardSetDetail cardSetDetail = new CardSetDetail(currentCardSet);
+
+        for(CardSetRarityCountStat currentCountStat: queryResult){
+            if(currentCountStat.getCardSet() != currentCardSet){
+                result.add(cardSetDetail);
+                currentCardSet = currentCountStat.getCardSet();
+                cardSetDetail = new CardSetDetail(currentCardSet);
+            }
+            else{
+                cardSetDetail.addCountStat(currentCountStat);
+            }
+        }
+
+        for(CardSetDetail current: result){
+            current.completeStats(this);
+        }
+
         return result;
     }
 }

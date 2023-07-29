@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane fx:id="titledPane" collapsible="false" prefHeight="461.0" prefWidth="1031.0" text="Extensions" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.ExtensionsView">
+   <content>
+      <BorderPane prefHeight="263.0" prefWidth="794.0">
+         <center>
+            <TableView fx:id="cardSetList" prefHeight="200.0" prefWidth="299.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="logoCol" prefWidth="196.0" text="Logo" />
+                <TableColumn fx:id="iconeCol" minWidth="1.0" prefWidth="72.0" text="Icone" />
+                  <TableColumn fx:id="nameCol" prefWidth="229.0" text="Nom" />
+                  <TableColumn fx:id="standardCol" prefWidth="117.0" text="standard" />
+                  <TableColumn fx:id="commonCol" prefWidth="76.0" text="Communes" />
+                  <TableColumn fx:id="rareCol" prefWidth="67.0" text="Rares" />
+                  <TableColumn fx:id="epicCol" prefWidth="73.0" text="Epiques" />
+                  <TableColumn fx:id="legendaryCol" prefWidth="103.0" text="Légendaires" />
+                  <TableColumn fx:id="totalCol" prefWidth="74.0" text="Total" />
+              </columns>
+            </TableView>
+         </center>
+      </BorderPane>
+   </content>
+</TitledPane>

@@ -201,6 +201,11 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public List<CardSetDetail> getCardSetDetailList() {
+        return null;
+    }
+
+    @Override
     public List<CardCatalogItem> getCatalog(CatalogCriteria criteria) {
         return List.of(
                 new CardCatalogItem(1, "AT_001", "Lance de flammes", 2, 1),

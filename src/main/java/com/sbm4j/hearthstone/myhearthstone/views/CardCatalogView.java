@@ -59,6 +59,15 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
     @FXML
     protected Label lblNbCards;
 
+    @FXML
+    protected ToggleButton tglbExtensions;
+
+    @FXML
+    protected TitledPane extensionsPane;
+
+    @FXML
+    protected ExtensionsView extensionsPaneController;
+
 
     @InjectViewModel
     protected CardCatalogViewModel viewModel;
@@ -204,6 +213,18 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
         ParamCommand command = this.viewModel.getImportCollectionCommand();
         Dialogs.showProgressDialog(command, "Importer la collection de l'utilisateur");
         this.viewModel.refreshCatalog();
+    }
+
+    public void showExtensions(){
+        if(this.tglbExtensions.isSelected()){
+            this.extensionsPaneController.getViewModel().refresh();
+            this.extensionsPane.toFront();
+            this.extensionsPane.setVisible(true);
+        }
+        else{
+            this.extensionsPane.toBack();
+            this.extensionsPane.setVisible(false);
+        }
     }
 
     public class CardCell extends GridCell<CardCatalogItem>{

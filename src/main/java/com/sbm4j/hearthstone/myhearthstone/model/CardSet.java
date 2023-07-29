@@ -10,6 +10,14 @@ import javax.persistence.*;
         @org.hibernate.annotations.NamedQuery(
                 name = "available_sets",
                 query = "select s from CardSet s order by s.orderChrono desc, s.name"
+        ),
+        @org.hibernate.annotations.NamedQuery(
+                name = "details_sets_list",
+                query = "select new com.sbm4j.hearthstone.myhearthstone.model.CardSetRarityCountStat(" +
+                            "s1, c1.rarity, c1.userData.nbTotalCards, count(*)) " +
+                        "from CardDetail c1 join c1.cardSet s1 " +
+                        "group by s1, c1.rarity, s1.orderChrono, s1.name, c1.userData.nbTotalCards " +
+                        "order by s1.orderChrono desc, s1.name, c1.rarity, c1.userData.nbTotalCards"
         )
 })
 

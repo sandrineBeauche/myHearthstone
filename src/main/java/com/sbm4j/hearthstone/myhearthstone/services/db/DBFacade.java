@@ -82,4 +82,6 @@ public interface DBFacade {
     List<CardTag> getTypeTagsfromCard(int dbfId);
 
     void updateDB() throws IOException;
+
+    List<CardSetDetail> getCardSetDetailList();
 }

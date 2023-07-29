@@ -224,6 +224,7 @@ public class DeckEditView implements FxmlView<DeckEditViewModel>, Initializable 
         switch(index){
             case 0 -> refreshGeneralTab();
             case 1 -> refreshCardsListTab();
+
             case 2 -> refreshStatsTab();
             case 3 -> refreshNotesTab();
         }

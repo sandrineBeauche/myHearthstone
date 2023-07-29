@@ -402,4 +402,12 @@ public class DBFacadeTests {
         CardDetail card = session.get(CardDetail.class, 66848);
         assertEquals(2, card.getUserData().getTags().size());
     }
+
+    @Test
+    @DataSet("importedCatalogWithCollectionDataset.xml")
+    public void getCardSetDetails(){
+        Session session = this.db.getSession();
+        List<CardSetDetail> result = this.facade.getCardSetDetailList();
+        assertEquals(29, result.size());
+    }
 }

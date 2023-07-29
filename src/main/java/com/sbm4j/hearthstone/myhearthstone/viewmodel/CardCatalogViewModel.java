@@ -228,4 +228,6 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     public CardDetail getDetails(CardCatalogItem item){
         return this.dbFacade.getCardFromDbfId(item.dbfId());
     }
+
+
 }
