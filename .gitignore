@@ -7,3 +7,5 @@
 /build/
 /logs/
 /hs_err_pid10828.log
+
+data/myHearthstoneDB.lck

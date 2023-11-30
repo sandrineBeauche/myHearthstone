@@ -24,7 +24,14 @@ module com.sbm4j.hearthstone.myhearthstone {
     //requires markdown.editor.control.fx;
 
     exports com.sbm4j.hearthstone.myhearthstone;
-    exports com.sbm4j.hearthstone.myhearthstone.services.db to org.hibernate.orm.core;
+    exports com.sbm4j.hearthstone.myhearthstone.views;
+    exports com.sbm4j.hearthstone.myhearthstone.services.db;
+    exports com.sbm4j.hearthstone.myhearthstone.services.images;
+    exports com.sbm4j.hearthstone.myhearthstone.services.config;
+    exports com.sbm4j.hearthstone.myhearthstone.services.download;
+    exports com.sbm4j.hearthstone.myhearthstone.viewmodel;
+    exports com.sbm4j.hearthstone.myhearthstone.services.notifications;
+    exports com.sbm4j.hearthstone.myhearthstone.services.imports;
 
     opens com.sbm4j.hearthstone.myhearthstone to javafx.fxml, org.hibernate.orm.core, de.saxsys.mvvmfx, com.google.guice;
     opens com.sbm4j.hearthstone.myhearthstone.model.json to com.google.gson;

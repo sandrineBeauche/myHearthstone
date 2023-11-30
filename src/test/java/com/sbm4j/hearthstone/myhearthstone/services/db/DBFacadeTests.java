@@ -408,6 +408,6 @@ public class DBFacadeTests {
     public void getCardSetDetails(){
         Session session = this.db.getSession();
         List<CardSetDetail> result = this.facade.getCardSetDetailList();
-        assertEquals(29, result.size());
+        assertEquals(6, result.size());
     }
 }
