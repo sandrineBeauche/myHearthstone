@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import org.controlsfx.control.*?>
 
-<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView">
+<BorderPane stylesheets="@style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.CardCatalogView">
    <center>
       <StackPane>
          <children>
@@ -26,6 +26,7 @@
             <CheckComboBox fx:id="cmbTags" maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="247.0" />
             <Button mnemonicParsing="false" onAction="#onCriteriaChange" text="Filtrer" />
             <Button mnemonicParsing="false" onAction="#resetTagsFilter" text="Reinitialiser" />
+            <fx:include source="MenuConnexionView.fxml"/>
         </items>
       </ToolBar>
    </top>

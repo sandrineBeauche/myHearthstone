@@ -1,27 +1,32 @@
 package com.sbm4j.hearthstone.myhearthstone.services.download;
-/*
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
 
-import org.junit.jupiter.api.Test;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.sbm4j.hearthstone.myhearthstone.HearthstoneModule;
+import com.sbm4j.hearthstone.myhearthstone.model.BattleAccount;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
- */
 public class DownloadManagerTests {
 
-    /*
-    @Test
+
+    //@Test
     public void downloadTest(){
-        try (Playwright playwright = Playwright.create()) {
-            Browser browser = playwright.chromium().launch();
-            Page page = browser.newPage();
-            page.navigate("http://playwright.dev");
-            System.out.println(page.title());
-        }
-        catch(Exception ex){
-            ex.printStackTrace();
+        Injector injector = Guice.createInjector(new HearthstoneModule());
+        DownloadManager downloadManager = injector.getInstance(DownloadManager.class);
+        BattleAccount account = new BattleAccount();
+        account.setEmail("sandrine.beauche@gmail.com");
+        account.setPassword("battleKendapoa16");
+        account.setBattleTag("SandrineB#2427");
+        account.setAccount_lo("41268540");
+        Boolean connected = downloadManager.connectToHSReplay(account);
+        if(connected) {
+            String json2 = downloadManager.downloadCollectionFile(account);
+            assertNotNull(json2);
         }
     }
-    */
+
+
+
 }

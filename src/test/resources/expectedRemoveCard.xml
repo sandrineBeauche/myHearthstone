@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
+  <BATTLEACCOUNT/>
   <CARDCLASS ID="7" CODE="DRUID" NAME="Druide"/>
   <CARDCLASS ID="8" CODE="HUNTER" NAME="Chasseur"/>
   <CARDCLASS ID="9" CODE="MAGE" NAME="Mage"/>

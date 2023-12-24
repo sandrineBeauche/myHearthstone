@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <BATTLEACCOUNT BATTLETAG="battleTag1" EMAIL="name1.surname1@gmail.com" PASSWORD="password1" ACCOUNT_LO="123456789" CONNECTED="true"/>
+  <BATTLEACCOUNT BATTLETAG="battleTag2" EMAIL="name2.surname2@gmail.com" PASSWORD="password2" ACCOUNT_LO="987654321" CONNECTED="false"/>
+  <CARDCLASS/>
+  <CARDDETAIL/>
+  <CARDDETAIL_CARDCLASS/>
+  <CARDSET/>
+  <CARDTAG />
+  <CARDUSERDATA/>
+  <CARDUSERDATA_CARDTAG/>
+  <DECK/>
+  <DECKASSOCIATION/>
+  <HERO/>
+  <RARITY/>
+</dataset>

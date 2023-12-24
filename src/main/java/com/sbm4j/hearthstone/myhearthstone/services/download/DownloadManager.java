@@ -1,5 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.services.download;
 
+import com.sbm4j.hearthstone.myhearthstone.model.BattleAccount;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -16,5 +18,11 @@ public interface DownloadManager {
 
     File downloadFile(String url, String filename) throws IOException;
 
-    File downloadCollectionFile(String userId, String password);
+    Boolean connectToHSReplay(BattleAccount account);
+
+    void disconnectFromHSreplay();
+
+    String downloadCollectionFile(BattleAccount account);
+
+
 }

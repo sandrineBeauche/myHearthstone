@@ -7,14 +7,10 @@ import com.sbm4j.hearthstone.myhearthstone.services.db.CatalogCriteria;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCatalogAction;
 import com.sbm4j.hearthstone.myhearthstone.services.imports.ImportCollectionAction;
-import com.sbm4j.hearthstone.myhearthstone.services.imports.JSONCardImporter;
-import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
 import com.sbm4j.hearthstone.myhearthstone.views.ManaOption;
 import com.sbm4j.hearthstone.myhearthstone.views.ParamCommand;
 import de.saxsys.mvvmfx.ViewModel;
 import de.saxsys.mvvmfx.utils.commands.Action;
-import de.saxsys.mvvmfx.utils.commands.Command;
-import de.saxsys.mvvmfx.utils.commands.DelegateCommand;
 import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
@@ -24,7 +20,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.IndexedCheckModel;
 
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -128,6 +123,8 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
     public void setNbCardsTxt(String value){this.nbCardsTxt.set(value);}
 
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         List<CardClass> classes = this.dbFacade.getClasses(false);
@@ -184,7 +181,12 @@ public class CardCatalogViewModel implements ViewModel, Initializable {
             CardTag tag = (CardTag) payload[0];
             getAvailableTags().removeIf(cardTag -> cardTag.getName().equals(tag.getName()));
         });
+
+        notificationCenter.subscribe(MenuConnexionViewModel.COLLECTION_UPDATED, (key, payload) -> {
+            refreshCatalog();
+        });
     }
+
 
 
 

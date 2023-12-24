@@ -1,10 +1,7 @@
 package com.sbm4j.hearthstone.myhearthstone.views;
 
 import com.sbm4j.hearthstone.myhearthstone.HearthstoneApplication;
-import com.sbm4j.hearthstone.myhearthstone.model.CardClass;
-import com.sbm4j.hearthstone.myhearthstone.model.CardDetail;
-import com.sbm4j.hearthstone.myhearthstone.model.CodedEntity;
-import com.sbm4j.hearthstone.myhearthstone.model.Hero;
+import com.sbm4j.hearthstone.myhearthstone.model.*;
 import com.sbm4j.hearthstone.myhearthstone.services.images.ImageManager;
 import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardDetailsViewModel;
 import de.saxsys.mvvmfx.FluentViewLoader;
@@ -177,5 +174,66 @@ public class Dialogs {
 
         cardViewTuple.getViewModel().showCard(card);
         dialog.showAndWait();
+    }
+
+    public static Optional<BattleAccount> newBattleAccountDialog(){
+        Dialog<BattleAccount> dialog = new Dialog<>();
+        dialog.setTitle("Ajouter un compte Battle.net");
+        dialog.setHeaderText("Ajout d'un compte Battle.net");
+        dialog.setWidth(600);
+
+        // Set the button types.
+        ButtonType createButtonType = new ButtonType("Ajouter", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(createButtonType, ButtonType.CANCEL);
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(getIcon());
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 20, 10, 10));
+
+        TextField emailAccount = new TextField();
+        emailAccount.setMinWidth(300);
+        emailAccount.setPromptText("Battle.net email");
+
+        TextField passwordAccount = new TextField();
+        passwordAccount.setPromptText("password");
+
+        TextField battleTagAccount = new TextField();
+        battleTagAccount.setPromptText("Battle Tag");
+
+        TextField loAccount = new TextField();
+        loAccount.setPromptText("account_lo");
+
+        grid.add(new Label("Email:"), 0, 0);
+        grid.add(emailAccount, 1, 0);
+        grid.add(new Label("Mot de passe:"), 0, 1);
+        grid.add(passwordAccount, 1, 1);
+        grid.add(new Label("Battle Tag:"), 0, 2);
+        grid.add(battleTagAccount, 1, 2);
+        grid.add(new Label("account_lo:"), 0, 3);
+        grid.add(loAccount, 1, 3);
+
+        dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().getStylesheets().add(Dialogs.getCss());
+
+        // Request focus on the username field by default.
+        Platform.runLater(() -> emailAccount.requestFocus());
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == createButtonType) {
+                BattleAccount account = new BattleAccount();
+                account.setEmail(emailAccount.getText());
+                account.setPassword(passwordAccount.getText());
+                account.setBattleTag(battleTagAccount.getText());
+                account.setAccount_lo(loAccount.getText());
+                return account;
+            }
+            return null;
+        });
+
+        return dialog.showAndWait();
     }
 }

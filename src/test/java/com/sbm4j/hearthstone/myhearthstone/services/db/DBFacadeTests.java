@@ -410,4 +410,28 @@ public class DBFacadeTests {
         List<CardSetDetail> result = this.facade.getCardSetDetailList();
         assertEquals(6, result.size());
     }
+
+    @Test
+    @DataSet("battleAccount.xml")
+    public void getConnectedAccountTest(){
+        Session session = this.db.getSession();
+        BattleAccount account = this.facade.getConnectedAccount();
+        assertThat(account, hasProperty("battleTag", equalTo("battleTag1")));
+    }
+
+    @Test
+    @DataSet("battleAccount2.xml")
+    public void getConnectedAccountTest2(){
+        Session session = this.db.getSession();
+        BattleAccount account = this.facade.getConnectedAccount();
+        assertThat(account, nullValue());
+    }
+
+    @Test
+    @DataSet("battleAccount.xml")
+    public void getAccountsTest(){
+        Session session = this.db.getSession();
+        List<BattleAccount> accounts = this.facade.getAccounts();
+        assertThat(accounts, hasSize(2));
+    }
 }

@@ -9,6 +9,7 @@ import com.sbm4j.hearthstone.myhearthstone.viewmodel.CardCatalogViewModel;
 import de.saxsys.mvvmfx.FxmlView;
 import de.saxsys.mvvmfx.InjectViewModel;
 import javafx.collections.ListChangeListener;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.util.Callback;
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.CheckComboBox;
@@ -31,6 +33,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initializable {
@@ -59,6 +62,8 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
     @FXML
     protected Label lblNbCards;
 
+
+
     @FXML
     protected ToggleButton tglbExtensions;
 
@@ -67,6 +72,7 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
 
     @FXML
     protected ExtensionsView extensionsPaneController;
+
 
 
     @InjectViewModel
@@ -129,13 +135,9 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
         img.setPreserveRatio(true);
         this.tglbCollection.setGraphic(img);
 
-        this.cardGridView.setCellFactory(new Callback<GridView<CardCatalogItem>, GridCell<CardCatalogItem>>() {
-            @Override
-            public GridCell<CardCatalogItem> call(GridView<CardCatalogItem> param) {
-                return new CardCell();
-            }
-        });
+        this.cardGridView.setCellFactory(param -> new CardCell());
     }
+
 
 
     protected class CardToolTip extends Tooltip {
@@ -281,7 +283,6 @@ public class CardCatalogView implements FxmlView<CardCatalogViewModel>, Initiali
             }
         }
     };
-
 
 
 }

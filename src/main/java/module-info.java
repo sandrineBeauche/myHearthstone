@@ -20,10 +20,13 @@ module com.sbm4j.hearthstone.myhearthstone {
     requires com.google.guice;
     requires java.sql;
     requires eu.hansolo.fx.charts;
-    //requires com.microsoft.playwright;
+    requires com.microsoft.playwright;
+    requires com.microsoft.playwright.impl.driver;
+    requires com.microsoft.playwright.impl.driver.jar;
     //requires markdown.editor.control.fx;
 
     exports com.sbm4j.hearthstone.myhearthstone;
+    exports com.sbm4j.hearthstone.myhearthstone.model;
     exports com.sbm4j.hearthstone.myhearthstone.views;
     exports com.sbm4j.hearthstone.myhearthstone.services.db;
     exports com.sbm4j.hearthstone.myhearthstone.services.images;

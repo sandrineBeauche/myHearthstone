@@ -1,4 +1,5 @@
 <dataset>
+  <BATTLEACCOUNT/>
   <CARDCLASS ID="6" CODE="DRUID" NAME="Druide"/>
   <CARDCLASS ID="7" CODE="HUNTER" NAME="Chasseur"/>
   <CARDCLASS ID="8" CODE="MAGE" NAME="Mage"/>

@@ -2,10 +2,12 @@ package com.sbm4j.hearthstone.myhearthstone.services.imports;
 
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.sbm4j.hearthstone.myhearthstone.model.BattleAccount;
 import com.sbm4j.hearthstone.myhearthstone.model.CardUserData;
 import com.sbm4j.hearthstone.myhearthstone.model.json.JsonUserData;
 import com.sbm4j.hearthstone.myhearthstone.services.config.ConfigManager;
 
+import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBManager;
 import com.sbm4j.hearthstone.myhearthstone.services.download.DownloadManager;
 import com.sbm4j.hearthstone.myhearthstone.views.Dialogs;
@@ -19,10 +21,7 @@ import org.controlsfx.control.Notifications;
 import org.controlsfx.dialog.ProgressDialog;
 import org.hibernate.Session;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.HashMap;
 
 public class JSONCollectionImporter extends Action implements ImportCollectionAction{
@@ -31,6 +30,9 @@ public class JSONCollectionImporter extends Action implements ImportCollectionAc
 
     @Inject
     protected DBManager dbManager;
+
+    @Inject
+    protected DBFacade dbFacade;
 
     @Inject
     protected ConfigManager config;
@@ -49,14 +51,27 @@ public class JSONCollectionImporter extends Action implements ImportCollectionAc
     public JsonUserData parseUserData(File jsonFile) throws FileNotFoundException {
         Reader reader = new FileReader(jsonFile);
         Gson gson = new Gson();
-        JsonUserData data = gson.fromJson(reader, JsonUserData.class);
-        return data;
+        return gson.fromJson(reader, JsonUserData.class);
+    }
+
+    public JsonUserData parseUserData(String jsonString){
+        Reader reader = new StringReader(jsonString);
+        Gson gson = new Gson();
+        return gson.fromJson(reader, JsonUserData.class);
     }
 
     @Override
     public void importCollection(File jsonFile) throws FileNotFoundException {
         JsonUserData data = this.parseUserData(jsonFile);
+        importCollection(data);
+    }
 
+    public void importCollection(String jsonString){
+        JsonUserData data = this.parseUserData(jsonString);
+        importCollection(data);
+    }
+
+    protected void importCollection(JsonUserData data){
         this.totalWork = data.getCollection().size();
         this.workDone = 0;
         data.getCollection().forEach((key, values) ->{
@@ -94,14 +109,18 @@ public class JSONCollectionImporter extends Action implements ImportCollectionAc
 
     @Override
     protected void action() throws Exception {
-        File json = this.downloadManager.downloadCollectionFile("sandrine.beauche@gmail.com", "password");
-
         File jsonFile = this.config.getCollectionJsonFile();
-        if(jsonFile != null){
+        if (jsonFile != null && jsonFile.exists() && !this.config.getDownloadCardCollection()) {
             this.importCollection(jsonFile);
         }
+        else{
+            BattleAccount account = dbFacade.getConnectedAccount();
+            String json = this.downloadManager.downloadCollectionFile(account);
+            this.importCollection(json);
+        }
 
-        if(this.report.errors.size() == 0){
+
+        if(this.report.errors.isEmpty()){
             this.updateMessage(this.report.nbUpdated + " cartes mises à jour");
         }
         else{

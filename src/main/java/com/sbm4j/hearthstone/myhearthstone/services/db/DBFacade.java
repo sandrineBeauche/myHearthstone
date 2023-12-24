@@ -84,4 +84,12 @@ public interface DBFacade {
     void updateDB() throws IOException;
 
     List<CardSetDetail> getCardSetDetailList();
+
+    BattleAccount getConnectedAccount();
+
+    BattleAccount addBattleAccount(String email, String password, String battleTag, String account_lo);
+
+    Boolean addBattleAccount(BattleAccount account);
+
+    List<BattleAccount> getAccounts();
 }

@@ -206,6 +206,26 @@ public class DBFacadeTesting implements DBFacade{
     }
 
     @Override
+    public BattleAccount getConnectedAccount() {
+        return null;
+    }
+
+    @Override
+    public BattleAccount addBattleAccount(String email, String password, String battleTag, String account_lo) {
+        return null;
+    }
+
+    @Override
+    public Boolean addBattleAccount(BattleAccount account) {
+        return null;
+    }
+
+    @Override
+    public List<BattleAccount> getAccounts() {
+        return null;
+    }
+
+    @Override
     public List<CardCatalogItem> getCatalog(CatalogCriteria criteria) {
         return List.of(
                 new CardCatalogItem(1, "AT_001", "Lance de flammes", 2, 1),

@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
+    <BATTLEACCOUNT/>
     <CARDCLASS ID="17" CODE="NEUTRAL" NAME="Neutre"/>
     <CARDDETAIL DBFID="922" ARTIST="Donato Giancola" ATTACK="1" COLLECTIBLE="true" COST="1" DURABILITY="0" ELITE="false"
                 FLAVOR="Si Comté-de-l’Or n’était protégée que par des serviteurs 1/2, elle aurait dû être envahie il y a des années."

@@ -1,5 +1,6 @@
 package com.sbm4j.hearthstone.myhearthstone.services.config;
 
+import com.sbm4j.hearthstone.myhearthstone.model.BattleAccount;
 import javafx.scene.image.Image;
 
 import java.io.File;
@@ -26,6 +27,8 @@ public interface ConfigManager {
 
     File getThumbsImagesDir();
 
+    File getChromiumContextPath();
+
     Image getAlternateCardImage();
 
     Boolean getInitDB();
@@ -35,4 +38,6 @@ public interface ConfigManager {
     Boolean getDownloadCardCatalog();
 
     Boolean getDownloadCardCollection();
+
+    BattleAccount getCurrentBattleAccount();
 }

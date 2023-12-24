@@ -1,6 +1,8 @@
 package com.sbm4j.hearthstone.myhearthstone.services.config;
 
+import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.sbm4j.hearthstone.myhearthstone.model.BattleAccount;
 import com.sbm4j.hearthstone.myhearthstone.services.images.CardImageManager;
 import com.sbm4j.hearthstone.myhearthstone.utils.ResourceUtil;
 import javafx.scene.image.Image;
@@ -97,6 +99,11 @@ public class FileConfigManagerImpl implements ConfigManager{
     }
 
     @Override
+    public File getChromiumContextPath() {
+        return new File(this.getDataDirectory(), this.properties.getProperty("chromium.context", "chromium"));
+    }
+
+    @Override
     public Image getAlternateCardImage() {
         return new Image(CardImageManager.class.getResourceAsStream("backCardClassic.jpg"));
     }
@@ -123,5 +130,20 @@ public class FileConfigManagerImpl implements ConfigManager{
     public Boolean getDownloadCardCollection() {
         String stringResult = this.properties.getProperty("card.collection.download", "false");
         return Boolean.parseBoolean(stringResult);
+    }
+
+
+    @Override
+    public BattleAccount getCurrentBattleAccount() {
+        String filename = this.properties.getProperty("battleAccount", "battleAccount.json");
+        File accountFile =  new File(this.dataRoot,filename);
+        try {
+            FileReader reader = new FileReader(accountFile);
+            Gson gson = new Gson();
+            BattleAccount account =  gson.fromJson(reader, BattleAccount.class);
+            return account;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -12,4 +12,6 @@ public interface ImportCollectionAction extends EventHandler<ActionEvent> {
     JsonUserData parseUserData(File jsonFile) throws FileNotFoundException;
 
     void importCollection(File jsonFile) throws FileNotFoundException;
+
+    void importCollection(String jsonString);
 }

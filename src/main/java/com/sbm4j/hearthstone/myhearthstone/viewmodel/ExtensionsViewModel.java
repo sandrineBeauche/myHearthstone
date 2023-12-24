@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.sbm4j.hearthstone.myhearthstone.model.CardSetDetail;
 import com.sbm4j.hearthstone.myhearthstone.services.db.DBFacade;
 import de.saxsys.mvvmfx.ViewModel;
+import de.saxsys.mvvmfx.utils.notifications.NotificationCenter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -21,6 +22,9 @@ public class ExtensionsViewModel implements ViewModel, Initializable {
     @Inject
     protected DBFacade dbFacade;
 
+    @Inject
+    private NotificationCenter notificationCenter;
+
     protected Logger logger = LogManager.getLogger();
 
     protected boolean refreshed = false;
@@ -34,6 +38,10 @@ public class ExtensionsViewModel implements ViewModel, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.items.set(FXCollections.observableArrayList());
+
+        this.notificationCenter.subscribe(MenuConnexionViewModel.COLLECTION_UPDATED, (key, payload) -> {
+            setRefreshed(false);
+        });
     }
 
     public boolean isRefreshed() {

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<MenuButton fx:id="mnuButtonConnection" mnemonicParsing="false" prefHeight="25.0" prefWidth="190.0" text="Se connecter" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sbm4j.hearthstone.myhearthstone.views.MenuConnexionView">
+    <items>
+        <MenuItem fx:id="mnuItemAddAccount" mnemonicParsing="false" onAction="#addBattleAccount" text="Ajouter..." />
+        <MenuItem fx:id="mnuItemUpdateCollection" mnemonicParsing="false" onAction="#updateCollection" text="Mettre à jour" />
+        <MenuItem fx:id="mnuItemDisconnect" mnemonicParsing="false" onAction="#disconnectFromBattleAccount" text="Déconnexion" />
+    </items>
+</MenuButton>

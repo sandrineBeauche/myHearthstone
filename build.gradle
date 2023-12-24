@@ -64,7 +64,7 @@ dependencies {
     //implementation('com.mycila.guice.extensions:mycila-guice-jsr250:5.0')
     implementation('org.slf4j:slf4j-api:1.7.25')
     implementation 'org.jetbrains:annotations:20.1.0'
-    //implementation('com.microsoft.playwright:playwright:1.20.1')
+    implementation('com.microsoft.playwright:playwright:1.40.0')
     //implementation 'com.github.Dansoftowner:MarkdownEditorControlFX:0.6.3'
     implementation('eu.hansolo.fx:charts:16.0.16')
 
@@ -102,21 +102,9 @@ extraJavaModuleInfo {
     automaticModule("extra-java-module-info-0.10.jar", "extra.java.module.info")
 
 
-    /*
-    module("playwright-1.20.1.jar", "com.microsoft.playwright", "1.20.1"){
-        exports("com.microsoft.playwright")
-        exports("com.microsoft.playwright.impl")
-
-    }*/
-    //automaticModule("driver-bundle-1.20.1.jar", "com.microsoft.playwright")
-    //automaticModule("driver-1.20.1.jar", "com.microsoft.playwright")
-    /*
-    module("driver-bundle-1.20.1.jar", "com.microsoft.playwright", "1.20.1"){
-        exports("com.microsoft.playwright.impl")
-    }
-    module("driver-1.20.1.jar", "com.microsoft.playwright", "1.20.1"){
-        exports("com.microsoft.playwright.impl")
-    }*/
+    automaticModule("playwright-1.40.0.jar", "com.microsoft.playwright")
+    automaticModule("driver-bundle-1.40.0.jar", "com.microsoft.playwright.impl.driver.jar")
+    automaticModule("driver-1.40.0.jar", "com.microsoft.playwright.impl.driver")
 
 
     /*
@@ -269,4 +257,13 @@ distTar {
         include 'config.properties'
         include 'bin/dbManager.bat'
     }
+}
+
+tasks.register('codegen', JavaExec) {
+    group = "other"
+    description = "Run playwright codegen tool"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = "com.microsoft.playwright.CLI"
+    args("codegen")
+
 }

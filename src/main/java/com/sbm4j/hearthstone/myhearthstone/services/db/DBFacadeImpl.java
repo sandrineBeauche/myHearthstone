@@ -547,4 +547,50 @@ public class DBFacadeImpl implements DBFacade {
 
         return result;
     }
+
+    @Override
+    public BattleAccount getConnectedAccount() {
+        Session session = this.db.getSession();
+        TypedQuery<BattleAccount> typedQuery = session.createNamedQuery("connected_account", BattleAccount.class);
+        try{
+            return typedQuery.getSingleResult();
+        }
+        catch(NoResultException ex){
+            return null;
+        }
+    }
+
+    @Override
+    public BattleAccount addBattleAccount(String email, String password, String battleTag, String account_lo) {
+        BattleAccount account = new BattleAccount();
+        account.setEmail(email);
+        account.setPassword(password);
+        account.setBattleTag(battleTag);
+        account.setAccount_lo(account_lo);
+
+        Session session = this.db.getSession();
+        session.beginTransaction();
+        session.save(account);
+        session.getTransaction().commit();
+        this.db.closeSession();
+
+        return account;
+    }
+
+    @Override
+    public Boolean addBattleAccount(BattleAccount account) {
+        Session session = this.db.getSession();
+        session.beginTransaction();
+        session.save(account);
+        session.getTransaction().commit();
+        this.db.closeSession();
+        return true;
+    }
+
+    @Override
+    public List<BattleAccount> getAccounts() {
+        Session session = this.db.getSession();
+        TypedQuery<BattleAccount> typedQuery = session.createNamedQuery("available_accounts", BattleAccount.class);
+        return typedQuery.getResultList();
+    }
 }

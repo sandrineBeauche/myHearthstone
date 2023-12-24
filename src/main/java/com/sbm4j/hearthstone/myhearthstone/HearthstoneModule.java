@@ -39,7 +39,6 @@ public class HearthstoneModule extends AbstractModule{
     }
 
     protected void bindDownload(){
-
         bind(DownloadManager.class).to(DownloadManagerImpl.class).in(Scopes.SINGLETON);
     }
 

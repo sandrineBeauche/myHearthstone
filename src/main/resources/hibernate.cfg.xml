@@ -48,6 +48,7 @@
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Hero"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.Deck"/>
         <mapping class="com.sbm4j.hearthstone.myhearthstone.model.DeckAssociation"/>
+        <mapping class="com.sbm4j.hearthstone.myhearthstone.model.BattleAccount"/>
     </session-factory>
 
 </hibernate-configuration>
